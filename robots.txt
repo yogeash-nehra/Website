@@ -1,0 +1,18 @@
+# robots.txt for wgholdings.co.nz
+
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Disallow crawling of certain directories (if needed)
+# Uncomment lines below as needed
+# Disallow: /admin/
+# Disallow: /private/
+# Disallow: /temp/
+
+# Sitemap location
+Sitemap: https://wgholdings.co.nz/sitemap.xml
+
+# Crawl delay (optional - adjust if needed)
+# Crawl-delay: 10
+
