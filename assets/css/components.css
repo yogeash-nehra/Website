@@ -446,3 +446,340 @@
 .w-50 { width: 50%; }
 .w-auto { width: auto; }
 
+/* ===================================
+   About Page Styles
+   =================================== */
+
+/* About Hero Section */
+.about-hero-section {
+    background-color: var(--primary-color);
+    padding: 8rem 0 4rem;
+    text-align: center;
+}
+
+.about-hero-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.hero-tagline {
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--text-color);
+    margin-bottom: 0;
+}
+
+/* Mission Section */
+.about-mission-section {
+    background-color: #ffffff;
+    padding: 6rem 0 4rem;
+    position: relative;
+}
+
+.mission-content {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.mission-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+.mission-subtitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+}
+
+.mission-text {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+/* Founder Section */
+.founder-section {
+    background-color: #ffffff;
+    padding: 6rem 0;
+}
+
+.founder-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.founder-image img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+}
+
+.founder-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.founder-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.founder-subtitle {
+    font-size: 1.125rem;
+    font-style: italic;
+    margin-bottom: 2rem;
+    color: var(--text-light);
+}
+
+.founder-bio {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+/* Values Section */
+.values-section {
+    background-color: var(--primary-color);
+    padding: 6rem 0;
+}
+
+.values-section .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.values-section .section-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 0;
+    color: var(--text-color);
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.value-card {
+    background-color: #f5e6d3;
+    padding: 2.5rem 2rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    transition: var(--transition-base);
+}
+
+.value-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.value-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.value-icon-wrapper i {
+    font-size: 2rem;
+    color: var(--text-color);
+}
+
+.value-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.value-card p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-color);
+    margin-bottom: 0;
+}
+
+/* Services Overview Section */
+.services-overview-section {
+    background-color: #ffffff;
+    padding: 6rem 0;
+}
+
+.services-overview-section .section-header {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto 4rem;
+}
+
+.services-overview-section .section-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+.services-overview-section .section-header p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--text-color);
+}
+
+.services-overview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.service-overview-card {
+    background-color: var(--bg-light);
+    padding: 2.5rem;
+    border-radius: var(--radius-lg);
+    transition: var(--transition-base);
+}
+
+.service-overview-card:hover {
+    background-color: #e8e8e8;
+    transform: translateY(-3px);
+}
+
+.service-overview-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.service-overview-card p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text-color);
+    margin-bottom: 0;
+}
+
+/* Approach Section */
+.approach-section {
+    background-color: var(--bg-light);
+    padding: 6rem 0 4rem;
+    position: relative;
+}
+
+.approach-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.approach-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+.approach-content p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+.approach-principles {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: var(--radius-md);
+    margin-top: 2rem;
+    border-left: 4px solid var(--primary-color);
+}
+
+.approach-principles p {
+    margin-bottom: 0.75rem;
+}
+
+.approach-principles p:last-child {
+    margin-bottom: 0;
+}
+
+.approach-image img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+}
+
+/* About Page Responsive */
+@media (max-width: 992px) {
+    .about-hero-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-tagline {
+        font-size: 1.25rem;
+    }
+    
+    .founder-wrapper,
+    .approach-wrapper {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .values-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .services-overview-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-hero-section {
+        padding: 6rem 0 3rem;
+    }
+    
+    .about-hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-tagline {
+        font-size: 1.125rem;
+    }
+    
+    .mission-content h2,
+    .founder-content h2,
+    .values-section .section-header h2,
+    .services-overview-section .section-header h2,
+    .approach-content h2 {
+        font-size: 1.875rem;
+    }
+    
+    .about-mission-section,
+    .founder-section,
+    .values-section,
+    .services-overview-section,
+    .approach-section {
+        padding: 4rem 0;
+    }
+    
+    .values-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
