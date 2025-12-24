@@ -568,10 +568,16 @@
 }
 
 .values-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 2rem;
     margin-top: 3rem;
+}
+
+.values-grid .value-card {
+    width: calc(33.333% - 1.5rem);
+    min-width: 280px;
 }
 
 .value-card {
