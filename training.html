@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Wolfgramm Holdings Training Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A living space for cultural learning, AI exploration, and leadership growth." />
+  <style>
+    :root{
+      --gold:#d8aa6a;     /* Brand gold from logo */
+      --black:#000000;
+      --white:#ffffff;
+      --shadow:0 6px 25px rgba(0,0,0,0.08);
+      --radius:14px;
+      --maxw:1100px;
+      --pad:clamp(16px,2vw,28px);
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--black);
+      background: var(--white);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    h1,h2,h3 {
+      color: var(--black);
+      line-height: 1.2;
+      margin: 0 0 12px;
+    }
+
+    .container {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      padding: clamp(60px, 12vw, 120px) 0 clamp(48px, 8vw, 100px);
+      color: var(--white);
+      background: var(--black);
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(26px, 3vw, 38px);
+      color: var(--gold);
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: rgba(255,255,255,0.9);
+      font-size: clamp(16px, 1.4vw, 19px);
+      margin-bottom: 24px;
+    }
+
+    /* Top bar linking back to main site */
+    .topbar {
+      background: var(--white);
+      border-bottom: 1px solid #eee;
+      padding: 10px var(--pad);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      text-align: left;
+    }
+
+    .topbar .return-link {
+      color: var(--black);
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .topbar .return-link img {
+      height: 20px;
+      width: auto;
+      display: inline-block;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--black);
+      padding: 12px 20px;
+      border-radius: 999px;
+      font-weight: 600;
+      border: none;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      background: #e7c48a;
+      transform: translateY(-2px);
+    }
+
+    /* About */
+    section { padding: clamp(40px, 6vw, 80px) 0; }
+
+    .about {
+      background: var(--white);
+      border-top-left-radius: var(--radius);
+      border-top-right-radius: var(--radius);
+      margin-top: -30px;
+      box-shadow: var(--shadow);
+    }
+
+    /* Themes */
+    .themes h2 {
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 22px;
+      text-align: left;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+    }
+
+    .card h3 {
+      color: var(--black);
+      margin-bottom: 8px;
+    }
+
+    .card a {
+      color: var(--gold);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .card a:hover {
+      color: #e7c48a;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--black);
+      color: var(--gold);
+      text-align: center;
+      padding: 30px 0;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* Popup overlay (hidden by default) */
+    #training-popup-overlay {
+      position: fixed;
+      inset: 0;
+      display: none; /* hidden until user clicks Download */
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.45);
+      z-index: 9999;
+      padding: 20px;
+    }
+
+    /* Popup content: keep within viewport and prevent the iframe from pushing the close button out */
+    .training-popup {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      max-height: calc(100vh - 40px); /* leave some breathing room on small screens */
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Close button sits above the iframe and remains clickable */
+    .training-popup .close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 1100; /* above iframe */
+      background: #fff;
+      border: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      padding: 0;
+      pointer-events: auto;
+    }
+
+    /* Container for the iframe — makes the iframe area scrollable inside the popup without growing the popup */
+    #popup-iframe-container {
+      flex: 1 1 auto;
+      min-height: 0; /* important for flex children to allow scrolling */
+      width: 100%;
+      background: transparent;
+      overflow: auto;
+    }
+
+    /* ensure any iframe inside fills available area but won't force popup bigger than max-height */
+    #popup-iframe-container iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: none;
+      min-height: 400px; /* sensible minimum for small screens */
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar" aria-hidden="false">
+    <div class="container">
+      <a class="return-link" href="https://wgholdings.co.nz" title="Return to Wolfgramm Holdings">
+        ← Return to wgholdings.co.nz
+      </a>
+    </div>
+  </header>
+
+  <header class="hero">
+    <div class="container">
+      <img src="https://storage.googleapis.com/msgsndr/IaybFgJh4aoI5bDZFL4G/media/68ca33254e3215b799068c59.png" alt="Wolfgramm Holdings Logo" style="max-width:140px;margin-bottom:20px;">
+      <h1>Welcome to the Wolfgramm Holdings Training Portal</h1>
+      <p>A living space for cultural learning, AI exploration, and leadership growth.</p>
+      <a href="#themes" class="btn">Explore Our Learning Resources</a>
+    </div>
+  </header>
+
+  <section class="about">
+    <div class="container">
+      <h2>Growing Better People Through Knowledge & Connection</h2>
+      <p>This training portal supports your ongoing learning after Wolfgramm Holdings workshops. Here you’ll find practical tools, reflections, and cultural resources that help you continue your journey of growth and connection.</p>
+    </div>
+  </section>
+
+  <section class="themes" id="themes">
+    <div class="container">
+      <h2>Our Learning Resources</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Māori Relational Engagement: How to Prepare, Connect, and Respond with Confidence</h3>
+          <p>A practical learning resource for understanding Māori relational principles and engaging with clarity in any hui.</p>
+          <a href="#" onclick="openResourcePopup('Māori Relational Engagement PDF', event)">Download</a>
+        </div>
+        <div class="card">
+          <h3>AI Adoption Pathway: Building Safe, Strategic, and Cyber Secure Capability</h3>
+          <p>A step by step guide to developing AI awareness, safe experimentation habits, and strong organisational cyber readiness.</p>
+          <a href="#" onclick="openResourcePopup('AI Adoption Pathway PDF', event)">Download</a>
+        </div>
+        <div class="card">
+          <h3>Cultural Intelligence for Leaders: Three Māori Principles to Strengthen Team Engagement</h3>
+          <p>A leadership focused resource that builds relational awareness, communication confidence, and culturally grounded decision making.</p>
+          <a href="#" onclick="openResourcePopup('Cultural Intelligence for Leaders PDF', event)">Download</a>
+        </div>
+        <div class="card">
+          <h3>Understanding Cultural ROI: A Practical Model for Measuring Organisational Value</h3>
+          <p>A clear framework for evaluating cultural investment through relational capital, risk reduction, staff engagement, and reputation.</p>
+          <a href="#" onclick="openResourcePopup('Understanding Cultural ROI PDF', event)">Download</a>
+        </div>
+        <div class="card">
+          <h3>Indigenous Auckland: A Guide to Culturally Significant Places and Meaningful Travel</h3>
+          <p>An introduction to Indigenous tourism principles with a curated list of places that deepen cultural connection and awareness.</p>
+          <a href="#" onclick="openResourcePopup('Indigenous Auckland PDF', event)">Download</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>© 2025 Wolfgramm Holdings Ltd | Growing Better People</p>
+      <p>training.wgholdings.co.nz</p>
+    </div>
+  </footer>
+
+  <!-- Training portal popup form (hidden by default; opens only via openResourcePopup) -->
+  <div id="training-popup-overlay" aria-hidden="true">
+    <div class="training-popup" role="dialog" aria-modal="true" aria-label="Training Portal Access">
+      <button class="close" onclick="closeTrainingPopup()" aria-label="Close">×</button>
+      <!-- placeholder container — iframe will be created dynamically to avoid auto-init -->
+      <div id="popup-iframe-container" style="width:100%;height:100%"></div>
+    </div>
+  </div>
+
+  <script>
+    // lazy-load flag for the external embed script
+    var _ghlEmbedLoaded = false;
+    var currentResource = null;
+    var alreadySubmitted = false;
+
+    var resourceDownloads = {
+      "Māori Relational Engagement PDF": "https://storage.googleapis.com/msgsndr/IaybFgJh4aoI5bDZFL4G/media/692a52d099933312d41ca469.pdf",
+      "AI Adoption Pathway PDF": "https://storage.googleapis.com/msgsndr/IaybFgJh4aoI5bDZFL4G/media/692a52d02940a763514cb2a6.pdf",
+      "Cultural Intelligence for Leaders PDF": "https://storage.googleapis.com/msgsndr/IaybFgJh4aoI5bDZFL4G/media/692a52d0c2a17a2b29015b81.pdf",
+      "Understanding Cultural ROI PDF": "https://storage.googleapis.com/msgsndr/IaybFgJh4aoI5bDZFL4G/media/692a52d0999333c6c41ca46a.pdf",
+      "Indigenous Auckland PDF": "https://storage.googleapis.com/msgsndr/IaybFgJh4aoI5bDZFL4G/media/692a52d07f38c97ad4fb8445.pdf"
+    };
+
+    function loadGhlEmbedScript(callback) {
+      if (_ghlEmbedLoaded) {
+        if (callback) callback();
+        return;
+      }
+      var s = document.createElement('script');
+      s.src = 'https://link.msgsndr.com/js/form_embed.js';
+      s.async = true;
+      s.onload = function() {
+        _ghlEmbedLoaded = true;
+        if (callback) callback();
+      };
+      document.body.appendChild(s);
+    }
+
+    function initiateDownload(resourceName) {
+      if (!resourceName) return;
+      var url = resourceDownloads[resourceName];
+      if (!url) {
+        // fallback: try to match by keyword (helps if naming slightly differs)
+        var key = Object.keys(resourceDownloads).find(function(k) {
+          return k.toLowerCase().indexOf((resourceName || '').toLowerCase()) !== -1 ||
+                 (resourceName || '').toLowerCase().indexOf(k.toLowerCase()) !== -1;
+        });
+        if (key) url = resourceDownloads[key];
+      }
+      if (!url) {
+        console.warn('Download requested for unknown resource:', resourceName);
+        return;
+      }
+      // Try programmatic download first (may be ignored for cross-origin files).
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = url.split('/').pop(); // preferred filename
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      try {
+        a.click();
+      } catch (err) {
+        // ignore
+      }
+      // cleanup
+      setTimeout(function() {
+        try { a.remove(); } catch (e) {}
+      }, 50);
+      // If browser ignored the download attribute (common for cross-origin),
+      // open the PDF in a new tab as a fallback so user can save manually.
+      setTimeout(function() {
+        // Heuristic: if the download hasn't started, open in new tab (best-effort).
+        window.open(url, '_blank', 'noopener');
+      }, 250);
+    }
+
+    // called when the embedded form has been submitted
+    function onFormSubmitted() {
+      if (alreadySubmitted) return;
+      alreadySubmitted = true;
+      // close popup and start download for the selected resource
+      closeTrainingPopup();
+      if (currentResource) initiateDownload(currentResource);
+    }
+
+    // Open popup: create iframe dynamically, load embed script, set custom field
+    function openResourcePopup(resourceName, event) {
+      if (event) event.preventDefault();
+      currentResource = resourceName;
+      alreadySubmitted = false;
+
+      var overlay = document.getElementById('training-popup-overlay');
+      var container = document.getElementById('popup-iframe-container');
+      if (!overlay || !container) return;
+
+      // clean container
+      while (container.firstChild) container.removeChild(container.firstChild);
+
+      // Create iframe dynamically and set its src so the embed only runs on demand
+      var iframe = document.createElement('iframe');
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+      iframe.style.border = 'none';
+      iframe.title = 'Training Portal Access';
+      iframe.dataset.loadCount = '0';
+
+      // Pass the selected resource via URL parameter so the hidden field (resource_selected) is auto-filled by GHL
+      var baseSrc = 'https://api.leadconnectorhq.com/widget/form/s8zXqoWzuTB24qflY465';
+      // use the exact hiddenFieldQueryKey: resource_selected
+      var src = baseSrc + (baseSrc.indexOf('?') === -1 ? '?' : '&') + 'resource_selected=' + encodeURIComponent(resourceName);
+      iframe.src = src;
+
+      // watch iframe loads: many embeds reload the iframe after submit => treat second load as submit
+      iframe.addEventListener('load', function() {
+        try {
+          var c = parseInt(iframe.dataset.loadCount || '0', 10) + 1;
+          iframe.dataset.loadCount = String(c);
+          if (c > 1) {
+            // likely a post-submit state
+            onFormSubmitted();
+          }
+        } catch (e) {
+          // ignore
+        }
+      });
+
+      container.appendChild(iframe);
+      overlay.style.display = 'flex';
+      overlay.setAttribute('aria-hidden', 'false');
+
+      // We no longer attempt to set fields via LC_API or postMessage – GHL will pick up resource_selected from the URL.
+    }
+
+    function closeTrainingPopup() {
+      var overlay = document.getElementById('training-popup-overlay');
+      var container = document.getElementById('popup-iframe-container');
+      if (!overlay) return;
+      overlay.style.display = 'none';
+      overlay.setAttribute('aria-hidden', 'true');
+      // remove iframe to fully unload embed and avoid side-effects
+      if (container) while (container.firstChild) container.removeChild(container.firstChild);
+    }
+
+    // Listen for postMessage from the embed (some widgets send a message on submit).
+    window.addEventListener('message', function(e) {
+      // Accept messages from the widget origin if known; adjust origin if different
+      try {
+        var origin = e.origin || '';
+        // quick check: only trust LeadConnector origin or any if needed
+        if (origin.indexOf('leadconnectorhq.com') !== -1 || origin.indexOf('link.msgsndr.com') !== -1) {
+          var data = e.data;
+          // various embeds use different message formats; check common patterns
+          if (data && (data.type === 'form_submission' || data.type === 'formSubmitted' || data.message === 'submitted' || /submitted/i.test(JSON.stringify(data)))) {
+            onFormSubmitted();
+          }
+        }
+      } catch (err) {}
+    }, false);
+
+    // Close when clicking outside the popup content or pressing Escape
+    (function setupPopupCloseHandlers() {
+      var overlay = document.getElementById('training-popup-overlay');
+      if (!overlay) return;
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) closeTrainingPopup();
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeTrainingPopup();
+      });
+    })();
+  </script>
+
+
+</body>
+</html>
+

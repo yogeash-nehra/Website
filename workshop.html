@@ -1,0 +1,460 @@
+<section class="wh-workshops">
+  <style>
+    :root { --wh-gold:#d8aa6a; --wh-black:#111111; --wh-white:#ffffff; --wh-gray:#f6f6f7; }
+    .wh-workshops { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color: var(--wh-black); background:var(--wh-white); }
+    .wh-wrap { max-width: 1100px; margin: 0 auto; padding: 28px 20px; }
+    .wh-title { font-size: clamp(22px,3.2vw,34px); margin: 0 0 10px; line-height: 1.15; }
+    .wh-sub { font-size: clamp(14px,2.2vw,16px); color:#555; margin: 0 0 24px; }
+    .wh-nav { display:flex; flex-wrap:wrap; gap:8px; margin: 0 0 20px; }
+    .wh-chip { border:1px solid #e8e8e8; border-radius:999px; padding:8px 12px; font-size:14px; background:var(--wh-gray); text-decoration:none; color:inherit; }
+    .wh-chip:hover { border-color: var(--wh-gold); }
+    .wh-chip[aria-current="true"] { border-color: var(--wh-gold); background:#fdf7ee; }
+    .wh-grid { display:grid; gap:16px; grid-template-columns: repeat(12,1fr); }
+    .wh-card { grid-column: span 12; border:1px solid #ececec; border-radius:16px; background: var(--wh-white); padding:18px; box-shadow: 0 2px 10px rgba(0,0,0,.03); }
+    @media (min-width:720px){ .wh-card{ grid-column: span 6; } }
+    .wh-heading { font-size: clamp(18px,2.2vw,22px); margin: 0 0 8px; }
+    .wh-rule { height:2px; width:40px; background: var(--wh-gold); border:0; margin: 0 0 12px; }
+    .wh-summary { font-size: 15px; line-height:1.5; margin: 0 0 14px; color:#2a2a2a; }
+    .wh-meta { display:flex; flex-direction:column; gap:6px; font-size:14px; }
+    .wh-meta b { color:#1a1a1a; }
+    .wh-anchor { scroll-margin-top: 110px; } /* for native hash jumps */
+    /* Persistent active highlight */
+    .is-active { box-shadow: 0 0 0 3px rgba(216,170,106,.45), 0 2px 12px rgba(0,0,0,.06); background:#fffdf7; }
+    .wh-actions { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap }
+    .wh-action { padding:8px 12px; border-radius:10px; text-decoration:none; font-weight:600; font-size:14px }
+    .wh-action.watch { background:transparent; color:var(--wh-gold); border:1px solid var(--wh-gold) }
+    .wh-action.book { background:var(--wh-gold); color:var(--wh-white); border:1px solid var(--wh-gold) }
+    .wh-action:hover{ opacity:0.95 }
+  </style>
+
+  <div class="wh-wrap" data-offset="150">
+    <header class="wh-hero" style="text-align:center; margin-bottom:22px;">
+      <h1 class="wh-title" style="letter-spacing:.2px;">Wolfgramm Holdings Workshops</h1>
+      <div style="height:3px; width:72px; background:var(--wh-gold); border-radius:3px; margin:10px auto 12px;"></div>
+      <p class="wh-sub" style="max-width:820px; margin:0 auto; line-height:1.55;">
+        All in-person and online experiences integrating cultural integrity, wellbeing, leadership, and AI capability.
+      </p>
+    </header>
+
+    <nav class="wh-nav">
+      <a class="wh-chip" href="#service-1">1. Relational Engagement (Entry Level)</a>
+      <a class="wh-chip" href="#service-2">2. Pōwhiri & Whakatau Readiness (Intermediate)</a>
+      <a class="wh-chip" href="#service-3">3. Mana Motuhake in the Workplace (Advanced)</a>
+      <a class="wh-chip" href="#service-4">4. Pathways to Māori Relational Engagement (Marae — 3×90min)</a>
+      <a class="wh-chip" href="#service-5">5. Indigenous Wellbeing Through a Clothing & Fashion Lens</a>
+      <a class="wh-chip" href="#service-6">6. Māori Bread Experience</a>
+      <a class="wh-chip" href="#service-7">7. The Treaty & The Integrity of Water</a>
+      <a class="wh-chip" href="#service-8">8. Personal Development & Team Building Day (Marae)</a>
+      <a class="wh-chip" href="#service-9">9. End‑of‑Year Christmas Party (Marae)</a>
+      <a class="wh-chip" href="#service-10">10. Understanding Technology & AI (Entry Level)</a>
+      <a class="wh-chip" href="#service-11">11. AI & Prompt / Context Engineering — Level 1</a>
+      <a class="wh-chip" href="#service-12">12. AI & Social Media — Level 1</a>
+      <a class="wh-chip" href="#service-13">13. AI & Cyber Security — Level 1</a>
+      <a class="wh-chip" href="#service-14">14. AI & Automation in the Workplace</a>
+      <a class="wh-chip" href="#service-15">15. AI Train the Trainers</a>
+      <a class="wh-chip" href="#service-16">16. AI Audits & Diagnostics</a>
+      <a class="wh-chip" href="#service-17">17. Twelve Week Unity Series</a>
+      <a class="wh-chip" href="#service-18">18. Te Tiriti Through a Global Health Lens</a>
+      <a class="wh-chip" href="#service-19">19. Tailored & Customisable Multi‑Year Programmes</a>
+    </nav>
+
+    <div class="wh-grid">
+      <!-- Placeholder cards for 19 services; names to be filled from provided image -->
+      <!-- We'll replace the headings 'TBD' with the exact names once the image is provided -->
+      
+      <article id="service-1" class="wh-card wh-anchor">
+        <h3 class="wh-heading">1. Relational Engagement (Entry Level)</h3>
+        <hr class="wh-rule">
+        <p class="wh-summary">Practical tikanga, language, and engagement protocols for respectful relationships with Māori iwi, hapū and community stakeholders. Builds fluency and sustainable values-led partnerships through clear, staircased learning.</p>
+        <div class="wh-meta"><div><b>Audience:</b> Non‑Māori team leaders, managers, HR</div><div><b>Format:</b> Live online, 90 minutes</div><div><b>Minimum:</b> 10 participants</div></div>
+        <div class="wh-actions">
+          <a class="wh-action watch" href="video.html?service=service-1">Watch Video</a>
+          <a class="wh-action book" href="book.html?event=service-1">Book Now</a>
+        </div>
+      </article>
+
+      <article id="service-2" class="wh-card wh-anchor">
+        <h3 class="wh-heading">2. Pōwhiri & Whakatau Readiness (Intermediate)</h3>
+        <hr class="wh-rule">
+        <p class="wh-summary">An intermediate session preparing confident practitioners to participate authentically in formal Māori welcome ceremonies. Covers pōwhiri flow, roles, responsibilities and practical participation readiness.</p>
+        <div class="wh-meta"><div><b>Audience:</b> Non‑Māori team leaders, managers, HR</div><div><b>Format:</b> Live online, 90 minutes</div><div><b>Minimum:</b> 10 participants</div></div>
+        <div class="wh-actions">
+          <a class="wh-action watch" href="video.html?service=service-2">Watch Video</a>
+          <a class="wh-action book" href="book.html?event=service-2">Book Now</a>
+        </div>
+      </article>
+
+      <article id="service-3" class="wh-card wh-anchor">
+        <h3 class="wh-heading">3. Mana Motuhake in the Workplace (Advanced)</h3>
+        <hr class="wh-rule">
+        <p class="wh-summary">Advanced learning for experienced practitioners exploring self‑determination, autonomy and Indigenous authority in workplace settings. Deepens cultural confidence and leadership application.</p>
+        <div class="wh-meta"><div><b>Audience:</b> Senior leaders, HR, People & Culture, SLT/ELT</div><div><b>Format:</b> Live online, 90 minutes</div><div><b>Minimum:</b> 10 participants</div></div>
+        <div class="wh-actions">
+          <a class="wh-action watch" href="video.html?service=service-3">Watch Video</a>
+          <a class="wh-action book" href="book.html?event=service-3">Book Now</a>
+        </div>
+      </article>
+
+      <article id="service-4" class="wh-card wh-anchor">
+        <h3 class="wh-heading">4. Pathways to Māori Relational Engagement <br>(Marae Only - 3×90min)</h3>
+        <hr class="wh-rule">
+        <p class="wh-summary">Three 90‑minute sessions delivered in one day at a marae covering Relational Māori Engagement, Pōwhiri & Whakatau Readiness, and Mana Motuhake in the Workplace — an immersive, applied experience that stays with participants.</p>
+        <div class="wh-meta"><div><b>Audience:</b> Non‑Māori team leaders or managers</div><div><b>Format:</b> In person, 9:00am - 3:30pm </div><div><b>Minimum:</b> 15 participants</div></div>
+        <div class="wh-actions">
+          <a class="wh-action watch" href="video.html?service=service-4">Watch Video</a>
+          <a class="wh-action book" href="book.html?event=service-4">Book Now</a>
+        </div>
+      </article>
+
+      <article id="service-5" class="wh-card wh-anchor">
+        <h3 class="wh-heading">5. Indigenous Wellbeing Through a Clothing & Fashion Lens <br>(Marae Only)</h3>
+        <hr class="wh-rule">
+        <p class="wh-summary">Explore holistic wellbeing through fashion and clothing while incorporating Māori values of wairua, whānau, hinengaro and tinana. Reflect, connect and create practical tools for balanced living.</p>
+        <div class="wh-meta"><div><b>Audience:</b> HR leaders, social services practitioners, local councils</div><div><b>Format:</b> In person,  9:00am - 1:30pm</div><div><b>Minimum:</b> 15 participants</div></div>
+        <div class="wh-actions">
+          <a class="wh-action watch" href="video.html?service=service-5">Watch Video</a>
+          <a class="wh-action book" href="book.html?event=service-5">Book Now</a>
+        </div>
+      </article>
+
+      <article id="service-6" class="wh-card wh-anchor">
+        <h3 class="wh-heading">6. Māori Bread Experience <br>(Marae Only)</h3>
+        <hr class="wh-rule">
+        <p class="wh-summary">An authentic hands‑on cultural workshop learning to create, nurture and cook traditional Māori bread. Explore whakapapa, connection and teamwork through shared kai and storytelling in a marae kitchen.</p>
+        <div class="wh-meta"><div><b>Audience:</b> Individuals and professionals; team‑building groups</div><div><b>Format:</b> In person,  9:00am - 1:30pm</div><div><b>Minimum:</b> 15 participants</div></div>
+        <div class="wh-actions">
+          <a class="wh-action watch" href="video.html?service=service-6">Watch Video</a>
+          <a class="wh-action book" href="book.html?event=service-6">Book Now</a>
+        </div>
+      </article>
+
+      <article id="service-7" class="wh-card wh-anchor">
+        <h3 class="wh-heading">7. The Treaty & The Integrity of Water <br>(Marae Only)</h3>
+        <hr class="wh-rule">
+        <p class="wh-summary">Interactive experience that explores how Te Tiriti and water share intertwined whakapapa, expressing life, authority and balance, and how that relationship shapes whenua, people and environments.</p>
+        <div class="wh-meta"><div><b>Audience:</b> Engineers, infrastructure, civil and local councils</div><div><b>Format:</b> In person,  9:00am - 3:30pm</div><div><b>Minimum:</b> 25 participants</div></div>
+        <div class="wh-actions">
+          <a class="wh-action watch" href="video.html?service=service-7">Watch Video</a>
+          <a class="wh-action book" href="book.html?event=service-7">Book Now</a>
+        </div>
+      </article>
+
+      <article id="service-8" class="wh-card wh-anchor">
+        <h3 class="wh-heading">8. Personal Development & Team Building Day <br>(Marae Only)</h3>
+        <hr class="wh-rule">
+        <p class="wh-summary">Reflective marae‑based workshop for senior and executive leaders to explore identity, leadership and service through cultural immersion and lived experience, translating insights into measurable workplace change.</p>
+        <div class="wh-meta"><div><b>Audience:</b> Leadership teams and boards</div><div><b>Format:</b> In person,  9:00am - 3:30pm</div><div><b>Minimum:</b> Tailored</div></div>
+        <div class="wh-actions">
+          <a class="wh-action watch" href="video.html?service=service-8">Watch Video</a>
+          <a class="wh-action book" href="book.html?event=service-8">Book Now</a>
+        </div>
+      </article>
+
+      <article id="service-9" class="wh-card wh-anchor">
+        <h3 class="wh-heading">9. End‑of‑Year Christmas Party <br>(Marae Only)</h3>
+        <hr class="wh-rule">
+        <p class="wh-summary">Festive marae‑based, alcohol‑free end‑of‑year experience with kai, waiata, storytelling and cultural protocols to celebrate achievements, strengthen relationships and give back to the local community.</p>
+        <div class="wh-meta"><div><b>Audience:</b> Companies planning meaningful Christmas functions</div><div><b>Format:</b> In person,  9:00am - 3:30pm</div><div><b>Minimum:</b> Tailored</div></div>
+        <div class="wh-actions">
+          <a class="wh-action watch" href="video.html?service=service-9">Watch Video</a>
+          <a class="wh-action book" href="book.html?event=service-9">Book Now</a>
+        </div>
+      </article>
+
+      <article id="service-10" class="wh-card wh-anchor">
+        <h3 class="wh-heading">10. Understanding Technology & AI <br>(Entry Level)</h3>
+        <hr class="wh-rule">
+        <p class="wh-summary">Build foundational digital literacy and AI awareness for team members at any experience level. Introduces key concepts, practical applications and ethical considerations in plain language.</p>
+        <div class="wh-meta"><div><b>Audience:</b> Small business owners, startups, admin teams</div><div><b>Format:</b> In person, 70 minutes</div><div><b>Minimum:</b> 15 participants</div></div>
+        <div class="wh-actions">
+          <a class="wh-action watch" href="video.html?service=service-10">Watch Video</a>
+          <a class="wh-action book" href="book.html?event=service-10">Book Now</a>
+        </div>
+      </article>
+
+      <article id="service-11" class="wh-card wh-anchor">
+        <h3 class="wh-heading">11. AI & Prompt / Context Engineering - <br>Level 1</h3>
+        <hr class="wh-rule">
+        <p class="wh-summary">Master prompt design strategies, refinement techniques and best practices for communicating effectively with AI systems to achieve reliable, high‑quality outputs.</p>
+        <div class="wh-meta"><div><b>Audience:</b> Small business owners, startups, admin teams</div><div><b>Format:</b> In person, 70 minutes</div><div><b>Minimum:</b> 15 participants</div></div>
+        <div class="wh-actions">
+          <a class="wh-action watch" href="video.html?service=service-11">Watch Video</a>
+          <a class="wh-action book" href="book.html?event=service-11">Book Now</a>
+        </div>
+      </article>
+
+      <article id="service-12" class="wh-card wh-anchor">
+        <h3 class="wh-heading">12. AI & Social Media — Level 1</h3>
+        <hr class="wh-rule">
+        <p class="wh-summary">Harness AI tools to enhance social media strategy, content creation and audience engagement, covering AI‑powered analytics, content generation and platform optimisation techniques.</p>
+        <div class="wh-meta"><div><b>Audience:</b> Small business owners, startups, marketing teams</div><div><b>Format:</b> In person, 70 minutes</div><div><b>Minimum:</b> 15 participants</div></div>
+        <div class="wh-actions">
+          <a class="wh-action watch" href="video.html?service=service-12">Watch Video</a>
+          <a class="wh-action book" href="book.html?event=service-12">Book Now</a>
+        </div>
+      </article>
+
+      <article id="service-13" class="wh-card wh-anchor">
+        <h3 class="wh-heading">13. AI & Cyber Security — Level 1</h3>
+        <hr class="wh-rule">
+        <p class="wh-summary">Introductory cyber security principles to protect data, systems and reputation from digital threats. Focuses on reducing risk, strengthening resilience and maintaining trust.</p>
+        <div class="wh-meta"><div><b>Audience:</b> SME owners, marketing teams, startups</div><div><b>Format:</b> In person, 70 minutes</div><div><b>Minimum:</b> 15 participants</div></div>
+        <div class="wh-actions">
+          <a class="wh-action watch" href="video.html?service=service-13">Watch Video</a>
+          <a class="wh-action book" href="book.html?event=service-13">Book Now</a>
+        </div>
+      </article>
+
+      <article id="service-14" class="wh-card wh-anchor">
+        <h3 class="wh-heading">14. AI & Automation in the Workplace</h3>
+        <hr class="wh-rule">
+        <p class="wh-summary">Practical approaches to streamline repetitive tasks, remove bottlenecks and boost efficiency using AI automation — helping SMEs gain time, accuracy and scalability.</p>
+        <div class="wh-meta"><div><b>Audience:</b> Small business owners, startups, admin teams</div><div><b>Format:</b> In person, 70 minutes</div><div><b>Minimum:</b> 15 participants</div></div>
+        <div class="wh-actions">
+          <a class="wh-action watch" href="video.html?service=service-14">Watch Video</a>
+          <a class="wh-action book" href="book.html?event=service-14">Book Now</a>
+        </div>
+      </article>
+
+      <article id="service-15" class="wh-card wh-anchor">
+        <h3 class="wh-heading">15. AI Train the Trainers</h3>
+        <hr class="wh-rule">
+        <p class="wh-summary">A train‑the‑trainer programme to rapidly upskill staff, scale knowledge, standardise quality and create ongoing capability within organisations.</p>
+        <div class="wh-meta"><div><b>Audience:</b> SMEs & enterprise training leads</div><div><b>Format:</b> In person, 70 minutes</div><div><b>Minimum:</b> 15 participants</div></div>
+        <div class="wh-actions">
+          <a class="wh-action watch" href="video.html?service=service-15">Watch Video</a>
+          <a class="wh-action book" href="book.html?event=service-15">Book Now</a>
+        </div>
+      </article>
+
+      <article id="service-16" class="wh-card wh-anchor">
+        <h3 class="wh-heading">16. AI Audits & Diagnostics</h3>
+        <hr class="wh-rule">
+        <p class="wh-summary">A tailored organisational diagnostic revealing cultural and operational strengths and gaps, giving leaders unfiltered insight into what works and where people and performance can grow.</p>
+        <div class="wh-meta"><div><b>Audience:</b> SME & enterprise organisations</div><div><b>Format:</b> In person, tailored timeframe </div><div><b>Minimum:</b> Tailored</div></div>
+        <div class="wh-actions">
+          <a class="wh-action watch" href="video.html?service=service-16">Watch Video</a>
+          <a class="wh-action book" href="book.html?event=service-16">Book Now</a>
+        </div>
+      </article>
+
+      <article id="service-17" class="wh-card wh-anchor">
+        <h3 class="wh-heading">17. Twelve Week Unity Series</h3>
+        <hr class="wh-rule">
+        <p class="wh-summary">A progressive twelve‑week cohort programme with tailored sessions and feedback touchpoints that applies kotahitanga leadership principles and includes a half‑day marae visit to embed commercial and cultural ROI.</p>
+        <div class="wh-meta"><div><b>Audience:</b> Universities, tertiary providers, enterprise and SME cohorts</div><div><b>Format:</b>In person, Cohort‑based 12‑week engagement</div><div><b>Minimum:</b> 12 participants</div></div>
+        <div class="wh-actions">
+          <a class="wh-action watch" href="video.html?service=service-17">Watch Video</a>
+          <a class="wh-action book" href="book.html?event=service-17">Book Now</a>
+        </div>
+      </article>
+
+      <article id="service-18" class="wh-card wh-anchor">
+        <h3 class="wh-heading">18. Te Tiriti Through a Global Health Lens</h3>
+        <hr class="wh-rule">
+        <p class="wh-summary">Interactive workshop exploring Te Tiriti and its public health relevance, led by international Indigenous health leadership to deepen cultural insight and policy relevance.</p>
+        <div class="wh-meta"><div><b>Audience:</b> Senior leaders, public health professionals, environmental teams, policy advisors</div><div><b>Format:</b> In person,  9:00am - 3:30pm</div><div><b>Minimum:</b> 25 participants</div></div>
+        <div class="wh-actions">
+          <a class="wh-action watch" href="video.html?service=service-18">Watch Video</a>
+          <a class="wh-action book" href="book.html?event=service-18">Book Now</a>
+        </div>
+      </article>
+
+      <article id="service-19" class="wh-card wh-anchor">
+        <h3 class="wh-heading">19. Tailored & Customisable Multi‑Year Programmes</h3>
+        <hr class="wh-rule">
+        <p class="wh-summary">Bespoke multi‑year programmes designed to embed cultural capability and commercial outcomes across organisations. Fully customisable scope, timing and measurement frameworks.</p>
+        <div class="wh-meta"><div><b>Audience:</b> Organisations seeking long‑term transformation</div><div><b>Format:</b> Tailored</div><div><b>Minimum:</b> Tailored</div></div>
+        <div class="wh-actions">
+          <a class="wh-action watch" href="video.html?service=service-19">Watch Video</a>
+          <a class="wh-action book" href="book.html?event=service-19">Book Now</a>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Calendar anchor (hook this to your calendar section below) -->
+    <div id="calendar-2026"></div>
+  </div>
+
+ <script>
+(function(){
+  if (window.__WH_SCROLL_INIT__) return;
+  window.__WH_SCROLL_INIT__ = true;
+
+  const MAX_WAIT = 3000; // ms - wait for builder to insert content
+  const POLL_INTERVAL = 150;
+
+  function getOffset() {
+    const wrap = document.querySelector('.wh-wrap');
+    return (wrap && Number(wrap.dataset.offset)) || 150;
+  }
+
+  function initWhenReady(resolve) {
+    const start = Date.now();
+    (function poll(){
+      const nav = document.querySelector('.wh-nav');
+      const cards = document.querySelectorAll('.wh-card');
+      if (nav && cards.length) return resolve();
+      if (Date.now() - start > MAX_WAIT) return resolve(); // give up gracefully
+      setTimeout(poll, POLL_INTERVAL);
+    })();
+  }
+
+  function safeFocus(el) {
+    if (!el) return;
+    el.setAttribute('tabindex','-1');
+    try { el.focus({preventScroll:true}); } catch(e) { el.focus(); }
+  }
+
+  function attach() {
+    const OFFSET = getOffset();
+    const chips = Array.from(document.querySelectorAll('.wh-chip'));
+    const cards = Array.from(document.querySelectorAll('.wh-card'));
+    const nav = document.querySelector('.wh-nav');
+
+    function setActiveChip(hash) {
+      chips.forEach(c => c.setAttribute('aria-current','false'));
+      const active = chips.find(c => c.getAttribute('href') === hash);
+      if (active) active.setAttribute('aria-current','true');
+    }
+
+    function setActiveCard(el) {
+      cards.forEach(c => c.classList.remove('is-active'));
+      if (!el) return;
+      el.classList.add('is-active');
+      const h = el.querySelector('.wh-heading');
+      safeFocus(h);
+    }
+
+    function scrollToElement(el) {
+      if (!el) return;
+      const targetY = Math.max(0, el.getBoundingClientRect().top + window.scrollY - OFFSET);
+      try {
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+      } catch(e) {
+        window.scrollTo(0, targetY);
+      }
+      setTimeout(() => {
+        window.scrollTo({ top: targetY, behavior: 'auto' });
+      }, 600);
+    }
+
+    function navigateTo(hash) {
+      if (!hash) return;
+      const el = document.querySelector(hash);
+      if (!el) return;
+      setActiveChip(hash);
+      setActiveCard(el);
+      scrollToElement(el);
+    }
+
+    // Click handling (delegated on nav)
+    nav?.addEventListener('click', e => {
+      const a = e.target.closest('a.wh-chip');
+      if (!a) return;
+      e.preventDefault();
+      const hash = a.getAttribute('href');
+      if (!hash) return;
+      history.replaceState(null, '', hash);
+      navigateTo(hash);
+
+      // Refresh the page to ensure builder-inserted content is present
+      // Use replace so we don't add an extra history entry.
+      setTimeout(() => {
+        try {
+          location.replace(location.pathname + hash);
+        } catch (err) {
+          // fallback to assign
+          location.assign(location.pathname + hash);
+        }
+      }, 250);
+    });
+
+    // Handle initial load with hash (try once, then ensure with retries)
+    if (location.hash) {
+      setTimeout(() => navigateTo(location.hash), 120);
+    }
+
+    // If the target isn't visible because the builder inserted content later,
+    // retry a few times to ensure smooth scroll lands where expected.
+    function isElementInViewport(el) {
+      if (!el) return false;
+      const r = el.getBoundingClientRect();
+      return r.top >= 0 && r.top < (window.innerHeight || document.documentElement.clientHeight);
+    }
+
+    function ensureHashScrolled(attempts) {
+      if (!location.hash) return;
+      const el = document.querySelector(location.hash);
+      if (!el) return;
+      if (!isElementInViewport(el)) navigateTo(location.hash);
+      if (attempts > 0) setTimeout(() => ensureHashScrolled(attempts - 1), 300);
+    }
+
+    // Start a short retry cycle to cover async insertion/layout shifts
+    ensureHashScrolled(6);
+
+    // Back/forward: navigate and re-check to ensure landing works
+    window.addEventListener('hashchange', () => {
+      navigateTo(location.hash);
+      ensureHashScrolled(4);
+    });
+
+    // Expose a safe init call (in case builder inserts HTML after this script runs)
+    window.__WH_NAV_INIT__ = () => {
+      window.requestAnimationFrame(() => {
+        const newChips = Array.from(document.querySelectorAll('.wh-chip'));
+        if (newChips.length) {
+          chips.length = 0;
+          newChips.forEach(c => chips.push(c));
+        }
+        const newCards = Array.from(document.querySelectorAll('.wh-card'));
+        if (newCards.length) {
+          cards.length = 0;
+          newCards.forEach(c => cards.push(c));
+        }
+      });
+    };
+  }
+
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initWhenReady(attach);
+  } else {
+    document.addEventListener('DOMContentLoaded', () => initWhenReady(attach));
+  }
+
+  // Extra: observe .wh-wrap for late insertions (covers builders that inject content)
+  // and trigger navigateTo when the hashed target appears.
+  (function observeWrap() {
+    const WRAP_POLL_MAX = 4000; // wait up to this long for .wh-wrap to exist
+    const WRAP_POLL_INTERVAL = 200;
+    let waited = 0;
+    (function waitForWrap(){
+      const wrap = document.querySelector('.wh-wrap');
+      if (!wrap && waited < WRAP_POLL_MAX) {
+        waited += WRAP_POLL_INTERVAL;
+        return setTimeout(waitForWrap, WRAP_POLL_INTERVAL);
+      }
+      if (!wrap) return; // give up
+
+      if ('MutationObserver' in window) {
+        const mo = new MutationObserver((mutations) => {
+          if (!location.hash) return;
+          const target = document.querySelector(location.hash);
+          if (target) {
+            // small delay to allow layout, then navigate smoothly
+            setTimeout(() => {
+              try { window.__WH_NAV_INIT__ && window.__WH_NAV_INIT__(); } catch(e){}
+              const ev = new Event('hashchange');
+              window.dispatchEvent(ev);
+            }, 60);
+          }
+        });
+        mo.observe(wrap, { childList: true, subtree: true });
+      }
+    })();
+  })();
+
+})();
+</script>
