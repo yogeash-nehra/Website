@@ -165,6 +165,33 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // ===================================
+    // FAQ Accordion Functionality
+    // ===================================
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', function() {
+            const faqItem = this.closest('.faq-item');
+            const faqAnswer = faqItem.querySelector('.faq-answer');
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+            
+            // Close all FAQ items
+            document.querySelectorAll('.faq-question').forEach(q => {
+                q.setAttribute('aria-expanded', 'false');
+                const item = q.closest('.faq-item');
+                const answer = item.querySelector('.faq-answer');
+                answer.style.maxHeight = null;
+            });
+            
+            // Open clicked item if it wasn't expanded
+            if (!isExpanded) {
+                this.setAttribute('aria-expanded', 'true');
+                faqAnswer.style.maxHeight = faqAnswer.scrollHeight + 'px';
+            }
+        });
+    });
+    
+    // ===================================
     // Modal Functionality
     // ===================================
     const modalTriggers = document.querySelectorAll('[data-modal-trigger]');

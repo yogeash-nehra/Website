@@ -463,11 +463,19 @@
     color: var(--text-color);
 }
 
+.about-hero-content p {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--text-color);
+    max-width: 900px;
+    margin: 1rem auto;
+}
+
 .hero-tagline {
     font-size: 1.5rem;
     font-style: italic;
     color: var(--text-color);
-    margin-bottom: 0;
+    margin-bottom: 0.5rem;
 }
 
 /* Mission Section */
@@ -788,4 +796,308 @@
         gap: 1.5rem;
     }
 }
+
+/* ===================================
+   Contact Page Styles
+   =================================== */
+
+.contact-options-section {
+    background-color: white;
+    padding: 5rem 0 6rem;
+}
+
+.contact-block {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contact-block:first-child {
+    padding-top: 2rem;
+    padding-bottom: 5rem;
+}
+
+.contact-block:last-child {
+    padding-top: 5rem;
+}
+
+.contact-block h2 {
+    font-size: 2.75rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.contact-block p {
+    font-size: 1.125rem;
+    color: #1a1a1a;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.contact-block p a {
+    color: #1a1a1a;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.contact-block p a:hover {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+.contact-cta {
+    margin-top: 2.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.calendar-widget-container {
+    margin-top: 3rem;
+    padding: 3rem 2rem;
+    background-color: #f9fafb;
+    border-radius: 12px;
+    min-height: 500px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
+
+.calendar-placeholder p {
+    margin: 0.5rem 0;
+}
+
+/* Contact Page - Responsive */
+@media (max-width: 768px) {
+    .contact-block h2 {
+        font-size: 1.875rem;
+    }
+    
+    .contact-block p {
+        font-size: 1rem;
+    }
+    
+    .contact-block {
+        padding: 3rem 1.5rem;
+    }
+    
+    .contact-block:first-child {
+        padding-bottom: 3rem;
+    }
+    
+    .contact-block:last-child {
+        padding-top: 3rem;
+    }
+    
+    .calendar-widget-container {
+        padding: 2rem 1.5rem;
+        min-height: 400px;
+    }
+    
+    .contact-options-section {
+        padding: 3rem 0 4rem;
+    }
+}
+
+/* ===================================
+   FAQ Page Styles
+   =================================== */
+
+/* FAQ Section */
+.faq-section {
+    padding: 3rem 0 6rem;
+    background-color: #ffffff;
+}
+
+/* Add top margin when FAQ follows CTA */
+.cta-section + .faq-section {
+    margin-top: 3rem;
+}
+
+.faq-section .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1rem;
+}
+
+.faq-section .section-header h2 {
+    font-size: 2.25rem;
+    margin-bottom: 0;
+    color: var(--text-color);
+    font-weight: 400;
+    line-height: 1.3;
+}
+
+.faq-wrapper {
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.faq-item {
+    background: white;
+    margin-bottom: 0;
+    overflow: hidden;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid #d0d0d0;
+}
+
+.faq-item:first-child {
+    border-top: 1px solid #d0d0d0;
+}
+
+.faq-item:hover {
+    background-color: transparent;
+}
+
+.faq-question {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1.75rem 1.5rem;
+    background: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #1a1a1a;
+    transition: background-color 0.2s ease;
+    gap: 2rem;
+    line-height: 1.5;
+}
+
+.faq-question:hover {
+    background-color: transparent;
+}
+
+.faq-question span {
+    flex: 1;
+    line-height: 1.6;
+}
+
+.faq-icon {
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    color: #999;
+    transition: transform 0.3s ease;
+    margin-top: 0.25rem;
+}
+
+.faq-question[aria-expanded="true"] .faq-icon {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background-color: white;
+}
+
+.faq-answer-content {
+    padding: 0 1.5rem 1.75rem 1.5rem;
+}
+
+.faq-answer-content p {
+    margin: 0;
+    line-height: 1.7;
+    color: #555;
+    font-size: 0.9375rem;
+}
+
+.faq-answer-content strong {
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+/* FAQ CTA Section */
+.faq-section + .cta-section {
+    background-color: var(--bg-tan, #d8aa6d);
+    padding: 5rem 0;
+    text-align: center;
+}
+
+.faq-section + .cta-section .cta-content {
+    max-width: 100%;
+}
+
+.faq-section + .cta-section h2 {
+    font-size: 2.25rem;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.faq-section + .cta-section p {
+    font-size: 1rem;
+    color: #1a1a1a;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.faq-section + .cta-section a:not(.btn) {
+    color: #1a1a1a;
+    text-decoration: underline;
+}
+
+/* FAQ Responsive */
+@media (max-width: 768px) {
+    .faq-section {
+        padding: 2rem 0 3rem;
+    }
+
+    .faq-wrapper {
+        padding: 0 0.5rem;
+    }
+
+    .faq-question {
+        padding: 1.5rem 1rem;
+        font-size: 0.9375rem;
+        gap: 1rem;
+    }
+
+    .faq-answer-content {
+        padding: 0 1rem 1.5rem 1rem;
+    }
+
+    .faq-answer-content p {
+        font-size: 0.875rem;
+    }
+
+    .faq-section + .cta-section {
+        padding: 3.5rem 1.5rem;
+    }
+
+    .faq-section + .cta-section h2 {
+        font-size: 1.75rem;
+    }
+
+    .faq-section + .cta-section p {
+        font-size: 0.9375rem;
+    }
+}
+
 
