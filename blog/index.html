@@ -201,23 +201,23 @@
                     <!-- Left Navigation -->
                     <div>
                         <ul class="nav-menu">
-                            <li><a href="/">Home</a></li>
-                            <li><a href="/about">About Us</a></li>
+                            <li><a href="../">Home</a></li>
+                            <li><a href="../about">About Us</a></li>
                             <li class="has-dropdown">
-                                <a href="/services">Services</a>
+                                <a href="../services">Services</a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/services">Our Services</a></li>
-                                    <li><a href="/workshops">Workshops</a></li>
-                                    <li><a href="/ai-adoption">AI Adoption</a></li>
-                                    <li><a href="/training">Training</a></li>
+                                    <li><a href="../services">Our Services</a></li>
+                                    <li><a href="../workshops">Workshops</a></li>
+                                    <li><a href="../ai-adoption">AI Adoption</a></li>
+                                    <li><a href="../training">Training</a></li>
                                 </ul>
                             </li>
-                            <li class="active"><a href="/blog">Blog</a></li>
+                            <li class="active"><a href="../blog">Blog</a></li>
                             <li class="has-dropdown">
-                                <a href="/contact">Contact</a>
+                                <a href="../contact">Contact</a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/contact">Contact Us</a></li>
-                                    <li><a href="/faq">FAQ</a></li>
+                                    <li><a href="../contact">Contact Us</a></li>
+                                    <li><a href="../faq">FAQ</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -225,7 +225,7 @@
                     
                     <!-- Logo (Center) -->
                     <div class="logo">
-                        <a href="/">
+                        <a href="../">
                             <img src="../assets/images/logo/logo.png" alt="Wolfgramm Holdings">
                         </a>
                     </div>
@@ -243,7 +243,7 @@
                         
                         <!-- CTA Button -->
                         <div class="nav-cta">
-                            <a href="/contact" class="btn btn-primary btn-lg">Book a Free Session</a>
+                            <a href="../contact" class="btn btn-primary btn-lg">Book a Free Session</a>
                         </div>
                         
                         <!-- Mobile Menu Toggle -->
@@ -660,11 +660,11 @@
                 </div>
                 <nav class="footer-nav" role="navigation" aria-label="Footer navigation">
                     <ul class="footer-menu">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/about">About</a></li>
-                        <li><a href="/services">Services</a></li>
-                        <li><a href="/workshops">Workshops</a></li>
-                        <li><a href="/contact">Contact</a></li>
+                        <li><a href="../">Home</a></li>
+                        <li><a href="../about">About</a></li>
+                        <li><a href="../services">Services</a></li>
+                        <li><a href="../workshops">Workshops</a></li>
+                        <li><a href="../contact">Contact</a></li>
                     </ul>
                 </nav>
                 <div class="footer-bottom">
@@ -715,7 +715,7 @@
             
             if (filteredPosts.length === 0) {
                 // Show no results message
-                blogGrid.innerHTML = '<div class="no-results"><i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i><p>No articles found matching your search.</p><p style="font-size: 1rem; margin-top: 0.5rem;">Try different keywords or <a href="/blog" style="color: #d8aa6d; text-decoration: underline;">view all articles</a></p></div>';
+                blogGrid.innerHTML = '<div class="no-results"><i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i><p>No articles found matching your search.</p><p style="font-size: 1rem; margin-top: 0.5rem;">Try different keywords or <a href="../blog" style="color: #d8aa6d; text-decoration: underline;">view all articles</a></p></div>';
                 searchResultsCount.textContent = 'No results found';
                 searchResultsCount.style.display = 'block';
             } else {
