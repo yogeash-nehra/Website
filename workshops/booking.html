@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="title" property="og:title" content="Book a Workshop | Wolfgramm Holdings">
+    <meta name="description" property="og:description" content="Book your place in one of our transformative workshops combining Māori cultural capability and modern innovation.">
+    <meta name="author" content="Wolfgramm Holdings">
+    <meta name="robots" content="noindex">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="../assets/images/logo/favicon.png">
+    <link rel="apple-touch-icon" href="../assets/images/logo/apple-touch-icon.png">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/booking.css">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <title>Book a Workshop | Wolfgramm Holdings</title>
+</head>
+<body class="booking-page">
+    <!-- Header Section -->
+    <header id="website-header" class="site-header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <!-- Left Navigation -->
+                    <div>
+                        <ul class="nav-menu">
+                            <li><a href="../">Home</a></li>
+                            <li><a href="../about">About Us</a></li>
+                            <li class="has-dropdown active">
+                                <a href="../services">Services</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="../services">Our Services</a></li>
+                                    <li><a href="../workshops">Workshops</a></li>
+                                    <li><a href="../ai-adoption">AI Adoption</a></li>
+                                    <li><a href="../training">Training</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="../blog">Blog</a></li>
+                            <li class="has-dropdown">
+                                <a href="../contact">Contact</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="../contact">Contact Us</a></li>
+                                    <li><a href="../faq">FAQ</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Logo (Center) -->
+                    <div class="logo">
+                        <a href="../">
+                            <img src="../assets/images/logo/logo.png" alt="Wolfgramm Holdings">
+                        </a>
+                    </div>
+                    
+                    <!-- Right Side (Social + CTA) -->
+                    <div class="nav-right">
+                        <!-- Social Media Links -->
+                        <ul class="nav-social">
+                            <li><a href="https://facebook.com/profile.php?id=61570941830685" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="https://linkedin.com/company/wolfgramm-holdings" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a></li>
+                            <li><a href="https://instagram.com/wolfgrammholdings" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+                            <li><a href="https://tiktok.com/@wolfgramm.holdings" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a></li>
+                            <li><a href="https://youtube.com/@WolfgrammHoldings" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a></li>
+                        </ul>
+                        
+                        <!-- Mobile Menu Toggle -->
+                        <button class="mobile-menu-toggle" aria-label="Toggle navigation menu">
+                            <span class="hamburger"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="booking-container">
+        <!-- Header -->
+        <div class="booking-header">
+            <h1>Book Your Workshop</h1>
+            <p>Complete the steps below to secure your place</p>
+        </div>
+
+        <!-- Progress Steps -->
+        <div class="progress-steps">
+            <div class="progress-step active" data-step="1">
+                <div class="step-circle">1</div>
+                <div class="step-label">Select Workshop</div>
+            </div>
+            <div class="progress-step" data-step="2">
+                <div class="step-circle">2</div>
+                <div class="step-label">Personal Details</div>
+            </div>
+            <div class="progress-step" data-step="3">
+                <div class="step-circle">3</div>
+                <div class="step-label">Professional Info</div>
+            </div>
+            <div class="progress-step" data-step="4">
+                <div class="step-circle">4</div>
+                <div class="step-label">Preferences</div>
+            </div>
+            <div class="progress-step" data-step="5">
+                <div class="step-circle">5</div>
+                <div class="step-label">Review & Pay</div>
+            </div>
+        </div>
+
+        <!-- Booking Form -->
+        <div class="booking-form-card">
+            <form id="bookingForm">
+                
+                <!-- Step 1: Select Workshop -->
+                <div class="form-step active" data-step="1">
+                    <h2 class="step-title">Select Your Workshop</h2>
+                    <p class="step-description">Choose from our upcoming workshops and events</p>
+                    
+                    <div id="workshopLoadingState" class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading available workshops...</p>
+                    </div>
+                    
+                    <div id="workshopErrorState" class="alert alert-error" style="display: none;">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div>
+                            <strong>Unable to load workshops</strong>
+                            <p id="workshopErrorMessage"></p>
+                            <button type="button" class="btn-secondary" onclick="location.reload()">Retry</button>
+                        </div>
+                    </div>
+                    
+                    <div id="workshopSelection" class="workshop-selection" style="display: none;">
+                        <div class="form-group">
+                            <label for="eventSelect">Choose Workshop Event <span class="required">*</span></label>
+                            <select id="eventSelect" class="form-control" required>
+                                <option value="">-- Select a workshop event --</option>
+                            </select>
+                            <div class="error-message">Please select a workshop</div>
+                        </div>
+                        
+                        <div id="selectedEventDetails" style="display: none;">
+                            <!-- Event details will be populated here -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="window.location.href='index.html'">Cancel</button>
+                        <button type="button" class="btn-primary" id="step1Next" disabled>Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Personal Details -->
+                <div class="form-step" data-step="2">
+                    <h2 class="step-title">Personal Details</h2>
+                    <p class="step-description">Tell us who you are</p>
+                    
+                    <div class="form-group">
+                        <label for="fullName">Full Name <span class="required">*</span></label>
+                        <input type="text" id="fullName" class="form-control" required placeholder="John Smith">
+                        <div class="error-message">Please enter your full name</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" class="form-control" required placeholder="john.smith@example.com">
+                        <div class="error-message">Please enter a valid email address</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="phone" class="form-control" required placeholder="021 123 4567">
+                        <div class="error-message">Please enter your phone number</div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="step2Back">Back</button>
+                        <button type="button" class="btn-primary" id="step2Next">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Professional Details -->
+                <div class="form-step" data-step="3">
+                    <h2 class="step-title">Professional Information</h2>
+                    <p class="step-description">Help us understand your professional background</p>
+                    
+                    <div class="form-group">
+                        <label for="organization">Organization/Company</label>
+                        <input type="text" id="organization" class="form-control" placeholder="Wolfgramm Holdings Ltd">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="designation">Job Title/Position</label>
+                        <input type="text" id="designation" class="form-control" placeholder="Manager">
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <div>These details are optional but help us tailor the workshop experience to your needs.</div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="step3Back">Back</button>
+                        <button type="button" class="btn-primary" id="step3Next">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Marketing Preferences -->
+                <div class="form-step" data-step="4">
+                    <h2 class="step-title">Stay Connected</h2>
+                    <p class="step-description">Choose how you'd like to hear from us</p>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="newsletterOptIn" name="newsletterOptIn">
+                            <label for="newsletterOptIn">
+                                <strong>Subscribe to our newsletter</strong><br>
+                                Receive updates on new workshops, cultural insights, and company news
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="promoOptIn" name="promoOptIn">
+                            <label for="promoOptIn">
+                                <strong>Receive promotional offers</strong><br>
+                                Be the first to know about special discounts and early-bird pricing
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-shield-alt"></i>
+                        <div>
+                            <small>We respect your privacy. You can unsubscribe at any time. View our privacy policy.</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="step4Back">Back</button>
+                        <button type="button" class="btn-primary" id="step4Next">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 5: Review & Payment -->
+                <div class="form-step" data-step="5">
+                    <h2 class="step-title">Review Your Booking</h2>
+                    <p class="step-description">Please review your details before proceeding to payment</p>
+                    
+                    <div class="review-section">
+                        <h3><i class="fas fa-calendar-check"></i> Workshop Details</h3>
+                        <div class="review-item">
+                            <span class="review-label">Workshop:</span>
+                            <span class="review-value" id="reviewWorkshop">-</span>
+                        </div>
+                        <div class="review-item">
+                            <span class="review-label">Date:</span>
+                            <span class="review-value" id="reviewDate">-</span>
+                        </div>
+                        <div class="review-item">
+                            <span class="review-label">Time:</span>
+                            <span class="review-value" id="reviewTime">-</span>
+                        </div>
+                        <div class="review-item">
+                            <span class="review-label">Location:</span>
+                            <span class="review-value" id="reviewLocation">-</span>
+                        </div>
+                    </div>
+                    
+                    <div class="review-section">
+                        <h3><i class="fas fa-user"></i> Your Details</h3>
+                        <div class="review-item">
+                            <span class="review-label">Name:</span>
+                            <span class="review-value" id="reviewName">-</span>
+                        </div>
+                        <div class="review-item">
+                            <span class="review-label">Email:</span>
+                            <span class="review-value" id="reviewEmail">-</span>
+                        </div>
+                        <div class="review-item">
+                            <span class="review-label">Phone:</span>
+                            <span class="review-value" id="reviewPhone">-</span>
+                        </div>
+                        <div class="review-item" id="reviewOrgRow" style="display: none;">
+                            <span class="review-label">Organization:</span>
+                            <span class="review-value" id="reviewOrganization">-</span>
+                        </div>
+                    </div>
+                    
+                    <div class="review-section review-total">
+                        <div class="review-item">
+                            <span class="review-label"><strong>Total Amount:</strong></span>
+                            <span class="review-value" id="reviewTotal">$0.00 NZD</span>
+                        </div>
+                    </div>
+                    
+                    <div id="paymentErrorState" class="alert alert-error" style="display: none;">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div id="paymentErrorMessage"></div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="step5Back">Back</button>
+                        <button type="button" class="btn-primary" id="proceedToPayment">
+                            <i class="fas fa-lock"></i> Proceed to Secure Payment
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <!-- Security Notice -->
+        <div style="text-align: center; color: #666; font-size: 14px; margin-top: 20px;">
+            <i class="fas fa-shield-alt" style="color: #4caf50;"></i>
+            Secure payment powered by Stripe. Your payment information is encrypted and secure.
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer id="website-footer" class="site-footer site-footer-white">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p class="footer-tagline">Growing Better People</p>
+                    <p class="footer-contact">
+                        <a href="mailto:info@wgholdings.co.nz">info@wgholdings.co.nz</a>
+                    </p>
+                </div>
+                <nav class="footer-nav" role="navigation" aria-label="Footer navigation">
+                    <ul class="footer-menu">
+                        <li><a href="../">Home</a></li>
+                        <li><a href="../about">About</a></li>
+                        <li><a href="../services">Services</a></li>
+                        <li><a href="../workshops">Workshops</a></li>
+                        <li><a href="../contact">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Wolfgramm Holdings Ltd</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/google-sheets-api.js"></script>
+    <script src="../assets/js/booking-form.js"></script>
+</body>
+</html>
+

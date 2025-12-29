@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="title" property="og:title" content="Booking Cancelled | Wolfgramm Holdings">
+    <meta name="description" property="og:description" content="Your workshop booking was cancelled or could not be completed.">
+    <meta name="author" content="Wolfgramm Holdings">
+    <meta name="robots" content="noindex">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="../assets/images/logo/favicon.png">
+    <link rel="apple-touch-icon" href="../assets/images/logo/apple-touch-icon.png">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/booking.css">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <title>Booking Cancelled | Wolfgramm Holdings</title>
+    
+    <style>
+        .failure-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f6f6f7 0%, #fff 100%);
+            padding: 60px 20px;
+        }
+        
+        .failure-container {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        
+        .failure-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 50px 40px;
+            text-align: center;
+        }
+        
+        .failure-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+        }
+        
+        .failure-icon i {
+            font-size: 40px;
+            color: white;
+        }
+        
+        .failure-title {
+            font-size: clamp(28px, 4vw, 36px);
+            color: #1a1a1a;
+            margin-bottom: 15px;
+        }
+        
+        .failure-subtitle {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        
+        .info-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            text-align: left;
+        }
+        
+        .info-box h3 {
+            font-size: 18px;
+            color: #e65100;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-box ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .info-box li {
+            padding: 8px 0;
+            color: #e65100;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .info-box li i {
+            margin-top: 3px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .action-btn {
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-primary-action {
+            background: #d8aa6a;
+            color: white;
+        }
+        
+        .btn-primary-action:hover {
+            background: #c99858;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(216, 170, 106, 0.3);
+        }
+        
+        .btn-secondary-action {
+            background: white;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+        
+        .btn-secondary-action:hover {
+            border-color: #999;
+            background: #f5f5f5;
+        }
+        
+        .contact-section {
+            background: #f9f9f9;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        
+        .contact-section h4 {
+            font-size: 16px;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+        }
+        
+        .contact-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            text-align: left;
+        }
+        
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #666;
+        }
+        
+        .contact-method i {
+            color: #d8aa6a;
+            font-size: 18px;
+        }
+        
+        .contact-method a {
+            color: #d8aa6a;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .contact-method a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .failure-card {
+                padding: 40px 25px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .contact-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="failure-page">
+    <div class="failure-container">
+        <div class="failure-card">
+            <!-- Failure Icon -->
+            <div class="failure-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            
+            <!-- Title -->
+            <h1 class="failure-title">Booking Not Completed</h1>
+            <p class="failure-subtitle">
+                Your workshop booking was not completed. No payment has been charged to your account.
+            </p>
+            
+            <!-- Reason Info -->
+            <div class="info-box">
+                <h3>
+                    <i class="fas fa-info-circle"></i>
+                    Why did this happen?
+                </h3>
+                <ul>
+                    <li>
+                        <i class="fas fa-times-circle"></i>
+                        <span>You cancelled the payment process</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-credit-card"></i>
+                        <span>There was an issue with your payment method</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-users"></i>
+                        <span>The workshop may have sold out during checkout</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-wifi"></i>
+                        <span>A connection issue interrupted the process</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="booking.html" class="action-btn btn-primary-action" id="retryBooking">
+                    <i class="fas fa-redo"></i>
+                    Try Booking Again
+                </a>
+                <a href="index.html" class="action-btn btn-secondary-action">
+                    <i class="fas fa-calendar"></i>
+                    View All Workshops
+                </a>
+            </div>
+            
+            <!-- Contact Section -->
+            <div class="contact-section">
+                <h4>Need Help?</h4>
+                <p style="font-size: 14px; color: #666; margin-bottom: 15px;">
+                    If you're experiencing issues or need assistance, our team is here to help.
+                </p>
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:info@wgholdings.co.nz">info@wgholdings.co.nz</a>
+                    </div>
+                    <div class="contact-method">
+                        <i class="fas fa-phone"></i>
+                        <a href="tel:0226064444">022 606 4444</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Alternative Actions -->
+            <div style="margin-top: 30px; padding-top: 25px; border-top: 2px solid #f0f0f0;">
+                <p style="font-size: 14px; color: #666; margin-bottom: 15px;">
+                    Or explore other options:
+                </p>
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <a href="../contact" style="color: #d8aa6a; text-decoration: none; font-weight: 600; font-size: 14px;">
+                        <i class="fas fa-comments"></i> Contact Us
+                    </a>
+                    <a href="../faq" style="color: #d8aa6a; text-decoration: none; font-weight: 600; font-size: 14px;">
+                        <i class="fas fa-question-circle"></i> FAQ
+                    </a>
+                    <a href="../" style="color: #d8aa6a; text-decoration: none; font-weight: 600; font-size: 14px;">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer Note -->
+        <div style="text-align: center; margin-top: 30px; color: #666; font-size: 14px;">
+            <p>Don't worry, we're here to help you get booked!</p>
+            <p style="margin-top: 10px;">
+                <strong>Wolfgramm Holdings</strong> | Growing Better People<br>
+                <a href="mailto:info@wgholdings.co.nz" style="color: #d8aa6a;">info@wgholdings.co.nz</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Check if there's a specific event to retry
+        const urlParams = new URLSearchParams(window.location.search);
+        const eventId = urlParams.get('event');
+        
+        if (eventId) {
+            // Add event ID to retry button
+            const retryButton = document.getElementById('retryBooking');
+            retryButton.href = 'booking.html?event=' + encodeURIComponent(eventId);
+        }
+    </script>
+</body>
+</html>
+

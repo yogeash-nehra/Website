@@ -1,0 +1,528 @@
+/* ============================================
+   Booking Form Styles
+   ============================================ */
+
+.booking-page {
+  min-height: 100vh;
+  background: #f6f6f7;
+}
+
+.booking-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.booking-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.booking-header h1 {
+  font-size: clamp(28px, 4vw, 36px);
+  margin-bottom: 10px;
+  color: #1a1a1a;
+}
+
+.booking-header p {
+  font-size: 16px;
+  color: #666;
+}
+
+/* Progress Steps */
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  padding: 0 20px;
+  position: relative;
+}
+
+.progress-steps::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 60px;
+  right: 60px;
+  height: 2px;
+  background: #e0e0e0;
+  z-index: 0;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.step-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #999;
+  transition: all 0.3s;
+}
+
+.progress-step.active .step-circle {
+  background: #d8aa6a;
+  border-color: #d8aa6a;
+  color: white;
+}
+
+.progress-step.completed .step-circle {
+  background: #4caf50;
+  border-color: #4caf50;
+  color: white;
+}
+
+.step-label {
+  font-size: 13px;
+  color: #666;
+  text-align: center;
+}
+
+.progress-step.active .step-label {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+/* Form Card */
+.booking-form-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 40px;
+  margin-bottom: 20px;
+}
+
+/* Form Steps */
+.form-step {
+  display: none;
+}
+
+.form-step.active {
+  display: block;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.step-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #1a1a1a;
+}
+
+.step-description {
+  color: #666;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+/* Form Groups */
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.form-group label .required {
+  color: #e74c3c;
+  margin-left: 2px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: inherit;
+  transition: all 0.3s;
+  background: white;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #d8aa6a;
+  box-shadow: 0 0 0 3px rgba(216, 170, 106, 0.1);
+}
+
+.form-control.error {
+  border-color: #e74c3c;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 13px;
+  margin-top: 6px;
+  display: none;
+}
+
+.form-control.error + .error-message {
+  display: block;
+}
+
+select.form-control {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath fill='%23333' d='M0 0l6 8 6-8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+
+/* Checkboxes */
+.checkbox-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin-top: 4px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.checkbox-group label {
+  margin-bottom: 0;
+  font-weight: 400;
+  cursor: pointer;
+  flex: 1;
+}
+
+/* Workshop Selection Card */
+.workshop-selection {
+  margin-bottom: 20px;
+}
+
+.workshop-card {
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: none;
+}
+
+.workshop-card.visible {
+  display: block;
+}
+
+.workshop-card:hover {
+  border-color: #d8aa6a;
+  background: #fefbf6;
+}
+
+.workshop-card.selected {
+  border-color: #d8aa6a;
+  background: #fdf7ee;
+  box-shadow: 0 0 0 3px rgba(216, 170, 106, 0.1);
+}
+
+.workshop-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.workshop-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  flex: 1;
+}
+
+.workshop-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #d8aa6a;
+  white-space: nowrap;
+  margin-left: 15px;
+}
+
+.workshop-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+.workshop-detail {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.workshop-detail i {
+  color: #d8aa6a;
+}
+
+.workshop-description {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #555;
+}
+
+/* Availability Badges */
+.availability-badges {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-success {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.badge-warning {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.badge-danger {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.badge-info {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+/* Review Section */
+.review-section {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.review-section h3 {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.review-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.review-label {
+  color: #666;
+}
+
+.review-value {
+  color: #1a1a1a;
+  font-weight: 500;
+}
+
+.review-total {
+  border-top: 2px solid #ddd;
+  padding-top: 15px;
+  margin-top: 15px;
+}
+
+.review-total .review-value {
+  font-size: 24px;
+  color: #d8aa6a;
+  font-weight: 700;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.btn-secondary {
+  flex: 1;
+  padding: 14px 24px;
+  border: 2px solid #ddd;
+  background: white;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+  border-color: #999;
+  background: #f5f5f5;
+}
+
+.btn-primary {
+  flex: 2;
+  padding: 14px 24px;
+  border: none;
+  background: #d8aa6a;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-primary:hover {
+  background: #c99858;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(216, 170, 106, 0.3);
+}
+
+.btn-primary:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Loading State */
+.loading {
+  text-align: center;
+  padding: 40px;
+}
+
+.spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #d8aa6a;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Alert Messages */
+.alert {
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.alert-error {
+  background: #ffebee;
+  border-left: 4px solid #c62828;
+  color: #c62828;
+}
+
+.alert-warning {
+  background: #fff3e0;
+  border-left: 4px solid #e65100;
+  color: #e65100;
+}
+
+.alert-info {
+  background: #e3f2fd;
+  border-left: 4px solid #1565c0;
+  color: #1565c0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .booking-form-card {
+    padding: 24px 20px;
+  }
+  
+  .progress-steps {
+    padding: 0;
+  }
+  
+  .progress-steps::before {
+    left: 40px;
+    right: 40px;
+  }
+  
+  .step-circle {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+  
+  .step-label {
+    font-size: 11px;
+  }
+  
+  .workshop-card-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .workshop-price {
+    margin-left: 0;
+  }
+  
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+  
+  .btn-secondary,
+  .btn-primary {
+    width: 100%;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .booking-header,
+  .progress-steps,
+  .form-actions {
+    display: none;
+  }
+}
+
