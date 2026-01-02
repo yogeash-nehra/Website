@@ -674,18 +674,26 @@ img {
     background: linear-gradient(0deg, #ffffff, #ffffff);
     border-radius: var(--radius-lg);
     z-index: 10;
+    padding: 0.875rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 @media (min-width: 1024px) {
     .service-icon-wrapper {
         border-radius: var(--radius-2xl);
+        width: 5.5rem;
+        height: 5.5rem;
+        padding: 1rem;
     }
 }
 
 .service-icon {
-    width: 3rem;
-    height: 3rem;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
     color: #000000;
+    display: block;
 }
 
 .service-card-content {
@@ -1216,3 +1224,111 @@ img {
     font-size: 0.875rem;
     opacity: 0.65;
 }
+
+/* Credits Page Styles */
+.credits-category {
+    margin-bottom: 4rem;
+}
+
+.credits-category:last-child {
+    margin-bottom: 0;
+}
+
+.credits-category h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+@media (min-width: 1024px) {
+    .credits-category h2 {
+        font-size: 2rem;
+    }
+}
+
+.credits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.credit-item {
+    background-color: #ffffff;
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+@media (min-width: 1024px) {
+    .credit-item {
+        padding: 2rem;
+        border-radius: var(--radius-xl);
+    }
+}
+
+.credit-item h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.75rem;
+}
+
+@media (min-width: 1024px) {
+    .credit-item h3 {
+        font-size: 1.375rem;
+    }
+}
+
+.credit-description {
+    color: var(--text-color);
+    line-height: 1.7;
+    margin-bottom: 0.5rem;
+}
+
+.credit-description a {
+    color: var(--primary-color);
+    text-decoration: underline;
+    transition: var(--transition-base);
+}
+
+.credit-description a:hover {
+    color: #000000;
+}
+
+.credit-details {
+    list-style: none;
+    padding-left: 0;
+    margin: 1rem 0 0 0;
+}
+
+.credit-details li {
+    padding: 0.5rem 0;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.credit-details li strong {
+    font-weight: 600;
+    color: #000000;
+}
+
+.credit-source {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.85;
+}
+
+.credit-source a {
+    color: var(--primary-color);
+    text-decoration: underline;
+    transition: var(--transition-base);
+}
+
+.credit-source a:hover {
+    color: #000000;
+}
+

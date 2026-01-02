@@ -44,4 +44,12 @@
         <priority>0.8</priority>
     </url>
     
+    <!-- Credits Page -->
+    <url>
+        <loc>https://wgholdings.co.nz/credits</loc>
+        <lastmod>2025-01-02</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    
 </urlset>

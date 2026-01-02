@@ -113,11 +113,13 @@
         
         .blog-card {
             background: #fff;
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             transition: all 0.3s ease;
             border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
         }
         
         .blog-card:hover {
@@ -125,8 +127,29 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.12);
         }
         
+        .blog-card-image {
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+            background: #f5f5f5;
+        }
+        
+        .blog-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .blog-card:hover .blog-card-image img {
+            transform: scale(1.05);
+        }
+        
         .blog-card-content {
             padding: 2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
         
         .blog-card h3 {
@@ -157,6 +180,7 @@
             justify-content: space-between;
             align-items: center;
             padding-top: 1rem;
+            margin-top: auto;
             border-top: 1px solid #eee;
         }
         
@@ -282,6 +306,9 @@
         <div class="blog-grid" id="blogGrid">
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/placeholder-water-stewardship.svg" alt="Honouring Te Tiriti Through Water Stewardship">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/honouring-te-tiriti-through-water-stewardship">Honouring Te Tiriti Through Water Stewardship</a></h3>
                         <p class="blog-card-excerpt">Water is not a resource to Māori. It is a living ancestor. It carries whakapapa, sustains life, and holds responsibility. The Treaty and Integrity of Water W...</p>
@@ -295,6 +322,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/placeholder-relational-leadership.svg" alt="Beyond Compliance. Towards Relational Leadership.">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/beyond-compliance--towards-relational-leadership">Beyond Compliance. Towards Relational Leadership.</a></h3>
                         <p class="blog-card-excerpt">Te Tiriti o Waitangi is not a historical artefact or a compliance checkbox. It is a living framework for how we relate, make decisions, and share power in Ao...</p>
@@ -308,6 +338,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/placeholder-building-belonging.svg" alt="Building Belonging: How Cultural Connection Strengthens Workplace Resilience">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/building-belonging--how-cultural-connection-strengthens-workplace-resilience">Building Belonging: How Cultural Connection Strengthens Workplace Resilience</a></h3>
                         <p class="blog-card-excerpt">Belonging is one of the most powerful forces in any organisation. When people feel connected, respected, and valued, they work with purpose and pride. Belong...</p>
@@ -321,6 +354,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/placeholder-maori-values-leadership.svg" alt="Māori Values and Leadership: How Cultural Integrity Builds Stronger Teams">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/m-ori-values-and-leadership--how-cultural-integrity-builds-stronger-teams">Māori Values and Leadership: How Cultural Integrity Builds Stronger Teams</a></h3>
                         <p class="blog-card-excerpt">Leadership today looks very different from what it did a decade ago. The challenges are more complex, the teams more diverse, and the expectations higher. Ye...</p>
@@ -334,6 +370,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/placeholder-marae-christmas.svg" alt="Marae Christmas: How Cultural Celebration Strengthens Workplace Connection">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/marae-christmas-how-cultural-celebration-strengthens-workplace-connection">Marae Christmas: How Cultural Celebration Strengthens Workplace Connection</a></h3>
                         <p class="blog-card-excerpt">As the year draws to a close, many organisations begin planning the familiar Christmas function - a catered lunch, a few speeches, and perhaps a gift exchang...</p>
@@ -347,6 +386,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/placeholder-marae-inclusion.svg" alt="Marae-Based Inclusion Training: Bridging Culture and Commerce in Aotearoa">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/marae-based-inclusion-training--bridging-culture-and-commerce-in-aotearoa">Marae-Based Inclusion Training: Bridging Culture and Commerce in Aotearoa</a></h3>
                         <p class="blog-card-excerpt">Inclusion has become a familiar word in strategy documents and diversity policies across New Zealand workplaces. But genuine inclusion cannot be achieved thr...</p>
@@ -360,6 +402,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/placeholder-ai-training.svg" alt="Why AI Training Should Be Your 2026 Business Resolution">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/why-ai-training-should-be-your-2026-business-resolution">Why AI Training Should Be Your 2026 Business Resolution</a></h3>
                         <p class="blog-card-excerpt">Make AI training your top priority for 2026. Learn how AI boosts productivity, saves time, and keeps you competitive in the age of ChatGPT, Gemini, and Copil...</p>
@@ -373,6 +418,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/placeholder-ai-aroha.svg" alt="AI with Aroha -- How Māori Values Are Shaping the Future of Artificial Intelligence">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/ai-with-aroha--how-m-ori-values-are-shaping-the-future-of-artificial-intelligence">AI with Aroha -- How Māori Values Are Shaping the Future of Artificial Intelligence</a></h3>
                         <p class="blog-card-excerpt">Discover how kaupapa Māori and tikanga are guiding a new approach to AI ethics, automation, and leadership in Aotearoa -- and why the future of technology mu...</p>
@@ -386,6 +434,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/placeholder-2026-training.svg" alt="Plan Your 2026 Training: Māori Engagement, Wellbeing & Treaty Workshops">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/plan-your-2026-training--m-ori-engagement--wellbeing---treaty-workshops">Plan Your 2026 Training: Māori Engagement, Wellbeing & Treaty Workshops</a></h3>
                         <p class="blog-card-excerpt">The most effective organisations don't leave cultural training to chance. They plan for it - building it into their leadership calendar, budgeting for it in ...</p>
@@ -399,6 +450,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/placeholder-boards-tiriti.svg" alt="Why Boards Need Te Tiriti Training Before 2027">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/why-boards-need-te-tiriti-training-before-2027">Why Boards Need Te Tiriti Training Before 2027</a></h3>
                         <p class="blog-card-excerpt">Governance in Aotearoa New Zealand is changing. Boards are expected to show not only financial stewardship but also cultural integrity, social accountability...</p>
@@ -412,9 +466,12 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/placeholder-transactional-relational.svg" alt="From Transactional to Relational: What Cultural Investment Means for NZ Businesses">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/from-transactional-to-relational--what-cultural-investment-means-for-nz-businesses">From Transactional to Relational: What Cultural Investment Means for NZ Businesses</a></h3>
-                        <p class="blog-card-excerpt">Inclusion is no longer a \"tick-box\" exercise. For New Zealand businesses, investing in cultural capability is about more than compliance --- it's about build...</p>
+                        <p class="blog-card-excerpt">Inclusion is no longer a "tick-box" exercise. For New Zealand businesses, investing in cultural capability is about more than compliance --- it's about build...</p>
                         <div class="blog-card-meta">
                             <span class="blog-date">Sep 22, 2025</span>
                             <a href="/blog/from-transactional-to-relational--what-cultural-investment-means-for-nz-businesses" class="read-more">
@@ -425,6 +482,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/placeholder-hr-burnout.svg" alt="How HR Leaders Can Address Burnout with Indigenous Wellbeing Models">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/how-hr-leaders-can-address-burnout-with-indigenous-wellbeing-models">How HR Leaders Can Address Burnout with Indigenous Wellbeing Models</a></h3>
                         <p class="blog-card-excerpt">Burnout is no longer a fringe issue. It's one of the most pressing challenges facing workplaces today. For HR leaders, the signs are everywhere: staff turnov...</p>
@@ -438,6 +498,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/placeholder-smes-wellness.svg" alt="How SMEs Built Belonging Through Wellness on the Marae">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/how-smes-built-belonging-through-wellness-on-the-marae">How SMEs Built Belonging Through Wellness on the Marae</a></h3>
                         <p class="blog-card-excerpt">Many New Zealand SMEs want to build confident, culturally aware teams but do not know where to start. Leaders tell us they worry about getting it wrong or us...</p>
@@ -451,6 +514,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/placeholder-marae-workplace-inclusion.svg" alt="Why Marae-Based Training is the Future of Workplace Inclusion in New Zealand">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/why-marae-based-training-is-the-future-of-workplace-inclusion-in-new-zealand">Why Marae-Based Training is the Future of Workplace Inclusion in New Zealand</a></h3>
                         <p class="blog-card-excerpt">Workplace inclusion has become a business imperative in Aotearoa New Zealand. Organisations are under increasing pressure to create environments where people...</p>
@@ -464,6 +530,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/placeholder-wolfgramm-innovation.svg" alt="Wolfgramm Holdings: Where Indigenous Wisdom Powerfully Meets Future Innovation for Transformative Growth">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/wolfgramm-holdings-where-indigenous-wisdom-powerfully-meets-future-innovation-for-transformative-growth">Wolfgramm Holdings: Where Indigenous Wisdom Powerfully Meets Future Innovation for Transformative Growth</a></h3>
                         <p class="blog-card-excerpt"><figure id=\"figure-nomc1zrx5amf0ahwcu\"></p>
@@ -477,6 +546,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/93641e15acc0a0f04643d3dde5657f9e36ea6ad8.jpg" alt="Marae Day: Uniting Communities">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/marae-day-uniting-communities">Marae Day: Uniting Communities</a></h3>
                         <p class="blog-card-excerpt"><figure id=\"figure-6gqnarejykm7ky1h7q\"></p>
@@ -490,6 +562,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/3f1ce03d63ee7d4aea94292679ca0ae99b9dfa8f.jpg" alt="Marae: Inspiring Generations of New Zealanders">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/marae--inspiring-generations-of-new-zealanders">Marae: Inspiring Generations of New Zealanders</a></h3>
                         <p class="blog-card-excerpt">Marae are more than just meeting places; they are the spiritual and cultural heartbeat of Māori communities, carrying the wisdom of generations and shaping t...</p>
@@ -503,6 +578,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/e95d85e087605cc4b98484085f445e48898b58bf.jpg" alt="Marae: Indigenous Storytelling Is in Our DNA">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/marae-indigenous-storytelling-is-in-our-dna">Marae: Indigenous Storytelling Is in Our DNA</a></h3>
                         <p class="blog-card-excerpt">Storytelling, deeply rooted in Māori culture, serves as a vital tool for preserving history, transmitting knowledge, and promoting well-being.</p>
@@ -516,6 +594,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/e87ac4b075720ff5267b956a3e535f9c0a737e98.jpg" alt="30 Key Facts about Te Tiriti o Waitangi">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/key-facts-about-te-tiriti-o-waitangi">30 Key Facts about Te Tiriti o Waitangi</a></h3>
                         <p class="blog-card-excerpt"><figure id=\"figure-1gkgubk2upm6zrphq0\"></p>
@@ -529,6 +610,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/92ecafa1d34db4615980562fcf5763c4f9f65cb6.jpg" alt="Marae: Commercial Activities in Auckland & New Zealand">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/marae-commercial-activities-in-auckland-new-zealand">Marae: Commercial Activities in Auckland & New Zealand</a></h3>
                         <p class="blog-card-excerpt">Marae, the traditional meeting grounds of the Māori people, are deeply rooted in cultural heritage and serve as spiritual and communal hubs for Māori communi...</p>
@@ -542,6 +626,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/611553e94dfd4ad6e68b3e4a1988e95fd93dd01d.jpg" alt="Honouring Te Tiriti in Your Workplace">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/honouring-te-tiriti-in-your-workplace">Honouring Te Tiriti in Your Workplace</a></h3>
                         <p class="blog-card-excerpt"><figure id=\"figure-dl73gunghpm6psezek\"></p>
@@ -555,6 +642,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/318b5aec137eea46d1c9eefcced9c63ffd6d3b50.jpg" alt="Is Te Tiriti Still Relevant in Today's NZ?">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/is-te-tiriti-still-relevant-in-todays-nz">Is Te Tiriti Still Relevant in Today's NZ?</a></h3>
                         <p class="blog-card-excerpt">Te Tiriti o Waitangi, signed in 1840, is widely regarded as New Zealand's founding document and continues to serve as a living, dynamic agreement that underp...</p>
@@ -568,6 +658,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/e627cf281d93bfc8e312fe4ff72eed039a195123.jpg" alt="Te Tiriti Explained Further">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/te-tiriti-explained-further">Te Tiriti Explained Further</a></h3>
                         <p class="blog-card-excerpt"><figure id=\"figure-91i6hqbacvm6ojh4e7\"></p>
@@ -581,6 +674,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/1cae888f47325b99b8355b2231ccfa3f866634a9.jpg" alt="Challenging the Treaty Principles Bill">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/challenging-the-treaty-principles-bill">Challenging the Treaty Principles Bill</a></h3>
                         <p class="blog-card-excerpt"><figure id=\"figure-6bovik36m6kb3828\"></p>
@@ -594,6 +690,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/fa536f9bc56a445f95b5cafcbd523c22f9061530.jpg" alt="Reimagining Design in the Post-Anthropocene Era through an Indigenous Lens">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/reimagining-design-in-the-post-anthropocene-era-through-an-indigenous-lens">Reimagining Design in the Post-Anthropocene Era through an Indigenous Lens</a></h3>
                         <p class="blog-card-excerpt">The Post-Anthropocene Era represents a significant shift in how we view our relationship with the planet. This era acknowledges the impact humans have had on...</p>
@@ -607,6 +706,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/712e2cbbf0e935282a451aecf25d89c4af17b88b.jpg" alt="Matariki's Influence on Construction in New Zealand">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/matariki-s-influence-on-construction-in-new-zealand">Matariki\'s Influence on Construction in New Zealand</a></h3>
                         <p class="blog-card-excerpt">Matariki, the Māori New Year, holds great cultural importance in New Zealand. This celebration marks the rising of the Pleiades star cluster and signifies a ...</p>
@@ -620,6 +722,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/529aeffe8210f7ceb6e2326f08bfadd537211791.jpg" alt="Construction in NZ - Why Implementing Mātauranga Māori should be considered?">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/-construction-in-nz---why-implementing-m-tauranga-m-ori-should-be-considered">Construction in NZ - Why Implementing Mātauranga Māori should be considered?</a></h3>
                         <p class="blog-card-excerpt">Mātauranga Māori is a Māori knowledge system or global wisdom of the Māori people. It encompasses their worldview, values, and practices. This knowledge has ...</p>
@@ -633,6 +738,9 @@
                 </article>
 
                 <article class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="media/cff95792688c6e41d5add11c163aef51d01d8ad6.jpg" alt="An Indigenous Lens to Growing Better People">
+                    </div>
                     <div class="blog-card-content">
                         <h3><a href="/blog/an-indigenous-lens-to-growing-better-people">An Indigenous Lens to Growing Better People</a></h3>
                         <p class="blog-card-excerpt">Mātauranga Māori refers to the knowledge, global wisdom, and understanding of the Māori people. It encompasses their worldview, values, and practices. When a...</p>
@@ -665,6 +773,7 @@
                         <li><a href="../services">Services</a></li>
                         <li><a href="../workshops">Workshops</a></li>
                         <li><a href="../contact">Contact</a></li>
+                        <li><a href="../credits">Credits</a></li>
                     </ul>
                 </nav>
                 <div class="footer-bottom">
