@@ -59,6 +59,7 @@ class GoogleSheetsAPI {
   
   /**
    * Make POST request to Apps Script
+   * Uses JSON for better compatibility
    */
   async post(action, data) {
     try {
@@ -67,8 +68,11 @@ class GoogleSheetsAPI {
         ...data
       };
       
+      console.log('📤 POST Request:', action, payload);
+      
       const response = await fetch(this.baseUrl, {
         method: 'POST',
+        mode: 'cors', // Explicitly set CORS mode
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
@@ -76,11 +80,16 @@ class GoogleSheetsAPI {
         body: JSON.stringify(payload)
       });
       
+      console.log('📥 POST Response status:', response.status);
+      
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Response error:', errorText);
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
       
       const result = await response.json();
+      console.log('📊 POST Result:', result);
       
       if (!result.success) {
         throw new Error(result.error || 'Unknown error');
@@ -93,6 +102,12 @@ class GoogleSheetsAPI {
       
     } catch (error) {
       console.error('❌ API POST Error:', error);
+      
+      // Better error message for CORS issues
+      if (error.message.includes('Failed to fetch') || error.message.includes('CORS')) {
+        throw new Error(`Network error: ${action} failed. This might be a CORS issue. Try testing on your live website instead of localhost.`);
+      }
+      
       throw new Error(`Failed to ${action}: ${error.message}`);
     }
   }

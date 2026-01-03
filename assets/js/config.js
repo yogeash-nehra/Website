@@ -7,6 +7,7 @@
 const CONFIG = {
   // Google Apps Script API URL
   // Replace with your deployed Apps Script web app URL
+  // UPDATE THIS WITH YOUR NEW DEPLOYMENT URL AFTER CREATING FRESH DEPLOYMENT
   APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxr9yA3Z8SuVWtZ2jfdI7SQdWFy1qn05SUq4KEUgBZHbGbfrFIGIXeZtldzH2ktXmvM/exec',
   
   // Stripe Publishable Key (Test or Live)x
