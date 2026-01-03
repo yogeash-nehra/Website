@@ -16,7 +16,6 @@ function getConfiguration() {
     
     // Stripe Configuration
     // Get your secret key from: https://dashboard.stripe.com/test/apikeys
-    STRIPE_SECRET_KEY: 'xxx',
     STRIPE_API_VERSION: '2023-10-16',
     
     // Website URLs (update with your actual domain)

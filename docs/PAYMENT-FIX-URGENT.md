@@ -129,7 +129,7 @@ function getConfiguration() {
     BOOKINGS_SHEET: 'Bookings',
     
     // This should already be updated:
-    STRIPE_SECRET_KEY: 'xxx',
+ 
     
     // ... rest of config
   };
@@ -208,7 +208,6 @@ function getConfiguration() {
     BOOKINGS_SHEET: 'Bookings',
     
     // Stripe Configuration (already updated with your key)
-    STRIPE_SECRET_KEY: 'xxx',
     STRIPE_API_VERSION: '2023-10-16',
     
     // Website URLs
