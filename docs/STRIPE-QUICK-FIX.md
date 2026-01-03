@@ -1,3 +1,23 @@
+# 🎯 Quick Fix: Update Stripe in Apps Script
+
+## What You Need to Do (2 minutes)
+
+### ✅ Step 1: Frontend is Already Updated
+I've already updated `assets/js/config.js` with your **publishable key**. ✅
+
+### ⚠️ Step 2: Update Backend (You Need to Do This)
+
+Open your Google Apps Script and copy-paste this updated code:
+
+---
+
+## 📋 Copy This Entire Configuration.gs File
+
+**Go to:** [script.google.com](https://script.google.com) → Your project → **Configuration.gs**
+
+**Select ALL** (Ctrl+A) and **replace** with this:
+
+```javascript
 /**
  * Configuration settings for the booking system
  * IMPORTANT: Update these values with your actual credentials
@@ -14,8 +34,7 @@ function getConfiguration() {
     SCHEDULED_EVENTS_SHEET: 'Scheduled Events',
     BOOKINGS_SHEET: 'Bookings',
     
-    // Stripe Configuration
-    // Get your secret key from: https://dashboard.stripe.com/test/apikeys
+    // Stripe Configuration - UPDATED WITH YOUR KEYS
     STRIPE_SECRET_KEY: 'sk_test_51RHwYvRNR3TqkgX213XkigbvFoiNc2KKIbasqbhIZUHalF8mPUg0d2zpL9WiQnEnAMwmBL9LTbanWDqE04IDkKPC00XpT3sYhE',
     STRIPE_API_VERSION: '2023-10-16',
     
@@ -81,4 +100,63 @@ function validateConfiguration() {
   
   return true;
 }
+```
+
+---
+
+## 🚀 Step 3: Deploy New Version
+
+After pasting the code above:
+
+1. Click **💾 Save** (Ctrl+S)
+2. Click **Deploy** → **Manage deployments**
+3. Click the **✏️ Edit** icon
+4. Change **Version** dropdown to **"New version"**
+5. Description: "Updated Stripe keys"
+6. Click **Deploy**
+7. Click **Done**
+
+---
+
+## ✅ That's It!
+
+Now test your booking:
+
+1. Go to `workshops/booking.html`
+2. Fill out the form
+3. Click "Proceed to Payment"
+4. Use test card: **4242 4242 4242 4242**
+5. Should work! 🎉
+
+---
+
+## 📝 What Changed
+
+**Line 19 in Configuration.gs:**
+
+**Before:**
+```javascript
+STRIPE_SECRET_KEY: 'YOUR_STRIPE_SECRET_KEY_HERE',
+```
+
+**After:**
+```javascript
+STRIPE_SECRET_KEY: 'sk_test_51RHwYvRNR3TqkgX213XkigbvFoiNc2KKIbasqbhIZUHalF8mPUg0d2zpL9WiQnEnAMwmBL9LTbanWDqE04IDkKPC00XpT3sYhE',
+```
+
+---
+
+## 🧪 Test Card Details
+
+```
+Card Number: 4242 4242 4242 4242
+Expiry: 12/26
+CVC: 123
+ZIP: 12345
+Name: Test User
+```
+
+---
+
+**Need help?** Check `docs/STRIPE-UPDATE-GUIDE.md` for detailed troubleshooting!
 

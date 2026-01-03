@@ -64,16 +64,19 @@ class BookingForm {
   }
   
   /**
-   * Check URL parameters for pre-selected event
+   * Check URL parameters for pre-selected event or workshop
    */
   checkURLParams() {
     const urlParams = new URLSearchParams(window.location.search);
     const eventId = urlParams.get('event');
+    const workshopId = urlParams.get('workshop');
     
     if (eventId) {
       console.log('📌 Pre-selected event from URL:', eventId);
-      // Will select after workshops are loaded
       this.preSelectedEventId = eventId;
+    } else if (workshopId) {
+      console.log('📌 Pre-selected workshop from URL:', workshopId);
+      this.preSelectedWorkshopId = workshopId;
     }
   }
   
@@ -132,24 +135,93 @@ class BookingForm {
     // Sort events by date
     events.sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate));
     
-    events.forEach(event => {
-      const workshop = workshopMap[event.workshopId];
-      if (!workshop) return;
+    // If there's a pre-selected workshop, filter events first
+    let filteredEvents = events;
+    if (this.preSelectedWorkshopId) {
+      const workshopEvents = events.filter(e => e.workshopId === this.preSelectedWorkshopId);
       
-      const option = document.createElement('option');
-      option.value = event.eventId;
-      option.textContent = `${workshop.name} - ${this.formatDate(event.eventDate)} at ${event.eventTime}`;
-      option.dataset.available = event.availableSeats;
-      option.dataset.status = event.status;
-      
-      // Disable if sold out
-      if (event.availableSeats <= 0 || event.status !== 'Active') {
-        option.disabled = true;
-        option.textContent += ' (Sold Out)';
+      // Add optgroup for selected workshop
+      if (workshopEvents.length > 0) {
+        const selectedWorkshop = workshopMap[this.preSelectedWorkshopId];
+        const optgroup = document.createElement('optgroup');
+        optgroup.label = `${selectedWorkshop.name} (Recommended)`;
+        
+        workshopEvents.forEach(event => {
+          const option = this.createEventOption(event, workshopMap[event.workshopId]);
+          optgroup.appendChild(option);
+        });
+        
+        select.appendChild(optgroup);
       }
       
-      select.appendChild(option);
-    });
+      // Add separator
+      const separator = document.createElement('option');
+      separator.disabled = true;
+      separator.textContent = '───────────────────────';
+      select.appendChild(separator);
+      
+      // Add "Browse All Workshops" section
+      const allGroup = document.createElement('optgroup');
+      allGroup.label = 'Browse All Other Workshops';
+      
+      events.forEach(event => {
+        if (event.workshopId !== this.preSelectedWorkshopId) {
+          const option = this.createEventOption(event, workshopMap[event.workshopId]);
+          allGroup.appendChild(option);
+        }
+      });
+      
+      select.appendChild(allGroup);
+      
+    } else {
+      // No pre-selection, group by workshop type
+      const groupedEvents = {};
+      
+      events.forEach(event => {
+        if (!groupedEvents[event.workshopId]) {
+          groupedEvents[event.workshopId] = [];
+        }
+        groupedEvents[event.workshopId].push(event);
+      });
+      
+      // Create optgroups for each workshop
+      Object.keys(groupedEvents).forEach(workshopId => {
+        const workshop = workshopMap[workshopId];
+        if (!workshop) return;
+        
+        const optgroup = document.createElement('optgroup');
+        optgroup.label = workshop.name;
+        
+        groupedEvents[workshopId].forEach(event => {
+          const option = this.createEventOption(event, workshop);
+          optgroup.appendChild(option);
+        });
+        
+        select.appendChild(optgroup);
+      });
+    }
+  }
+  
+  /**
+   * Create an option element for an event
+   */
+  createEventOption(event, workshop) {
+    const option = document.createElement('option');
+    option.value = event.eventId;
+    option.textContent = `${this.formatDate(event.eventDate)} at ${event.eventTime}`;
+    option.dataset.available = event.availableSeats;
+    option.dataset.status = event.status;
+    option.dataset.workshopId = event.workshopId;
+    
+    // Add availability info
+    if (event.availableSeats <= 0 || event.status !== 'Active') {
+      option.disabled = true;
+      option.textContent += ' (Sold Out)';
+    } else if (event.availableSeats <= 5) {
+      option.textContent += ` (${event.availableSeats} seats left)`;
+    }
+    
+    return option;
   }
   
   /**

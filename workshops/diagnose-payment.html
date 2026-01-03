@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Diagnostic Tool</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #f5576c;
+            margin-bottom: 10px;
+        }
+        
+        .test-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ddd;
+        }
+        
+        .test-item.pass {
+            border-color: #4caf50;
+            background: #e8f5e9;
+        }
+        
+        .test-item.fail {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+        
+        .test-item.warn {
+            border-color: #ff9800;
+            background: #fff3e0;
+        }
+        
+        .test-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .test-result {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+        }
+        
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        .fix-section {
+            background: #fff3cd;
+            border: 2px solid #ff9800;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .fix-section h3 {
+            color: #ff9800;
+            margin-top: 0;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            border: 2px solid #4caf50;
+            padding: 20px;
+            border-radius: 10px;
+            color: #155724;
+            margin: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Payment Diagnostic Tool</h1>
+        <p style="color: #666; margin-bottom: 30px;">
+            This tool will diagnose why "Proceed to Payment" isn't working
+        </p>
+        
+        <button class="btn" onclick="runDiagnostics()">🔍 Run Diagnostics</button>
+        
+        <div id="results"></div>
+        <div id="fixes"></div>
+    </div>
+    
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/google-sheets-api.js"></script>
+    
+    <script>
+        async function runDiagnostics() {
+            const results = document.getElementById('results');
+            const fixes = document.getElementById('fixes');
+            results.innerHTML = '<h2>📊 Diagnostic Results</h2>';
+            fixes.innerHTML = '';
+            
+            const issues = [];
+            
+            // Test 1: Config loaded
+            const test1 = await testConfig();
+            results.innerHTML += createTestItem('Config File Loaded', test1.pass, test1.message);
+            if (!test1.pass) issues.push(test1.fix);
+            
+            // Test 2: API URL accessible
+            const test2 = await testAPIAccess();
+            results.innerHTML += createTestItem('Apps Script API Accessible', test2.pass, test2.message);
+            if (!test2.pass) issues.push(test2.fix);
+            
+            // Test 3: GET requests work
+            const test3 = await testGETRequests();
+            results.innerHTML += createTestItem('GET Requests Working', test3.pass, test3.message);
+            if (!test3.pass) issues.push(test3.fix);
+            
+            // Test 4: POST requests work
+            const test4 = await testPOSTRequests();
+            results.innerHTML += createTestItem('POST Requests Working (Critical!)', test4.pass, test4.message);
+            if (!test4.pass) issues.push(test4.fix);
+            
+            // Test 5: validateBooking endpoint
+            const test5 = await testValidateBooking();
+            results.innerHTML += createTestItem('validateBooking Endpoint', test5.pass, test5.message);
+            if (!test5.pass) issues.push(test5.fix);
+            
+            // Test 6: Stripe configuration
+            const test6 = await testStripeConfig();
+            results.innerHTML += createTestItem('Stripe Configuration', test6.pass, test6.message);
+            if (!test6.pass) issues.push(test6.fix);
+            
+            // Show fixes
+            if (issues.length > 0) {
+                fixes.innerHTML = '<div class="fix-section"><h3>🔧 Required Fixes</h3>' + 
+                    issues.map((fix, i) => `<p><strong>${i+1}.</strong> ${fix}</p>`).join('') +
+                    '</div>';
+            } else {
+                fixes.innerHTML = '<div class="success-message"><h3>🎉 All Tests Passed!</h3><p>Your system should be working. If it\'s still not, check browser console for errors.</p></div>';
+            }
+        }
+        
+        function createTestItem(name, pass, message) {
+            const status = pass ? 'pass' : 'fail';
+            const icon = pass ? '✅' : '❌';
+            return `
+                <div class="test-item ${status}">
+                    <div class="test-name">${icon} ${name}</div>
+                    <div class="test-result">${message}</div>
+                </div>
+            `;
+        }
+        
+        async function testConfig() {
+            if (typeof CONFIG === 'undefined') {
+                return {
+                    pass: false,
+                    message: 'CONFIG not defined. Check if config.js is loaded.',
+                    fix: 'Ensure config.js is loaded before other scripts'
+                };
+            }
+            
+            if (!CONFIG.APPS_SCRIPT_URL || CONFIG.APPS_SCRIPT_URL.includes('YOUR_')) {
+                return {
+                    pass: false,
+                    message: 'APPS_SCRIPT_URL not configured in config.js',
+                    fix: 'Update APPS_SCRIPT_URL in assets/js/config.js with your deployed script URL'
+                };
+            }
+            
+            return {
+                pass: true,
+                message: 'Config loaded successfully'
+            };
+        }
+        
+        async function testAPIAccess() {
+            try {
+                const response = await fetch(CONFIG.APPS_SCRIPT_URL + '?action=getWorkshops', {
+                    method: 'GET'
+                });
+                
+                if (!response.ok) {
+                    return {
+                        pass: false,
+                        message: `HTTP ${response.status}: ${response.statusText}`,
+                        fix: 'Verify Apps Script is deployed and accessible. Check deployment settings: Execute as "Me", Who has access "Anyone"'
+                    };
+                }
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    return {
+                        pass: false,
+                        message: data.error,
+                        fix: 'Check Apps Script logs for errors (View → Executions)'
+                    };
+                }
+                
+                return {
+                    pass: true,
+                    message: 'API is accessible'
+                };
+                
+            } catch (error) {
+                return {
+                    pass: false,
+                    message: error.message,
+                    fix: 'CORS or network error. Test on live website, not localhost. Or check if Apps Script URL is correct.'
+                };
+            }
+        }
+        
+        async function testGETRequests() {
+            try {
+                const workshops = await sheetsAPI.getWorkshops();
+                return {
+                    pass: true,
+                    message: `GET working. Found ${workshops.length} workshops.`
+                };
+            } catch (error) {
+                return {
+                    pass: false,
+                    message: error.message,
+                    fix: 'GET requests failing. Check Apps Script deployment and Sheet ID configuration.'
+                };
+            }
+        }
+        
+        async function testPOSTRequests() {
+            try {
+                const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'validateBooking',
+                        eventId: 'test-event',
+                        numSeats: 1
+                    })
+                });
+                
+                if (!response.ok) {
+                    return {
+                        pass: false,
+                        message: `POST request failed: HTTP ${response.status}`,
+                        fix: 'Apps Script may not be configured for POST requests. Verify doPost() function exists and deployment settings are correct.'
+                    };
+                }
+                
+                const data = await response.json();
+                
+                // Even if it errors (test event doesn't exist), if we got a JSON response, POST is working
+                if (data.error && data.error.includes('test-event')) {
+                    return {
+                        pass: true,
+                        message: 'POST working (test event not found is expected)'
+                    };
+                }
+                
+                return {
+                    pass: true,
+                    message: 'POST requests working'
+                };
+                
+            } catch (error) {
+                return {
+                    pass: false,
+                    message: 'POST failed: ' + error.message,
+                    fix: '🚨 CRITICAL: POST requests not working. This is why payment fails. Deploy NEW VERSION in Apps Script!'
+                };
+            }
+        }
+        
+        async function testValidateBooking() {
+            try {
+                // Get a real event first
+                const events = await sheetsAPI.getAllEvents();
+                
+                if (events.length === 0) {
+                    return {
+                        pass: false,
+                        message: 'No events found to test',
+                        fix: 'Add events to Google Sheets "Scheduled Events" tab'
+                    };
+                }
+                
+                const testEvent = events[0];
+                
+                // Try validateBooking
+                const result = await sheetsAPI.validateBooking(testEvent.eventId, 1);
+                
+                if (result && result.valid) {
+                    return {
+                        pass: true,
+                        message: `validateBooking working! Event ${testEvent.eventId} has ${result.availableSeats} seats.`
+                    };
+                }
+                
+                return {
+                    pass: false,
+                    message: 'validateBooking returned invalid response',
+                    fix: 'Check BookingService.validateBooking() in Apps Script'
+                };
+                
+            } catch (error) {
+                return {
+                    pass: false,
+                    message: '🚨 validateBooking FAILED: ' + error.message,
+                    fix: '🚨 THIS IS YOUR PROBLEM! Update Configuration.gs with SHEET_ID and deploy NEW VERSION in Apps Script'
+                };
+            }
+        }
+        
+        async function testStripeConfig() {
+            if (!CONFIG.STRIPE_PUBLISHABLE_KEY || CONFIG.STRIPE_PUBLISHABLE_KEY.includes('YOUR_')) {
+                return {
+                    pass: false,
+                    message: 'Stripe publishable key not configured',
+                    fix: 'Add Stripe publishable key to config.js'
+                };
+            }
+            
+            if (typeof Stripe === 'undefined') {
+                return {
+                    pass: false,
+                    message: 'Stripe.js not loaded',
+                    fix: 'Ensure Stripe.js script is loaded: <script src="https://js.stripe.com/v3/"></script>'
+                };
+            }
+            
+            try {
+                const stripe = Stripe(CONFIG.STRIPE_PUBLISHABLE_KEY);
+                return {
+                    pass: true,
+                    message: 'Stripe configured correctly'
+                };
+            } catch (error) {
+                return {
+                    pass: false,
+                    message: 'Invalid Stripe key: ' + error.message,
+                    fix: 'Check Stripe publishable key in config.js'
+                };
+            }
+        }
+        
+        // Auto-run on load
+        window.addEventListener('load', () => {
+            console.log('💡 Click "Run Diagnostics" to identify the issue');
+        });
+    </script>
+    
+    <!-- Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
+</body>
+</html>
+

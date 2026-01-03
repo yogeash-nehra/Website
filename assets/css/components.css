@@ -481,7 +481,7 @@
 /* Mission Section */
 .about-mission-section {
     background-color: #ffffff;
-    padding: 6rem 0;
+    padding: 5rem 0 3rem;
     position: relative;
 }
 
@@ -514,21 +514,29 @@
 /* Founder Section */
 .founder-section {
     background-color: #ffffff;
-    padding: 6rem 0;
+    padding: 3rem 0 5rem;
 }
 
 .founder-wrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2fr 3fr;
     gap: 4rem;
     align-items: center;
+}
+
+.founder-image {
+    max-width: 380px;
+    margin: 0 auto;
 }
 
 .founder-image img {
     width: 100%;
     height: auto;
+    max-height: 480px;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
+    aspect-ratio: 2/3;
+    object-fit: cover;
 }
 
 .founder-content h2 {
@@ -686,11 +694,16 @@
     padding: 2.5rem;
     border-radius: var(--radius-lg);
     transition: var(--transition-base);
+    display: block;
+    text-decoration: none;
+    color: inherit;
 }
 
 .service-overview-card:hover {
     background-color: #e8e8e8;
     transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 
 .service-overview-card h3 {
@@ -794,6 +807,10 @@
     .approach-wrapper {
         grid-template-columns: 1fr;
         gap: 2rem;
+    }
+    
+    .founder-image {
+        max-width: 300px;
     }
     
     .values-grid {

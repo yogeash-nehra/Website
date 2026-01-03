@@ -617,6 +617,7 @@ img {
     padding-top: 5rem;
     padding-bottom: 6rem;
     margin-top: -5rem;
+    scroll-margin-top: 150px;
 }
 
 @media (min-width: 1024px) {
@@ -694,6 +695,12 @@ img {
     object-position: center;
     color: #000000;
     display: block;
+}
+
+/* Scale up the New Zealand icon for better visibility */
+img[src*="relational-engagement"],
+img[src*="service-relational-1"] {
+    transform: scale(1.4);
 }
 
 .service-card-content {

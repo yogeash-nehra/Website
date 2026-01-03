@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking System Test Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .test-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .test-section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 5px;
+            font-weight: 600;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        #results {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 10px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 500px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        #results.show {
+            display: block;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .status.loading {
+            background: #ffc107;
+            color: #000;
+        }
+        
+        .status.success {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .status.error {
+            background: #f44336;
+            color: white;
+        }
+        
+        .link-test {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .link-test code {
+            background: #e9ecef;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Booking System Test Console</h1>
+        <p class="subtitle">Validate your booking system configuration and test all endpoints</p>
+        
+        <!-- Quick Tests -->
+        <div class="test-section">
+            <h2>🚀 Quick Tests</h2>
+            <button class="btn" onclick="runFullValidation()">
+                Run Complete Validation
+            </button>
+            <button class="btn btn-secondary" onclick="testWorkshops()">
+                Test getWorkshops
+            </button>
+            <button class="btn btn-success" onclick="testEvents()">
+                Test getAllEvents
+            </button>
+        </div>
+        
+        <!-- Direct API Tests -->
+        <div class="test-section">
+            <h2>🔗 Direct API Tests</h2>
+            <div class="link-test">
+                <span>Test getWorkshops endpoint</span>
+                <button class="btn" onclick="openAPI('getWorkshops')" style="padding: 8px 16px;">Open in Browser</button>
+            </div>
+            <div class="link-test">
+                <span>Test getAllEvents endpoint</span>
+                <button class="btn" onclick="openAPI('getAllEvents')" style="padding: 8px 16px;">Open in Browser</button>
+            </div>
+            <div class="link-test">
+                <span>Test checkAvailability (event-1)</span>
+                <button class="btn" onclick="openAPI('checkAvailability')" style="padding: 8px 16px;">Open in Browser</button>
+            </div>
+        </div>
+        
+        <!-- Booking Page Links -->
+        <div class="test-section">
+            <h2>📝 Test Booking Page Links</h2>
+            <div class="link-test">
+                <span>General booking page</span>
+                <button class="btn" onclick="window.open('booking.html', '_blank')" style="padding: 8px 16px;">Open</button>
+            </div>
+            <div class="link-test">
+                <span>Workshop: service-10 (Tech & AI)</span>
+                <button class="btn" onclick="window.open('booking.html?workshop=service-10', '_blank')" style="padding: 8px 16px;">Open</button>
+            </div>
+            <div class="link-test">
+                <span>Event: event-1</span>
+                <button class="btn" onclick="window.open('booking.html?event=event-1', '_blank')" style="padding: 8px 16px;">Open</button>
+            </div>
+        </div>
+        
+        <!-- Results Console -->
+        <div id="results"></div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/google-sheets-api.js"></script>
+    <script src="../assets/js/booking-system-validator.js"></script>
+    
+    <script>
+        const results = document.getElementById('results');
+        
+        function showResults(text) {
+            results.classList.add('show');
+            results.textContent = text;
+        }
+        
+        async function runFullValidation() {
+            showResults('🔄 Running full validation...\n\nPlease wait...');
+            
+            try {
+                const result = await validateBookingSystem();
+                
+                let output = '='.repeat(60) + '\n';
+                output += '📊 VALIDATION COMPLETE\n';
+                output += '='.repeat(60) + '\n\n';
+                
+                if (result.successes.length > 0) {
+                    output += '✅ PASSED:\n';
+                    result.successes.forEach(s => output += '  ' + s + '\n');
+                    output += '\n';
+                }
+                
+                if (result.warnings.length > 0) {
+                    output += '⚠️  WARNINGS:\n';
+                    result.warnings.forEach(w => output += '  ' + w + '\n');
+                    output += '\n';
+                }
+                
+                if (result.errors.length > 0) {
+                    output += '❌ ERRORS:\n';
+                    result.errors.forEach(e => output += '  ' + e + '\n');
+                    output += '\n';
+                }
+                
+                if (result.passed) {
+                    output += '🎉 ALL CHECKS PASSED! Your system is ready.\n';
+                } else {
+                    output += '⚠️  Please fix errors above before going live.\n';
+                }
+                
+                showResults(output);
+            } catch (error) {
+                showResults('❌ Validation failed:\n\n' + error.message);
+            }
+        }
+        
+        async function testWorkshops() {
+            showResults('🔄 Testing getWorkshops endpoint...\n');
+            
+            try {
+                const workshops = await sheetsAPI.getWorkshops();
+                
+                let output = '✅ SUCCESS! Retrieved ' + workshops.length + ' workshops:\n\n';
+                output += JSON.stringify(workshops, null, 2);
+                
+                showResults(output);
+            } catch (error) {
+                showResults('❌ ERROR:\n\n' + error.message + '\n\n' + error.stack);
+            }
+        }
+        
+        async function testEvents() {
+            showResults('🔄 Testing getAllEvents endpoint...\n');
+            
+            try {
+                const events = await sheetsAPI.getAllEvents();
+                
+                let output = '✅ SUCCESS! Retrieved ' + events.length + ' events:\n\n';
+                output += JSON.stringify(events, null, 2);
+                
+                showResults(output);
+            } catch (error) {
+                showResults('❌ ERROR:\n\n' + error.message + '\n\n' + error.stack);
+            }
+        }
+        
+        function openAPI(action) {
+            if (!CONFIG || !CONFIG.APPS_SCRIPT_URL) {
+                alert('❌ CONFIG.APPS_SCRIPT_URL not configured! Check config.js');
+                return;
+            }
+            
+            let url = CONFIG.APPS_SCRIPT_URL + '?action=' + action;
+            
+            if (action === 'checkAvailability') {
+                url += '&eventId=event-1';
+            }
+            
+            window.open(url, '_blank');
+        }
+        
+        // Auto-run validation on load
+        window.addEventListener('load', () => {
+            console.log('🧪 Test console loaded');
+            console.log('💡 Click "Run Complete Validation" to start testing');
+        });
+    </script>
+</body>
+</html>
+

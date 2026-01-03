@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple POST Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .error {
+            background: #f44336;
+        }
+        .error:hover {
+            background: #da190b;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .failure {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-box">
+        <h1>🧪 Apps Script POST Request Tester</h1>
+        <p>This will test if your Apps Script can handle POST requests</p>
+        
+        <button onclick="testGET()">Test GET (getWorkshops)</button>
+        <button onclick="testPOST()">Test POST (validateBooking)</button>
+        <button onclick="testPOSTWithFetch()" class="error">Test POST (Raw Fetch)</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/google-sheets-api.js"></script>
+    
+    <script>
+        const resultDiv = document.getElementById('result');
+        
+        function showResult(message, type = 'info') {
+            resultDiv.className = type;
+            resultDiv.textContent = message;
+            resultDiv.style.display = 'block';
+        }
+        
+        async function testGET() {
+            showResult('Testing GET request...', 'info');
+            
+            try {
+                const workshops = await sheetsAPI.getWorkshops();
+                showResult(
+                    '✅ GET Request SUCCESS!\n\n' +
+                    `Found ${workshops.length} workshops:\n` +
+                    JSON.stringify(workshops[0], null, 2),
+                    'success'
+                );
+            } catch (error) {
+                showResult(
+                    '❌ GET Request FAILED!\n\n' +
+                    'Error: ' + error.message + '\n\n' +
+                    'Stack: ' + error.stack,
+                    'failure'
+                );
+            }
+        }
+        
+        async function testPOST() {
+            showResult('Testing POST request via sheetsAPI...', 'info');
+            
+            try {
+                // First get a real event ID
+                const events = await sheetsAPI.getAllEvents();
+                
+                if (events.length === 0) {
+                    showResult(
+                        '⚠️ No events found in your sheet!\n\n' +
+                        'Add events to "Scheduled Events" sheet first.',
+                        'failure'
+                    );
+                    return;
+                }
+                
+                const eventId = events[0].eventId;
+                
+                showResult(`Testing with event: ${eventId}...`, 'info');
+                
+                // Try validateBooking
+                const result = await sheetsAPI.validateBooking(eventId, 1);
+                
+                showResult(
+                    '✅ POST Request SUCCESS!\n\n' +
+                    'validateBooking response:\n' +
+                    JSON.stringify(result, null, 2) + '\n\n' +
+                    '🎉 Your booking system should work!',
+                    'success'
+                );
+                
+            } catch (error) {
+                showResult(
+                    '❌ POST Request FAILED!\n\n' +
+                    'Error: ' + error.message + '\n\n' +
+                    'This is why "Proceed to Payment" fails!\n\n' +
+                    'Possible causes:\n' +
+                    '1. Sheet ID not configured in Apps Script Configuration.gs\n' +
+                    '2. Apps Script not deployed as NEW VERSION\n' +
+                    '3. POST requests blocked by Apps Script settings\n\n' +
+                    'Full error:\n' + error.stack,
+                    'failure'
+                );
+            }
+        }
+        
+        async function testPOSTWithFetch() {
+            showResult('Testing POST with raw fetch...', 'info');
+            
+            try {
+                const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'validateBooking',
+                        eventId: 'event-1',
+                        numSeats: 1
+                    })
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                
+                const text = await response.text();
+                console.log('Response text:', text);
+                
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    showResult(
+                        '❌ Response is not JSON!\n\n' +
+                        'Status: ' + response.status + '\n' +
+                        'Response: ' + text.substring(0, 500) + '\n\n' +
+                        'This means Apps Script is not responding correctly.\n' +
+                        'Check deployment settings!',
+                        'failure'
+                    );
+                    return;
+                }
+                
+                if (!response.ok) {
+                    showResult(
+                        '❌ HTTP Error!\n\n' +
+                        'Status: ' + response.status + '\n' +
+                        'Response: ' + JSON.stringify(data, null, 2),
+                        'failure'
+                    );
+                    return;
+                }
+                
+                if (data.error) {
+                    showResult(
+                        '⚠️ POST reached Apps Script but returned error:\n\n' +
+                        'Error: ' + data.error + '\n\n' +
+                        'This is actually GOOD! It means POST works, but:\n' +
+                        '- Sheet ID might be wrong\n' +
+                        '- Event ID doesn\'t exist\n' +
+                        '- Sheet structure is wrong',
+                        'failure'
+                    );
+                    return;
+                }
+                
+                showResult(
+                    '✅ Raw POST Request SUCCESS!\n\n' +
+                    'Response:\n' +
+                    JSON.stringify(data, null, 2),
+                    'success'
+                );
+                
+            } catch (error) {
+                showResult(
+                    '❌ Raw POST Request FAILED!\n\n' +
+                    'Error: ' + error.message + '\n\n' +
+                    'This is a network/CORS error.\n\n' +
+                    'Causes:\n' +
+                    '1. Testing on localhost (use live site or Live Server)\n' +
+                    '2. Apps Script URL wrong\n' +
+                    '3. Apps Script deployment settings wrong\n\n' +
+                    'Full error:\n' + error.stack,
+                    'failure'
+                );
+            }
+        }
+        
+        // Auto-test on load
+        window.addEventListener('load', () => {
+            console.log('POST Tester loaded');
+            console.log('Apps Script URL:', CONFIG.APPS_SCRIPT_URL);
+        });
+    </script>
+</body>
+</html>
+

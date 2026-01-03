@@ -7,11 +7,11 @@
 const CONFIG = {
   // Google Apps Script API URL
   // Replace with your deployed Apps Script web app URL
-  APPS_SCRIPT_URL: 'https://script.google.com/macros/u/1/s/AKfycbygus9oG-bWgLXt-s6fzidQa8twZ4h8YQT8uaiVf0mXJkhd-e6QeaiPTnYdt6RKi5Gs/exec',
+  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxr9yA3Z8SuVWtZ2jfdI7SQdWFy1qn05SUq4KEUgBZHbGbfrFIGIXeZtldzH2ktXmvM/exec',
   
-  // Stripe Publishable Key (Test or Live)
+  // Stripe Publishable Key (Test or Live)x
   // Get this from: https://dashboard.stripe.com/test/apikeys
-  STRIPE_PUBLISHABLE_KEY: 'pk_test_51RHwYhEswbzoFS7mmL1ZQtJxsnQXv4cBI5K7LCFkEHTN5dCrDd0jsoisaDX3MRjAHEzmYRB54lXjy0pN5RP2Ui0F005bO3Zz3c',
+  STRIPE_PUBLISHABLE_KEY: 'pk_test_51RHwYvRNR3TqkgX2E9bltf998OhHgB5TwggSkUT5UcE2KrLepDtCaKTPlGqWLuyaAUa1qoairh2jL8M1cHkKeMc5002RALTePx',
   
   // Business Information
   BUSINESS_NAME: 'Wolfgramm Holdings',
