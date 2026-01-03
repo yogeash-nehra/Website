@@ -59,28 +59,36 @@ class GoogleSheetsAPI {
   
   /**
    * Make POST request to Apps Script
-   * Uses JSON for better compatibility
+   * Uses URL parameters to avoid CORS preflight issues
    */
   async post(action, data) {
     try {
-      const payload = {
-        action: action,
-        ...data
-      };
+      // Build URL with query parameters instead of JSON body
+      const url = new URL(this.baseUrl);
+      url.searchParams.append('action', action);
       
-      console.log('📤 POST Request:', action, payload);
-      
-      const response = await fetch(this.baseUrl, {
-        method: 'POST',
-        mode: 'cors', // Explicitly set CORS mode
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(payload)
+      // Add all data as URL parameters
+      Object.keys(data).forEach(key => {
+        const value = data[key];
+        // Handle nested objects by stringifying them
+        if (typeof value === 'object' && value !== null) {
+          url.searchParams.append(key, JSON.stringify(value));
+        } else {
+          url.searchParams.append(key, value);
+        }
       });
       
-      console.log('📥 POST Response status:', response.status);
+      console.log('📤 POST Request:', action, data);
+      
+      // Use GET method with POST-like parameters to avoid CORS preflight
+      const response = await fetch(url.toString(), {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      console.log('📥 Response status:', response.status);
       
       if (!response.ok) {
         const errorText = await response.text();
@@ -89,25 +97,19 @@ class GoogleSheetsAPI {
       }
       
       const result = await response.json();
-      console.log('📊 POST Result:', result);
+      console.log('📊 Result:', result);
       
       if (!result.success) {
         throw new Error(result.error || 'Unknown error');
       }
       
-      // Clear cache on successful POST (data has changed)
+      // Clear cache on successful request (data might have changed)
       this.clearCache();
       
       return result.data;
       
     } catch (error) {
-      console.error('❌ API POST Error:', error);
-      
-      // Better error message for CORS issues
-      if (error.message.includes('Failed to fetch') || error.message.includes('CORS')) {
-        throw new Error(`Network error: ${action} failed. This might be a CORS issue. Try testing on your live website instead of localhost.`);
-      }
-      
+      console.error('❌ API Error:', error);
       throw new Error(`Failed to ${action}: ${error.message}`);
     }
   }

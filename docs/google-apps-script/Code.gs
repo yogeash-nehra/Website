@@ -1,6 +1,6 @@
 /**
  * Main entry point for GET requests
- * Handles: getWorkshops, getEvents, checkAvailability
+ * Handles: getWorkshops, getEvents, checkAvailability, validateBooking, createCheckoutSession
  */
 function doGet(e) {
   // Enable CORS
@@ -11,7 +11,7 @@ function doGet(e) {
     const action = e.parameter.action;
     
     if (!action) {
-      return createResponse({ error: 'Action parameter required' }, 400);
+      return createResponse({ success: false, error: 'Action parameter required' });
     }
     
     let result;
@@ -24,7 +24,7 @@ function doGet(e) {
       case 'getEvents':
         const workshopId = e.parameter.workshopId;
         if (!workshopId) {
-          return createResponse({ error: 'workshopId parameter required' }, 400);
+          return createResponse({ success: false, error: 'workshopId parameter required' });
         }
         result = WorkshopService.getEventsByWorkshop(workshopId);
         break;
@@ -32,7 +32,7 @@ function doGet(e) {
       case 'checkAvailability':
         const eventId = e.parameter.eventId;
         if (!eventId) {
-          return createResponse({ error: 'eventId parameter required' }, 400);
+          return createResponse({ success: false, error: 'eventId parameter required' });
         }
         result = WorkshopService.checkAvailability(eventId);
         break;
@@ -41,15 +41,57 @@ function doGet(e) {
         result = WorkshopService.getAllScheduledEvents();
         break;
         
+      case 'validateBooking':
+        // Handle validateBooking via GET to avoid CORS preflight
+        if (!e.parameter.eventId) {
+          return createResponse({ success: false, error: 'Event ID required' });
+        }
+        const numSeats = parseInt(e.parameter.numSeats) || 1;
+        result = BookingService.validateBooking(
+          e.parameter.eventId,
+          numSeats
+        );
+        break;
+        
+      case 'createCheckoutSession':
+        // Handle createCheckoutSession via GET to avoid CORS preflight
+        if (!e.parameter.eventId || !e.parameter.customerData) {
+          return createResponse({ success: false, error: 'Missing required fields' });
+        }
+        
+        // Parse customerData if it's a JSON string
+        let customerData = e.parameter.customerData;
+        if (typeof customerData === 'string') {
+          try {
+            customerData = JSON.parse(customerData);
+          } catch (parseError) {
+            return createResponse({ success: false, error: 'Invalid customerData format' });
+          }
+        }
+        
+        result = StripeService.createCheckoutSession(
+          e.parameter.eventId,
+          customerData
+        );
+        break;
+        
+      case 'confirmBooking':
+        // Handle confirmBooking via GET
+        if (!e.parameter.sessionId) {
+          return createResponse({ success: false, error: 'Session ID required' });
+        }
+        result = BookingService.confirmBooking(e.parameter.sessionId);
+        break;
+        
       default:
-        return createResponse({ error: 'Invalid action' }, 400);
+        return createResponse({ success: false, error: 'Invalid action: ' + action });
     }
     
     return createResponse({ success: true, data: result });
     
   } catch (error) {
     Logger.log('Error in doGet: ' + error.toString());
-    return createResponse({ error: error.toString() }, 500);
+    return createResponse({ success: false, error: error.toString() });
   }
 }
 
