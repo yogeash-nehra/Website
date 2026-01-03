@@ -1,12 +1,8 @@
 /**
  * Main entry point for GET requests
- * Handles: getWorkshops, getEvents, checkAvailability, validateBooking, createCheckoutSession
+ * Handles: getWorkshops, getEvents, checkAvailability, getAllEvents
  */
 function doGet(e) {
-  // Enable CORS
-  const output = ContentService.createTextOutput();
-  output.setMimeType(ContentService.MimeType.JSON);
-  
   try {
     const action = e.parameter.action;
     
@@ -41,48 +37,6 @@ function doGet(e) {
         result = WorkshopService.getAllScheduledEvents();
         break;
         
-      case 'validateBooking':
-        // Handle validateBooking via GET to avoid CORS preflight
-        if (!e.parameter.eventId) {
-          return createResponse({ success: false, error: 'Event ID required' });
-        }
-        const numSeats = parseInt(e.parameter.numSeats) || 1;
-        result = BookingService.validateBooking(
-          e.parameter.eventId,
-          numSeats
-        );
-        break;
-        
-      case 'createCheckoutSession':
-        // Handle createCheckoutSession via GET to avoid CORS preflight
-        if (!e.parameter.eventId || !e.parameter.customerData) {
-          return createResponse({ success: false, error: 'Missing required fields' });
-        }
-        
-        // Parse customerData if it's a JSON string
-        let customerData = e.parameter.customerData;
-        if (typeof customerData === 'string') {
-          try {
-            customerData = JSON.parse(customerData);
-          } catch (parseError) {
-            return createResponse({ success: false, error: 'Invalid customerData format' });
-          }
-        }
-        
-        result = StripeService.createCheckoutSession(
-          e.parameter.eventId,
-          customerData
-        );
-        break;
-        
-      case 'confirmBooking':
-        // Handle confirmBooking via GET
-        if (!e.parameter.sessionId) {
-          return createResponse({ success: false, error: 'Session ID required' });
-        }
-        result = BookingService.confirmBooking(e.parameter.sessionId);
-        break;
-        
       default:
         return createResponse({ success: false, error: 'Invalid action: ' + action });
     }
@@ -97,21 +51,12 @@ function doGet(e) {
 
 /**
  * Main entry point for POST requests
- * Handles both JSON and form-encoded data
+ * Handles form-encoded data (no CORS preflight!)
  */
 function doPost(e) {
   try {
-    let requestData;
-    
-    // Check if it's JSON or form data
-    if (e.postData && e.postData.type === 'application/json') {
-      // JSON request (from fetch API)
-      requestData = JSON.parse(e.postData.contents);
-    } else {
-      // Form-encoded or parameter request
-      requestData = e.parameter;
-    }
-    
+    // e.parameter contains form-encoded data
+    const requestData = e.parameter;
     const action = requestData.action;
     
     if (!action) {
@@ -121,23 +66,6 @@ function doPost(e) {
     let result;
     
     switch(action) {
-      case 'createCheckoutSession':
-        if (!requestData.eventId || !requestData.customerData) {
-          return createResponse({ success: false, error: 'Missing required fields' });
-        }
-        result = StripeService.createCheckoutSession(
-          requestData.eventId,
-          requestData.customerData
-        );
-        break;
-        
-      case 'confirmBooking':
-        if (!requestData.sessionId) {
-          return createResponse({ success: false, error: 'Session ID required' });
-        }
-        result = BookingService.confirmBooking(requestData.sessionId);
-        break;
-        
       case 'validateBooking':
         if (!requestData.eventId) {
           return createResponse({ success: false, error: 'Event ID required' });
@@ -147,6 +75,34 @@ function doPost(e) {
           requestData.eventId,
           numSeats
         );
+        break;
+        
+      case 'createCheckoutSession':
+        if (!requestData.eventId || !requestData.customerData) {
+          return createResponse({ success: false, error: 'Missing required fields' });
+        }
+        
+        // Parse customerData if it's a JSON string
+        let customerData = requestData.customerData;
+        if (typeof customerData === 'string') {
+          try {
+            customerData = JSON.parse(customerData);
+          } catch (parseError) {
+            return createResponse({ success: false, error: 'Invalid customerData format' });
+          }
+        }
+        
+        result = StripeService.createCheckoutSession(
+          requestData.eventId,
+          customerData
+        );
+        break;
+        
+      case 'confirmBooking':
+        if (!requestData.sessionId) {
+          return createResponse({ success: false, error: 'Session ID required' });
+        }
+        result = BookingService.confirmBooking(requestData.sessionId);
         break;
         
       default:

@@ -59,33 +59,34 @@ class GoogleSheetsAPI {
   
   /**
    * Make POST request to Apps Script
-   * Uses URL parameters to avoid CORS preflight issues
+   * Uses simple form-encoded POST to avoid CORS preflight
    */
   async post(action, data) {
     try {
-      // Build URL with query parameters instead of JSON body
-      const url = new URL(this.baseUrl);
-      url.searchParams.append('action', action);
+      console.log('📤 POST Request:', action, data);
       
-      // Add all data as URL parameters
+      // Build form data (application/x-www-form-urlencoded)
+      const formData = new URLSearchParams();
+      formData.append('action', action);
+      
+      // Add all data as form fields
       Object.keys(data).forEach(key => {
         const value = data[key];
         // Handle nested objects by stringifying them
         if (typeof value === 'object' && value !== null) {
-          url.searchParams.append(key, JSON.stringify(value));
+          formData.append(key, JSON.stringify(value));
         } else {
-          url.searchParams.append(key, value);
+          formData.append(key, value);
         }
       });
       
-      console.log('📤 POST Request:', action, data);
-      
-      // Use GET method with POST-like parameters to avoid CORS preflight
-      const response = await fetch(url.toString(), {
-        method: 'GET',
+      // Use POST with form-encoded data (no CORS preflight!)
+      const response = await fetch(this.baseUrl, {
+        method: 'POST',
         headers: {
-          'Accept': 'application/json'
-        }
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: formData.toString()
       });
       
       console.log('📥 Response status:', response.status);
