@@ -35,7 +35,7 @@ function getConfiguration() {
     BOOKINGS_SHEET: 'Bookings',
     
     // Stripe Configuration - UPDATED WITH YOUR KEYS
-    STRIPE_SECRET_KEY: 'sk_test_51RHwYvRNR3TqkgX213XkigbvFoiNc2KKIbasqbhIZUHalF8mPUg0d2zpL9WiQnEnAMwmBL9LTbanWDqE04IDkKPC00XpT3sYhE',
+    STRIPE_SECRET_KEY: 'xxx',
     STRIPE_API_VERSION: '2023-10-16',
     
     // Website URLs (update with your actual domain)
@@ -141,7 +141,7 @@ STRIPE_SECRET_KEY: 'YOUR_STRIPE_SECRET_KEY_HERE',
 
 **After:**
 ```javascript
-STRIPE_SECRET_KEY: 'sk_test_51RHwYvRNR3TqkgX213XkigbvFoiNc2KKIbasqbhIZUHalF8mPUg0d2zpL9WiQnEnAMwmBL9LTbanWDqE04IDkKPC00XpT3sYhE',
+STRIPE_SECRET_KEY: 'xxx',
 ```
 
 ---
