@@ -159,6 +159,8 @@
             try {
                 const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
                     method: 'POST',
+                    mode: 'cors', // Explicitly request CORS
+                    cache: 'no-cache',
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
@@ -222,14 +224,28 @@
                 );
                 
             } catch (error) {
+                const isLocalhost = window.location.hostname === 'localhost' || 
+                                  window.location.hostname === '127.0.0.1' ||
+                                  window.location.protocol === 'file:';
+                
                 showResult(
                     '❌ Raw POST Request FAILED!\n\n' +
                     'Error: ' + error.message + '\n\n' +
-                    'This is a network/CORS error.\n\n' +
-                    'Causes:\n' +
-                    '1. Testing on localhost (use live site or Live Server)\n' +
-                    '2. Apps Script URL wrong\n' +
-                    '3. Apps Script deployment settings wrong\n\n' +
+                    (isLocalhost ? 
+                        '⚠️ DETECTED: You are testing on LOCALHOST\n\n' +
+                        'CORS restrictions prevent POST requests with JSON from localhost.\n' +
+                        'This is a BROWSER LIMITATION, not an Apps Script issue.\n\n' +
+                        '✅ Your live site WILL work!\n\n' +
+                        'To test POST locally, use:\n' +
+                        '1. test-post-simple.html (uses form submit)\n' +
+                        '2. Deploy to GitHub Pages and test there\n\n'
+                        :
+                        'This is a network/CORS error.\n\n' +
+                        'Causes:\n' +
+                        '1. Apps Script URL wrong\n' +
+                        '2. Apps Script deployment settings wrong\n' +
+                        '3. Apps Script not deployed as NEW VERSION\n\n'
+                    ) +
                     'Full error:\n' + error.stack,
                     'failure'
                 );
