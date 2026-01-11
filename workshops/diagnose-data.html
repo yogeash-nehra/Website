@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Diagnostic Tool</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+        h1 {
+            color: #4ec9b0;
+        }
+        .section {
+            background: #252526;
+            border-left: 4px solid #4ec9b0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .error {
+            border-left-color: #f48771;
+        }
+        .success {
+            border-left-color: #89d185;
+        }
+        .warning {
+            border-left-color: #dcdcaa;
+        }
+        button {
+            background: #0e639c;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 10px 10px 10px 0;
+        }
+        button:hover {
+            background: #1177bb;
+        }
+        pre {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            border: 1px solid #3c3c3c;
+        }
+        .match { color: #89d185; }
+        .mismatch { color: #f48771; }
+        .info { color: #4fc1ff; }
+        .item {
+            padding: 8px;
+            margin: 5px 0;
+            background: #1e1e1e;
+            border-radius: 3px;
+        }
+        #loading {
+            display: none;
+            color: #dcdcaa;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Workshop Data Diagnostic Tool</h1>
+    <p>This tool helps diagnose data mismatches between your Workshop Catalog and Scheduled Events.</p>
+
+    <div>
+        <button onclick="runDiagnostic()">🚀 Run Full Diagnostic</button>
+        <button onclick="testWorkshops()">📦 Test Workshops API</button>
+        <button onclick="testEvents()">📅 Test Events API</button>
+        <button onclick="clearResults()">🗑️ Clear Results</button>
+    </div>
+
+    <div id="loading">⏳ Running diagnostic...</div>
+    
+    <div id="results"></div>
+
+    <!-- Load dependencies -->
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/google-sheets-api.js"></script>
+
+    <script>
+        const results = document.getElementById('results');
+        const loading = document.getElementById('loading');
+
+        function clearResults() {
+            results.innerHTML = '';
+        }
+
+        function showLoading(show) {
+            loading.style.display = show ? 'block' : 'none';
+        }
+
+        function addSection(title, content, type = 'section') {
+            const section = document.createElement('div');
+            section.className = `section ${type}`;
+            section.innerHTML = `<h2>${title}</h2>${content}`;
+            results.appendChild(section);
+        }
+
+        async function testWorkshops() {
+            showLoading(true);
+            clearResults();
+
+            try {
+                const workshops = await sheetsAPI.getWorkshops();
+                
+                if (!workshops || workshops.length === 0) {
+                    addSection(
+                        '❌ No Workshops Found',
+                        `<p>Your "Workshop Catalog" sheet is either empty or all workshops have Status != "Active"</p>
+                        <p><strong>Solution:</strong> Add workshops to your Google Sheet with Status = "Active"</p>`,
+                        'error'
+                    );
+                } else {
+                    let html = `<p class="success">✅ Found ${workshops.length} active workshop(s)</p>`;
+                    html += '<div>';
+                    
+                    workshops.forEach(w => {
+                        html += `
+                            <div class="item">
+                                <strong class="match">${w.workshopId}</strong>
+                                <div>Name: ${w.name || 'MISSING'}</div>
+                                <div>Price: $${w.price} ${w.currency || 'NZD'}</div>
+                                <div>Status: ${w.status}</div>
+                            </div>
+                        `;
+                    });
+                    
+                    html += '</div>';
+                    html += `<pre>${JSON.stringify(workshops, null, 2)}</pre>`;
+                    
+                    addSection('📦 Workshop Catalog Data', html, 'success');
+                }
+            } catch (error) {
+                addSection(
+                    '❌ Error Loading Workshops',
+                    `<p>${error.message}</p>
+                    <p><strong>Possible causes:</strong></p>
+                    <ul>
+                        <li>Google Sheet not found (check SHEET_ID)</li>
+                        <li>Sheet "Workshop Catalog" doesn't exist</li>
+                        <li>Sheet permissions not set correctly</li>
+                    </ul>`,
+                    'error'
+                );
+            }
+
+            showLoading(false);
+        }
+
+        async function testEvents() {
+            showLoading(true);
+            clearResults();
+
+            try {
+                const events = await sheetsAPI.getAllEvents();
+                
+                if (!events || events.length === 0) {
+                    addSection(
+                        '❌ No Events Found',
+                        `<p>Your "Scheduled Events" sheet is either empty or all events have Status != "Active"</p>
+                        <p><strong>Solution:</strong> Add events to your Google Sheet with Status = "Active"</p>`,
+                        'error'
+                    );
+                } else {
+                    let html = `<p class="success">✅ Found ${events.length} active event(s)</p>`;
+                    html += '<div>';
+                    
+                    events.forEach(e => {
+                        html += `
+                            <div class="item">
+                                <strong class="info">${e.eventId}</strong>
+                                <div>Workshop ID: <span class="match">${e.workshopId}</span></div>
+                                <div>Date: ${e.eventDate} at ${e.eventTime}</div>
+                                <div>Seats: ${e.availableSeats} / Status: ${e.status}</div>
+                                <div>Venue: ${e.venueDetails}</div>
+                            </div>
+                        `;
+                    });
+                    
+                    html += '</div>';
+                    html += `<pre>${JSON.stringify(events, null, 2)}</pre>`;
+                    
+                    addSection('📅 Scheduled Events Data', html, 'success');
+                }
+            } catch (error) {
+                addSection(
+                    '❌ Error Loading Events',
+                    `<p>${error.message}</p>
+                    <p><strong>Possible causes:</strong></p>
+                    <ul>
+                        <li>Google Sheet not found (check SHEET_ID)</li>
+                        <li>Sheet "Scheduled Events" doesn't exist</li>
+                        <li>Sheet permissions not set correctly</li>
+                    </ul>`,
+                    'error'
+                );
+            }
+
+            showLoading(false);
+        }
+
+        async function runDiagnostic() {
+            showLoading(true);
+            clearResults();
+
+            addSection('🔍 Starting Full Diagnostic', '<p>Checking workshops and events data...</p>', 'section');
+
+            try {
+                // Load both datasets
+                const [workshops, events] = await Promise.all([
+                    sheetsAPI.getWorkshops(),
+                    sheetsAPI.getAllEvents()
+                ]);
+
+                // Check workshops
+                if (!workshops || workshops.length === 0) {
+                    addSection(
+                        '❌ CRITICAL: No Workshops Found',
+                        `<p>Your "Workshop Catalog" sheet is empty or has no Active workshops.</p>
+                        <p><strong>This will cause the "Cannot read properties of undefined" error!</strong></p>
+                        <p><strong>Solution:</strong> Add at least one workshop with Status = "Active"</p>`,
+                        'error'
+                    );
+                    showLoading(false);
+                    return;
+                }
+
+                // Check events
+                if (!events || events.length === 0) {
+                    addSection(
+                        '❌ CRITICAL: No Events Found',
+                        `<p>Your "Scheduled Events" sheet is empty or has no Active events.</p>
+                        <p><strong>Solution:</strong> Add at least one event with Status = "Active"</p>`,
+                        'error'
+                    );
+                    showLoading(false);
+                    return;
+                }
+
+                // Show summary
+                addSection(
+                    '📊 Data Summary',
+                    `<p>✅ Found ${workshops.length} workshops</p>
+                    <p>✅ Found ${events.length} events</p>`,
+                    'success'
+                );
+
+                // Create workshop lookup
+                const workshopMap = {};
+                workshops.forEach(w => {
+                    workshopMap[w.workshopId] = w;
+                });
+
+                // Check for mismatches
+                const mismatches = [];
+                const matches = [];
+
+                events.forEach(event => {
+                    const workshop = workshopMap[event.workshopId];
+                    if (!workshop) {
+                        mismatches.push({
+                            eventId: event.eventId,
+                            workshopId: event.workshopId
+                        });
+                    } else {
+                        matches.push({
+                            eventId: event.eventId,
+                            workshopId: event.workshopId,
+                            workshopName: workshop.name
+                        });
+                    }
+                });
+
+                // Display mismatches
+                if (mismatches.length > 0) {
+                    let html = `<p class="mismatch">❌ Found ${mismatches.length} event(s) referencing non-existent workshops:</p>`;
+                    html += '<div>';
+                    
+                    mismatches.forEach(m => {
+                        html += `
+                            <div class="item">
+                                <span class="mismatch">❌ Event "${m.eventId}"</span>
+                                <div>References workshop ID: <strong>"${m.workshopId}"</strong></div>
+                                <div class="mismatch">⚠️ This workshop doesn't exist in your catalog!</div>
+                            </div>
+                        `;
+                    });
+                    
+                    html += '</div>';
+                    html += `
+                        <p><strong>How to fix:</strong></p>
+                        <ol>
+                            <li>Open your Google Sheet</li>
+                            <li>Go to "Workshop Catalog" sheet</li>
+                            <li>Add a row for each missing workshop ID listed above</li>
+                            <li>Make sure column A (Workshop ID) exactly matches the ID shown</li>
+                            <li>Set Status (column I) to "Active"</li>
+                            <li>Refresh this page</li>
+                        </ol>
+                    `;
+                    
+                    addSection('❌ CRITICAL: Workshop ID Mismatches', html, 'error');
+                } else {
+                    addSection(
+                        '✅ All Events Have Valid Workshops',
+                        '<p>All event workshop IDs match workshops in your catalog!</p>',
+                        'success'
+                    );
+                }
+
+                // Display matches
+                if (matches.length > 0) {
+                    let html = `<p class="match">✅ ${matches.length} event(s) correctly linked:</p>`;
+                    html += '<div>';
+                    
+                    matches.forEach(m => {
+                        html += `
+                            <div class="item">
+                                <span class="match">✓ Event "${m.eventId}"</span>
+                                <div>→ Workshop "${m.workshopId}"</div>
+                                <div>→ "${m.workshopName}"</div>
+                            </div>
+                        `;
+                    });
+                    
+                    html += '</div>';
+                    addSection('✅ Valid Event-Workshop Links', html, 'success');
+                }
+
+                // Check for URL parameter
+                const urlParams = new URLSearchParams(window.location.search);
+                const workshopParam = urlParams.get('workshop');
+                
+                if (workshopParam) {
+                    const hasWorkshop = workshopMap[workshopParam];
+                    if (!hasWorkshop) {
+                        addSection(
+                            '⚠️ URL Parameter Issue',
+                            `<p>You're trying to access workshop "<strong>${workshopParam}</strong>" but it doesn't exist!</p>
+                            <p><strong>This is likely causing your error!</strong></p>
+                            <p>Add this workshop to your catalog or change the URL parameter.</p>`,
+                            'warning'
+                        );
+                    } else {
+                        addSection(
+                            '✅ URL Parameter Valid',
+                            `<p>Workshop "<strong>${workshopParam}</strong>" exists in your catalog.</p>
+                            <p>Workshop name: ${hasWorkshop.name}</p>`,
+                            'success'
+                        );
+                    }
+                }
+
+                // Final verdict
+                if (mismatches.length === 0) {
+                    addSection(
+                        '🎉 Diagnostic Complete: All Good!',
+                        `<p><strong>Your data is correctly configured!</strong></p>
+                        <p>If you're still seeing errors, try:</p>
+                        <ul>
+                            <li>Hard refresh the booking page (Ctrl+Shift+R)</li>
+                            <li>Clear browser cache</li>
+                            <li>Check browser console for other errors</li>
+                        </ul>`,
+                        'success'
+                    );
+                } else {
+                    addSection(
+                        '⚠️ Action Required',
+                        `<p><strong>Fix the ${mismatches.length} workshop ID mismatch(es) above to resolve the error.</strong></p>`,
+                        'error'
+                    );
+                }
+
+            } catch (error) {
+                addSection(
+                    '❌ Diagnostic Failed',
+                    `<p><strong>Error:</strong> ${error.message}</p>
+                    <pre>${error.stack}</pre>`,
+                    'error'
+                );
+            }
+
+            showLoading(false);
+        }
+
+        // Auto-run on page load
+        window.addEventListener('load', () => {
+            console.log('🔍 Data Diagnostic Tool loaded');
+            console.log('Click "Run Full Diagnostic" to start');
+        });
+    </script>
+</body>
+</html>

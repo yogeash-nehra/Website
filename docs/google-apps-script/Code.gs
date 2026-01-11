@@ -131,7 +131,11 @@ function createResponse(data, statusCode = 200) {
   const output = ContentService.createTextOutput(JSON.stringify(data));
   output.setMimeType(ContentService.MimeType.JSON);
   
-  // Add CORS headers
+  // Note: Google Apps Script doesn't support custom HTTP headers directly
+  // CORS is handled by the deployment settings "Anyone" access
+  // The browser CORS error is a known issue when developing locally
+  // Solution: Deploy with "Execute as: Me" and "Who has access: Anyone"
+  
   return output;
 }
 

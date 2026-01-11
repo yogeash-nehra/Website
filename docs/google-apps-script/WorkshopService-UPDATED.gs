@@ -1,13 +1,13 @@
 /**
  * Workshop Service - Handles workshop and event data retrieval
- * Updated to match your exact column structure with "Level" column
+ * UPDATED to match your Google Sheet structure
  */
 
 const WorkshopService = {
   
   /**
    * Get all active workshops from catalog
-   * Columns: Workshop ID | Workshop Name | Level | Description | Format | Duration | Price | Total Seats | Location | Status
+   * Your sheet structure: Workshop ID | Workshop Name | Level | Description
    */
   getWorkshops: function() {
     const config = getConfiguration();
@@ -19,21 +19,22 @@ const WorkshopService = {
     for (let i = 1; i < data.length; i++) {
       const row = data[i];
       
-      // Only include active workshops (Status is in column J, index 9)
-      if (row[9] === 'Active') {
-        workshops.push({
-          workshopId: row[0],    // Column A: Workshop ID
-          name: row[1],          // Column B: Workshop Name
-          level: row[2],         // Column C: Level
-          description: row[3],   // Column D: Description
-          format: row[4],        // Column E: Format
-          duration: row[5],      // Column F: Duration
-          price: row[6],         // Column G: Price (NZD)
-          totalSeats: row[7],    // Column H: Total Seats
-          location: row[8],      // Column I: Location
-          status: row[9]         // Column J: Status
-        });
-      }
+      // Skip empty rows
+      if (!row[0]) continue;
+      
+      workshops.push({
+        workshopId: row[0],      // Column A: Workshop ID
+        name: row[1],             // Column B: Workshop Name
+        level: row[2],            // Column C: Level
+        description: row[3],      // Column D: Description
+        // Add defaults for missing fields
+        format: 'Online',
+        duration: '90 minutes',
+        price: 150,
+        totalSeats: 25,
+        location: 'Online',
+        status: 'Active'
+      });
     }
     
     return workshops;
@@ -59,7 +60,10 @@ const WorkshopService = {
     for (let i = 1; i < data.length; i++) {
       const row = data[i];
       
-      // Only include active events
+      // Skip empty rows
+      if (!row[0]) continue;
+      
+      // Only include active events (column F: Status)
       if (row[5] === 'Active') {
         events.push({
           eventId: row[0],
