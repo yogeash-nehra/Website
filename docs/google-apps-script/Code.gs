@@ -66,6 +66,14 @@ function doPost(e) {
     let result;
     
     switch(action) {
+      case 'submitBooking':
+        // Direct booking submission (no payment)
+        if (!requestData.name || !requestData.email) {
+          return createResponse({ success: false, error: 'Name and email required' });
+        }
+        result = BookingService.submitDirectBooking(requestData);
+        break;
+        
       case 'validateBooking':
         if (!requestData.eventId) {
           return createResponse({ success: false, error: 'Event ID required' });

@@ -526,3 +526,38 @@ select.form-control {
   }
 }
 
+
+/* Event Select Button (Hidden by default, shown on hover/selection) */
+.event-select-btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px 20px;
+  background: #d8aa6a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.event-select-btn:hover {
+  background: #c99858;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(216,170,106,0.4);
+}
+
+.event-card.selected .event-select-btn {
+  display: flex !important;
+  background: #4caf50;
+  pointer-events: none;
+}
+
+.event-card.selected .event-select-btn i::before {
+  content: '\f00c';
+}

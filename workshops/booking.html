@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="../assets/css/components.css">
     <link rel="stylesheet" href="../assets/css/responsive.css">
     <link rel="stylesheet" href="../assets/css/booking.css">
+    <link rel="stylesheet" href="../assets/css/booking-events.css">
     
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -148,16 +149,42 @@
                     </div>
                     
                     <div id="workshopSelection" class="workshop-selection" style="display: none;">
-                        <div class="form-group">
-                            <label for="eventSelect">Choose Workshop Event <span class="required">*</span></label>
-                            <select id="eventSelect" class="form-control" required>
-                                <option value="">-- Select a workshop event --</option>
-                            </select>
-                            <div class="error-message">Please select a workshop</div>
+                        <!-- Pre-selected Event (if coming from event button) -->
+                        <div id="preSelectedEvent" style="display: none;">
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle"></i>
+                                <div>
+                                    <strong>Selected Event</strong>
+                                    <p>You're booking for the event you selected. You can also choose from other available dates below.</p>
+                                </div>
+                            </div>
+                            <div id="preSelectedEventCard" class="event-card selected-event">
+                                <!-- Pre-selected event details will be populated here -->
+                            </div>
+                            <div class="event-divider">
+                                <span>Or choose another date for this workshop</span>
+                            </div>
                         </div>
                         
-                        <div id="selectedEventDetails" style="display: none;">
-                            <!-- Event details will be populated here -->
+                        <!-- Workshop & Events List -->
+                        <div id="workshopEventsList">
+                            <!-- Events will be grouped by workshop here -->
+                        </div>
+                        
+                        <!-- Custom/Tailored Workshop Option -->
+                        <div class="custom-workshop-option">
+                            <div class="custom-workshop-card">
+                                <div class="custom-workshop-icon">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <div class="custom-workshop-content">
+                                    <h3>Looking for Something Different?</h3>
+                                    <p>We offer tailored workshops and programs that aren't scheduled in advance. If you don't see what you're looking for, or need a customized experience for your organization, we'd love to hear from you.</p>
+                                    <a href="../contact?subject=Custom%20Workshop%20Inquiry" class="btn-outline">
+                                        <i class="fas fa-paper-plane"></i> Contact Us for Custom Programs
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     

@@ -1,6 +1,6 @@
 /**
  * Booking Form Handler
- * Manages multi-step booking form with validation and API integration
+ * Manages multi-step booking form with event card selection and validation
  */
 
 class BookingForm {
@@ -20,6 +20,10 @@ class BookingForm {
       numSeats: 1
     };
     
+    this.allEvents = [];
+    this.allWorkshops = [];
+    this.selectedEventId = null;
+    
     this.init();
   }
   
@@ -27,16 +31,16 @@ class BookingForm {
    * Initialize form
    */
   init() {
-    console.log('📝 Initializing booking form...');
+    console.log('📝 Initializing enhanced booking form...');
+    
+    // Check for pre-selected event from URL first
+    this.checkURLParams();
     
     // Load workshops and events
     this.loadWorkshops();
     
     // Setup event listeners
     this.setupEventListeners();
-    
-    // Check for pre-selected event from URL
-    this.checkURLParams();
   }
   
   /**
@@ -53,9 +57,6 @@ class BookingForm {
     document.getElementById('step4Back').addEventListener('click', () => this.goToStep(3));
     document.getElementById('step5Back').addEventListener('click', () => this.goToStep(4));
     document.getElementById('proceedToPayment').addEventListener('click', () => this.proceedToPayment());
-    
-    // Event selection change
-    document.getElementById('eventSelect').addEventListener('change', (e) => this.onEventSelect(e.target.value));
     
     // Real-time validation
     document.getElementById('email').addEventListener('blur', (e) => this.validateEmail(e.target));
@@ -85,36 +86,30 @@ class BookingForm {
    */
   async loadWorkshops() {
     try {
-      console.log('🔄 Loading workshops...');
+      console.log('🔄 Loading workshops and events...');
       
       // Get all events
-      const events = await sheetsAPI.getAllEvents();
+      this.allEvents = await sheetsAPI.getAllEvents();
       
-      if (!events || events.length === 0) {
+      if (!this.allEvents || this.allEvents.length === 0) {
         throw new Error('No workshops available at this time');
       }
       
       // Get all workshops for additional details
-      const workshops = await sheetsAPI.getWorkshops();
+      this.allWorkshops = await sheetsAPI.getWorkshops();
       
       // Create lookup map
-      const workshopMap = {};
-      workshops.forEach(w => {
-        workshopMap[w.workshopId] = w;
+      this.workshopMap = {};
+      this.allWorkshops.forEach(w => {
+        this.workshopMap[w.workshopId] = w;
       });
       
-      // Populate event dropdown
-      this.populateEventDropdown(events, workshopMap);
+      // Build the event cards UI
+      this.buildEventCardsUI();
       
       // Hide loading, show selection
       document.getElementById('workshopLoadingState').style.display = 'none';
       document.getElementById('workshopSelection').style.display = 'block';
-      
-      // Select pre-selected event if exists
-      if (this.preSelectedEventId) {
-        document.getElementById('eventSelect').value = this.preSelectedEventId;
-        this.onEventSelect(this.preSelectedEventId);
-      }
       
       console.log('✅ Workshops loaded successfully');
       
@@ -127,138 +122,252 @@ class BookingForm {
   }
   
   /**
-   * Populate event dropdown with options
+   * Build event cards UI with smart grouping
    */
-  populateEventDropdown(events, workshopMap) {
-    const select = document.getElementById('eventSelect');
+  buildEventCardsUI() {
+    const container = document.getElementById('workshopEventsList');
+    const preSelectedContainer = document.getElementById('preSelectedEvent');
+    const preSelectedCard = document.getElementById('preSelectedEventCard');
     
     // Sort events by date
-    events.sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate));
+    this.allEvents.sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate));
     
-    // If there's a pre-selected workshop, filter events first
-    let filteredEvents = events;
-    if (this.preSelectedWorkshopId) {
-      const workshopEvents = events.filter(e => e.workshopId === this.preSelectedWorkshopId);
+    // Handle pre-selected event (if user came from event button)
+    if (this.preSelectedEventId) {
+      const preSelectedEvent = this.allEvents.find(e => e.eventId === this.preSelectedEventId);
       
-      // Add optgroup for selected workshop
-      if (workshopEvents.length > 0) {
-        const selectedWorkshop = workshopMap[this.preSelectedWorkshopId];
-        const optgroup = document.createElement('optgroup');
-        optgroup.label = `${selectedWorkshop.name} (Recommended)`;
+      if (preSelectedEvent) {
+        const workshop = this.workshopMap[preSelectedEvent.workshopId];
         
-        workshopEvents.forEach(event => {
-          const option = this.createEventOption(event, workshopMap[event.workshopId]);
-          optgroup.appendChild(option);
+        // Show pre-selected event card
+        preSelectedCard.innerHTML = this.createEventCardHTML(preSelectedEvent, workshop, true);
+        preSelectedContainer.style.display = 'block';
+        
+        // Auto-select this event
+        this.selectEvent(this.preSelectedEventId);
+        
+        // Filter to show only other events from the same workshop
+        const otherEventsInWorkshop = this.allEvents.filter(
+          e => e.workshopId === preSelectedEvent.workshopId && e.eventId !== this.preSelectedEventId
+        );
+        
+        if (otherEventsInWorkshop.length > 0) {
+          // Group remaining events from same workshop
+          const groupHTML = this.createWorkshopGroupHTML(
+            workshop,
+            otherEventsInWorkshop,
+            'Other Available Dates'
+          );
+          container.innerHTML = groupHTML;
+        } else {
+          // Show message if no other dates available
+          container.innerHTML = `
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle"></i>
+              <div>This is the only scheduled date for this workshop. Check out our other workshops below or contact us for custom scheduling.</div>
+            </div>
+          `;
+        }
+        
+        // Add click handlers
+        this.attachEventCardHandlers();
+        return;
+      }
+    }
+    
+    // Handle pre-selected workshop (if user clicked "Book Now" on workshop card)
+    if (this.preSelectedWorkshopId) {
+      const workshopEvents = this.allEvents.filter(e => e.workshopId === this.preSelectedWorkshopId);
+      const workshop = this.workshopMap[this.preSelectedWorkshopId];
+      
+      if (workshopEvents.length > 0) {
+        // Show all events for selected workshop
+        const groupHTML = this.createWorkshopGroupHTML(
+          workshop,
+          workshopEvents,
+          'Choose Your Date'
+        );
+        container.innerHTML = groupHTML;
+        
+        // Add divider before other workshops
+        container.innerHTML += `
+          <div class="event-divider">
+            <span>Or browse other workshops</span>
+          </div>
+        `;
+        
+        // Show other workshops
+        const otherWorkshops = Object.keys(this.workshopMap)
+          .filter(id => id !== this.preSelectedWorkshopId);
+        
+        otherWorkshops.forEach(workshopId => {
+          const ws = this.workshopMap[workshopId];
+          const events = this.allEvents.filter(e => e.workshopId === workshopId);
+          
+          if (events.length > 0) {
+            container.innerHTML += this.createWorkshopGroupHTML(ws, events);
+          }
         });
         
-        select.appendChild(optgroup);
+        // Add click handlers
+        this.attachEventCardHandlers();
+        return;
+      }
+    }
+    
+    // Default: Group all events by workshop
+    const workshopGroups = {};
+    
+    this.allEvents.forEach(event => {
+      if (!workshopGroups[event.workshopId]) {
+        workshopGroups[event.workshopId] = [];
+      }
+      workshopGroups[event.workshopId].push(event);
+    });
+    
+    // Build HTML for each workshop group
+    let html = '';
+    Object.keys(workshopGroups).forEach(workshopId => {
+      const workshop = this.workshopMap[workshopId];
+      const events = workshopGroups[workshopId];
+      
+      if (workshop && events.length > 0) {
+        html += this.createWorkshopGroupHTML(workshop, events);
+      }
+    });
+    
+    if (html) {
+      container.innerHTML = html;
+    } else {
+      container.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-calendar-times"></i>
+          <h3>No Events Available</h3>
+          <p>There are currently no scheduled events. Please check back later or contact us for custom programs.</p>
+        </div>
+      `;
+    }
+    
+    // Add click handlers to all event cards
+    this.attachEventCardHandlers();
+  }
+  
+  /**
+   * Create HTML for workshop group
+   */
+  createWorkshopGroupHTML(workshop, events, customTitle = null) {
+    const eventsHTML = events.map(event => 
+      this.createEventCardHTML(event, workshop)
+    ).join('');
+    
+    return `
+      <div class="workshop-group">
+        <div class="workshop-group-header">
+          <h3 class="workshop-group-title">${customTitle || workshop.name}</h3>
+          <p class="workshop-group-subtitle">${workshop.format} • ${workshop.duration}</p>
+        </div>
+        <div class="workshop-group-events">
+          ${eventsHTML}
+        </div>
+      </div>
+    `;
+  }
+  
+  /**
+   * Create HTML for individual event card
+   */
+  createEventCardHTML(event, workshop, isPreSelected = false) {
+    const availabilityLevel = event.availableSeats > 10 ? 'high' : 
+                             event.availableSeats > 5 ? 'medium' : 'low';
+    
+    const cardClass = isPreSelected ? 'event-card selected-event' : 'event-card';
+    const buttonText = isPreSelected ? 'Pre-Selected' : 'Select This Date';
+    
+    return `
+      <div class="${cardClass}" data-event-id="${event.eventId}">
+        <div class="event-card-header">
+          <div class="event-name">${workshop.name}</div>
+          <div class="event-date-badge">${this.formatShortDate(event.eventDate)}</div>
+        </div>
+        
+        ${workshop.description ? `
+          <div class="event-description">${workshop.description}</div>
+        ` : ''}
+        
+        <div class="event-details">
+          <div class="event-detail">
+            <i class="fas fa-calendar"></i>
+            <span>${this.formatFullDate(event.eventDate)}</span>
+          </div>
+          <div class="event-detail">
+            <i class="fas fa-clock"></i>
+            <span>${event.eventTime}</span>
+          </div>
+          <div class="event-detail">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>${event.venueDetails || workshop.location}</span>
+          </div>
+        </div>
+        
+        <div class="event-meta">
+          <div class="event-price">$${workshop.price} NZD</div>
+          <div class="event-availability">
+            <span class="availability-dot ${availabilityLevel}"></span>
+            <span>${event.availableSeats} seats available</span>
+          </div>
+        </div>
+        
+        ${!isPreSelected ? `
+          <button class="event-select-btn" style="display: none;">
+            <i class="fas fa-check"></i> ${buttonText}
+          </button>
+        ` : ''}
+      </div>
+    `;
+  }
+  
+  /**
+   * Attach click handlers to event cards
+   */
+  attachEventCardHandlers() {
+    const cards = document.querySelectorAll('.event-card:not(.selected-event)');
+    
+    cards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        const eventId = card.dataset.eventId;
+        this.selectEvent(eventId);
+      });
+    });
+  }
+  
+  /**
+   * Select an event
+   */
+  async selectEvent(eventId) {
+    try {
+      // Remove selection from all cards
+      document.querySelectorAll('.event-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      
+      // Add selection to clicked card
+      const selectedCard = document.querySelector(`.event-card[data-event-id="${eventId}"]`);
+      if (selectedCard && !selectedCard.classList.contains('selected-event')) {
+        selectedCard.classList.add('selected');
       }
       
-      // Add separator
-      const separator = document.createElement('option');
-      separator.disabled = true;
-      separator.textContent = '───────────────────────';
-      select.appendChild(separator);
-      
-      // Add "Browse All Workshops" section
-      const allGroup = document.createElement('optgroup');
-      allGroup.label = 'Browse All Other Workshops';
-      
-      events.forEach(event => {
-        if (event.workshopId !== this.preSelectedWorkshopId) {
-          const option = this.createEventOption(event, workshopMap[event.workshopId]);
-          allGroup.appendChild(option);
-        }
-      });
-      
-      select.appendChild(allGroup);
-      
-    } else {
-      // No pre-selection, group by workshop type
-      const groupedEvents = {};
-      
-      events.forEach(event => {
-        if (!groupedEvents[event.workshopId]) {
-          groupedEvents[event.workshopId] = [];
-        }
-        groupedEvents[event.workshopId].push(event);
-      });
-      
-      // Create optgroups for each workshop
-      Object.keys(groupedEvents).forEach(workshopId => {
-        const workshop = workshopMap[workshopId];
-        if (!workshop) return;
-        
-        const optgroup = document.createElement('optgroup');
-        optgroup.label = workshop.name;
-        
-        groupedEvents[workshopId].forEach(event => {
-          const option = this.createEventOption(event, workshop);
-          optgroup.appendChild(option);
-        });
-        
-        select.appendChild(optgroup);
-      });
-    }
-  }
-  
-  /**
-   * Create an option element for an event
-   */
-  createEventOption(event, workshop) {
-    const option = document.createElement('option');
-    option.value = event.eventId;
-    option.textContent = `${this.formatDate(event.eventDate)} at ${event.eventTime}`;
-    option.dataset.available = event.availableSeats;
-    option.dataset.status = event.status;
-    option.dataset.workshopId = event.workshopId;
-    
-    // Add availability info
-    if (event.availableSeats <= 0 || event.status !== 'Active') {
-      option.disabled = true;
-      option.textContent += ' (Sold Out)';
-    } else if (event.availableSeats <= 5) {
-      option.textContent += ` (${event.availableSeats} seats left)`;
-    }
-    
-    return option;
-  }
-  
-  /**
-   * Handle event selection
-   */
-  async onEventSelect(eventId) {
-    if (!eventId) {
-      document.getElementById('selectedEventDetails').style.display = 'none';
-      document.getElementById('step1Next').disabled = true;
-      return;
-    }
-    
-    try {
       // Check availability
       const availability = await sheetsAPI.checkAvailability(eventId);
       
       if (!availability.isAvailable) {
         alert('Sorry, this event is no longer available. Please select another.');
-        document.getElementById('eventSelect').value = '';
+        selectedCard.classList.remove('selected');
         return;
       }
       
       // Get full event details
-      const events = await sheetsAPI.getAllEvents();
-      const event = events.find(e => e.eventId === eventId);
-      
-      if (!event) {
-        throw new Error('Event details not found');
-      }
-      
-      // Get workshop details
-      const workshops = await sheetsAPI.getWorkshops();
-      const workshop = workshops.find(w => w.workshopId === event.workshopId);
-      
-      if (!workshop) {
-        throw new Error('Workshop details not found');
-      }
+      const event = this.allEvents.find(e => e.eventId === eventId);
+      const workshop = this.workshopMap[event.workshopId];
       
       // Store in form data
       this.formData.eventId = eventId;
@@ -268,62 +377,21 @@ class BookingForm {
         availability: availability
       };
       
-      // Display event details
-      this.displayEventDetails(this.formData.eventDetails);
-      
       // Enable next button
       document.getElementById('step1Next').disabled = false;
       
+      // Scroll to continue button
+      document.getElementById('step1Next').scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'nearest' 
+      });
+      
+      console.log('✅ Event selected:', eventId);
+      
     } catch (error) {
-      console.error('❌ Error loading event details:', error);
-      alert('Failed to load event details. Please try again.');
+      console.error('❌ Error selecting event:', error);
+      alert('Failed to select event. Please try again.');
     }
-  }
-  
-  /**
-   * Display selected event details
-   */
-  displayEventDetails(details) {
-    const container = document.getElementById('selectedEventDetails');
-    const { workshop, eventDate, eventTime, venueDetails, availability } = details;
-    
-    const html = `
-      <div class="workshop-card selected visible">
-        <div class="workshop-card-header">
-          <div class="workshop-name">${workshop.name}</div>
-          <div class="workshop-price">$${workshop.price} NZD</div>
-        </div>
-        <div class="workshop-description">${workshop.description}</div>
-        <div class="workshop-details">
-          <div class="workshop-detail">
-            <i class="fas fa-calendar"></i>
-            <span>${this.formatDate(eventDate)}</span>
-          </div>
-          <div class="workshop-detail">
-            <i class="fas fa-clock"></i>
-            <span>${eventTime}</span>
-          </div>
-          <div class="workshop-detail">
-            <i class="fas fa-map-marker-alt"></i>
-            <span>${venueDetails}</span>
-          </div>
-          <div class="workshop-detail">
-            <i class="fas fa-hourglass"></i>
-            <span>${workshop.duration}</span>
-          </div>
-        </div>
-        <div class="availability-badges">
-          <span class="badge badge-success">
-            <i class="fas fa-check-circle"></i> ${availability.availableSeats} seats available
-          </span>
-          ${availability.isNearlyFull ? '<span class="badge badge-warning">Nearly Full!</span>' : ''}
-          ${availability.isClosingSoon ? '<span class="badge badge-info">Closing Soon</span>' : ''}
-        </div>
-      </div>
-    `;
-    
-    container.innerHTML = html;
-    container.style.display = 'block';
   }
   
   /**
@@ -334,8 +402,11 @@ class BookingForm {
     
     switch(step) {
       case 1:
-        // Workshop selection is already validated
+        // Event selection validation
         valid = this.formData.eventId !== null;
+        if (!valid) {
+          alert('Please select a workshop event to continue.');
+        }
         break;
         
       case 2:
@@ -493,9 +564,9 @@ class BookingForm {
     const { workshop, eventDate, eventTime, venueDetails } = eventDetails;
     
     document.getElementById('reviewWorkshop').textContent = workshop.name;
-    document.getElementById('reviewDate').textContent = this.formatDate(eventDate);
+    document.getElementById('reviewDate').textContent = this.formatFullDate(eventDate);
     document.getElementById('reviewTime').textContent = eventTime;
-    document.getElementById('reviewLocation').textContent = venueDetails;
+    document.getElementById('reviewLocation').textContent = venueDetails || workshop.location;
     
     document.getElementById('reviewName').textContent = fullName;
     document.getElementById('reviewEmail').textContent = email;
@@ -561,9 +632,20 @@ class BookingForm {
   }
   
   /**
-   * Format date for display
+   * Format date for badge (short)
    */
-  formatDate(dateString) {
+  formatShortDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-NZ', {
+      day: 'numeric',
+      month: 'short'
+    });
+  }
+  
+  /**
+   * Format date for full display
+   */
+  formatFullDate(dateString) {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-NZ', {
       weekday: 'long',
@@ -582,4 +664,3 @@ if (document.readyState === 'loading') {
 } else {
   new BookingForm();
 }
-

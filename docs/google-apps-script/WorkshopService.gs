@@ -49,6 +49,7 @@ const WorkshopService = {
   
   /**
    * Get all scheduled events
+   * Columns: Event ID | Workshop ID | Event Date | Event Time | Available Seats | Status | Venue Details
    */
   getAllScheduledEvents: function() {
     const config = getConfiguration();
@@ -59,16 +60,29 @@ const WorkshopService = {
     for (let i = 1; i < data.length; i++) {
       const row = data[i];
       
-      // Only include active events
+      // Skip empty rows
+      if (!row[0]) continue;
+      
+      // Only include active events (Status is in column F, index 5)
       if (row[5] === 'Active') {
+        // Get workshop details to include additional info
+        const workshop = this.getWorkshopById(row[1]);
+        
         events.push({
-          eventId: row[0],
-          workshopId: row[1],
-          eventDate: this.formatDate(row[2]),
-          eventTime: row[3],
-          availableSeats: row[4],
-          status: row[5],
-          venueDetails: row[6]
+          eventId: row[0],          // Column A: Event ID
+          workshopId: row[1],       // Column B: Workshop ID
+          date: this.formatDate(row[2]), // Column C: Event Date
+          time: row[3],             // Column D: Event Time
+          availableSeats: parseInt(row[4]) || 0, // Column E: Available Seats
+          status: row[5],           // Column F: Status
+          location: row[6] || '',   // Column G: Venue Details
+          
+          // Include workshop info for easy access
+          workshopName: workshop ? workshop.name : '',
+          totalSeats: workshop ? workshop.totalSeats : 0,
+          duration: workshop ? workshop.duration : '',
+          price: workshop ? workshop.price : 0,
+          format: workshop ? workshop.format : ''
         });
       }
     }
@@ -96,16 +110,24 @@ const WorkshopService = {
       const row = data[i];
       
       if (row[0] === eventId) {
-        const availableSeats = row[4];
+        const availableSeats = parseInt(row[4]) || 0;
         const status = row[5];
+        const workshop = this.getWorkshopById(row[1]);
+        const totalSeats = workshop ? workshop.totalSeats : 0;
         
         return {
           eventId: eventId,
+          workshopId: row[1],
           availableSeats: availableSeats,
+          totalSeats: totalSeats,
           status: status,
+          date: this.formatDate(row[2]),
+          time: row[3],
+          location: row[6],
           isAvailable: availableSeats > 0 && status === 'Active',
           isClosingSoon: this.isClosingSoon(row[2]),
-          isNearlyFull: availableSeats <= 5 && availableSeats > 0
+          isNearlyFull: availableSeats <= 5 && availableSeats > 0,
+          percentageFull: totalSeats > 0 ? Math.round(((totalSeats - availableSeats) / totalSeats) * 100) : 0
         };
       }
     }
@@ -141,15 +163,33 @@ const WorkshopService = {
       throw new Error('Workshop not found for event: ' + eventId);
     }
     
+    const availableSeats = parseInt(eventRow[4]) || 0;
+    const totalSeats = workshop.totalSeats || 0;
+    
     return {
+      // Event details
       eventId: eventRow[0],
       workshopId: eventRow[1],
-      eventDate: this.formatDate(eventRow[2]),
-      eventTime: eventRow[3],
-      availableSeats: eventRow[4],
+      date: this.formatDate(eventRow[2]),
+      time: eventRow[3],
+      availableSeats: availableSeats,
       status: eventRow[5],
-      venueDetails: eventRow[6],
-      workshop: workshop
+      location: eventRow[6],
+      
+      // Workshop details
+      workshop: workshop,
+      workshopName: workshop.name,
+      totalSeats: totalSeats,
+      duration: workshop.duration,
+      price: workshop.price,
+      format: workshop.format,
+      level: workshop.level,
+      description: workshop.description,
+      
+      // Computed fields
+      isAvailable: availableSeats > 0 && eventRow[5] === 'Active',
+      isNearlyFull: availableSeats <= 5 && availableSeats > 0,
+      percentageFull: totalSeats > 0 ? Math.round(((totalSeats - availableSeats) / totalSeats) * 100) : 0
     };
   },
   

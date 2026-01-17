@@ -34,6 +34,9 @@
     <link rel="stylesheet" href="../assets/css/components.css">
     <link rel="stylesheet" href="../assets/css/responsive.css">
     
+    <!-- Event Selection Modal -->
+    <link rel="stylesheet" href="event-selection-modal.css">
+    
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
     
@@ -142,15 +145,21 @@
     .wh-heading { font-size: clamp(18px,2.2vw,22px); margin: 0 0 8px; }
     .wh-rule { height:2px; width:40px; background: var(--wh-gold); border:0; margin: 0 0 12px; }
     .wh-summary { font-size: 15px; line-height:1.5; margin: 0 0 14px; color:#2a2a2a; }
-    .wh-meta { display:flex; flex-direction:column; gap:6px; font-size:14px; }
+    .wh-meta { display:grid; grid-template-columns: 1fr 1fr; gap:6px 12px; font-size:14px; }
     .wh-meta b { color:#1a1a1a; }
     .wh-anchor { scroll-margin-top: 110px; }
     .is-active { box-shadow: 0 0 0 3px rgba(216,170,106,.45), 0 2px 12px rgba(0,0,0,.06); background:#fffdf7; }
     .wh-actions { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap }
-    .wh-action { padding:8px 12px; border-radius:10px; text-decoration:none; font-weight:600; font-size:14px }
+    .wh-action { padding:8px 12px; border-radius:10px; text-decoration:none; font-weight:600; font-size:14px; transition: all 0.3s ease; cursor: pointer; border: none; }
     .wh-action.watch { background:transparent; color:var(--wh-gold); border:1px solid var(--wh-gold) }
     .wh-action.book { background:var(--wh-gold); color:var(--wh-white); border:1px solid var(--wh-gold) }
-    .wh-action:hover{ opacity:0.95 }
+    .wh-action:hover{ opacity:0.95; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(216,170,106,.3); }
+    .wh-action:active{ transform: translateY(0); }
+    .wh-availability { font-size: 13px; color: #666; margin-top: 8px; display: flex; align-items: center; gap: 6px; }
+    .wh-availability-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+    .wh-availability-dot.high { background: #4caf50; }
+    .wh-availability-dot.medium { background: #ff9800; }
+    .wh-availability-dot.low { background: #f44336; }
   </style>
 
   <div class="wh-wrap" data-offset="150">
@@ -163,237 +172,40 @@
     </header>
 
     <nav class="wh-nav">
-      <a class="wh-chip" href="#service-1">1. Relational Engagement (Entry Level)</a>
-      <a class="wh-chip" href="#service-2">2. Pōwhiri & Whakatau Readiness (Intermediate)</a>
-      <a class="wh-chip" href="#service-3">3. Mana Motuhake in the Workplace (Advanced)</a>
-      <a class="wh-chip" href="#service-4">4. Pathways to Māori Relational Engagement (Marae — 3×90min)</a>
+      <a class="wh-chip" href="#service-1">1. Relational Engagement for Non Māori Individuals</a>
+      <a class="wh-chip" href="#service-2">2. Pōwhiri & Whakatau Readiness</a>
+      <a class="wh-chip" href="#service-3">3. Mana Motuhake in the Workplace</a>
+      <a class="wh-chip" href="#service-4">4. Pathways to Māori Relational Engagement</a>
       <a class="wh-chip" href="#service-5">5. Indigenous Wellbeing Through a Clothing & Fashion Lens</a>
       <a class="wh-chip" href="#service-6">6. Māori Bread Experience</a>
-      <a class="wh-chip" href="#service-7">7. The Treaty & The Integrity of Water</a>
-      <a class="wh-chip" href="#service-8">8. Personal Development & Team Building Day (Marae)</a>
-      <a class="wh-chip" href="#service-9">9. End‑of‑Year Christmas Party (Marae)</a>
-      <a class="wh-chip" href="#service-10">10. Understanding Technology & AI (Entry Level)</a>
-      <a class="wh-chip" href="#service-11">11. AI & Prompt / Context Engineering — Level 1</a>
-      <a class="wh-chip" href="#service-12">12. AI & Social Media — Level 1</a>
-      <a class="wh-chip" href="#service-13">13. AI & Cyber Security — Level 1</a>
-      <a class="wh-chip" href="#service-14">14. AI & Automation in the Workplace</a>
-      <a class="wh-chip" href="#service-15">15. AI Train the Trainers</a>
-      <a class="wh-chip" href="#service-16">16. AI Audits & Diagnostics</a>
-      <a class="wh-chip" href="#service-17">17. Twelve Week Unity Series</a>
-      <a class="wh-chip" href="#service-18">18. Te Tiriti Through a Global Health Lens</a>
-      <a class="wh-chip" href="#service-19">19. Tailored & Customisable Multi‑Year Programmes</a>
+      <a class="wh-chip" href="#service-7">7. Māori Wellness Day</a>
+      <a class="wh-chip" href="#service-8">8. Board Te Tiriti Training</a>
+      <a class="wh-chip" href="#service-9">9. Te Tiriti o Waitangi Workshop</a>
+      <a class="wh-chip" href="#service-10">10. AI + Aroha: Ethical AI for Aotearoa</a>
+      <a class="wh-chip" href="#service-11">11. AI + Aroha: Practical AI Tools for Everyday Use</a>
+      <a class="wh-chip" href="#service-12">12. Understanding Technology & AI</a>
+      <a class="wh-chip" href="#service-13">13. AI & Prompt / Context Engineering</a>
+      <a class="wh-chip" href="#service-14">14. AI & Social Media</a>
+      <a class="wh-chip" href="#service-15">15. AI & Cyber Security</a>
+      <a class="wh-chip" href="#service-16">16. AI & Financial Services</a>
+      <a class="wh-chip" href="#service-17">17. AI for Manufacturing & Logistics</a>
+      <a class="wh-chip" href="#service-18">18. AI & Education</a>
+      <a class="wh-chip" href="#service-19">19. AI & Business Process Automation</a>
     </nav>
 
     <div class="wh-grid">
+      <!-- Workshop cards dynamically loaded from Google Sheets -->
+      <div style="text-align: center; padding: 60px 20px; color: #666;">
+        <p style="font-size: 18px; margin-bottom: 10px;">Loading workshops from Google Sheets...</p>
+        <p style="font-size: 14px;">Workshop information will appear here automatically</p>
+      </div>
       
-      <article id="service-1" class="wh-card wh-anchor">
-        <h3 class="wh-heading">1. Relational Engagement (Entry Level)</h3>
-        <hr class="wh-rule">
-        <p class="wh-summary">Practical tikanga, language, and engagement protocols for respectful relationships with Māori iwi, hapū and community stakeholders. Builds fluency and sustainable values-led partnerships through clear, staircased learning.</p>
-        <div class="wh-meta"><div><b>Audience:</b> Non‑Māori team leaders, managers, HR</div><div><b>Format:</b> Live online, 90 minutes</div><div><b>Minimum:</b> 10 participants</div></div>
-        <div class="wh-actions">
-          <a class="wh-action watch" href="video.html?service=service-1">Watch Video</a>
-          <a class="wh-action book" href="booking.html?workshop=service-1">Book Now</a>
-        </div>
-      </article>
-
-      <article id="service-2" class="wh-card wh-anchor">
-        <h3 class="wh-heading">2. Pōwhiri & Whakatau Readiness (Intermediate)</h3>
-        <hr class="wh-rule">
-        <p class="wh-summary">An intermediate session preparing confident practitioners to participate authentically in formal Māori welcome ceremonies. Covers pōwhiri flow, roles, responsibilities and practical participation readiness.</p>
-        <div class="wh-meta"><div><b>Audience:</b> Non‑Māori team leaders, managers, HR</div><div><b>Format:</b> Live online, 90 minutes</div><div><b>Minimum:</b> 10 participants</div></div>
-        <div class="wh-actions">
-          <a class="wh-action watch" href="video.html?service=service-2">Watch Video</a>
-          <a class="wh-action book" href="booking.html?workshop=service-2">Book Now</a>
-        </div>
-      </article>
-
-      <article id="service-3" class="wh-card wh-anchor">
-        <h3 class="wh-heading">3. Mana Motuhake in the Workplace (Advanced)</h3>
-        <hr class="wh-rule">
-        <p class="wh-summary">Advanced learning for experienced practitioners exploring self‑determination, autonomy and Indigenous authority in workplace settings. Deepens cultural confidence and leadership application.</p>
-        <div class="wh-meta"><div><b>Audience:</b> Senior leaders, HR, People & Culture, SLT/ELT</div><div><b>Format:</b> Live online, 90 minutes</div><div><b>Minimum:</b> 10 participants</div></div>
-        <div class="wh-actions">
-          <a class="wh-action watch" href="video.html?service=service-3">Watch Video</a>
-          <a class="wh-action book" href="booking.html?workshop=service-3">Book Now</a>
-        </div>
-      </article>
-
-      <article id="service-4" class="wh-card wh-anchor">
-        <h3 class="wh-heading">4. Pathways to Māori Relational Engagement <br>(Marae Only - 3×90min)</h3>
-        <hr class="wh-rule">
-        <p class="wh-summary">Three 90‑minute sessions delivered in one day at a marae covering Relational Māori Engagement, Pōwhiri & Whakatau Readiness, and Mana Motuhake in the Workplace — an immersive, applied experience that stays with participants.</p>
-        <div class="wh-meta"><div><b>Audience:</b> Non‑Māori team leaders or managers</div><div><b>Format:</b> In person, 9:00am - 3:30pm </div><div><b>Minimum:</b> 15 participants</div></div>
-        <div class="wh-actions">
-          <a class="wh-action watch" href="video.html?service=service-4">Watch Video</a>
-          <a class="wh-action book" href="booking.html?workshop=service-4">Book Now</a>
-        </div>
-      </article>
-
-      <article id="service-5" class="wh-card wh-anchor">
-        <h3 class="wh-heading">5. Indigenous Wellbeing Through a Clothing & Fashion Lens <br>(Marae Only)</h3>
-        <hr class="wh-rule">
-        <p class="wh-summary">Explore holistic wellbeing through fashion and clothing while incorporating Māori values of wairua, whānau, hinengaro and tinana. Reflect, connect and create practical tools for balanced living.</p>
-        <div class="wh-meta"><div><b>Audience:</b> HR leaders, social services practitioners, local councils</div><div><b>Format:</b> In person,  9:00am - 1:30pm</div><div><b>Minimum:</b> 15 participants</div></div>
-        <div class="wh-actions">
-          <a class="wh-action watch" href="video.html?service=service-5">Watch Video</a>
-          <a class="wh-action book" href="booking.html?workshop=service-5">Book Now</a>
-        </div>
-      </article>
-
-      <article id="service-6" class="wh-card wh-anchor">
-        <h3 class="wh-heading">6. Māori Bread Experience <br>(Marae Only)</h3>
-        <hr class="wh-rule">
-        <p class="wh-summary">An authentic hands‑on cultural workshop learning to create, nurture and cook traditional Māori bread. Explore whakapapa, connection and teamwork through shared kai and storytelling in a marae kitchen.</p>
-        <div class="wh-meta"><div><b>Audience:</b> Individuals and professionals; team‑building groups</div><div><b>Format:</b> In person,  9:00am - 1:30pm</div><div><b>Minimum:</b> 15 participants</div></div>
-        <div class="wh-actions">
-          <a class="wh-action watch" href="video.html?service=service-6">Watch Video</a>
-          <a class="wh-action book" href="booking.html?workshop=service-6">Book Now</a>
-        </div>
-      </article>
-
-      <article id="service-7" class="wh-card wh-anchor">
-        <h3 class="wh-heading">7. The Treaty & The Integrity of Water <br>(Marae Only)</h3>
-        <hr class="wh-rule">
-        <p class="wh-summary">Interactive experience that explores how Te Tiriti and water share intertwined whakapapa, expressing life, authority and balance, and how that relationship shapes whenua, people and environments.</p>
-        <div class="wh-meta"><div><b>Audience:</b> Engineers, infrastructure, civil and local councils</div><div><b>Format:</b> In person,  9:00am - 3:30pm</div><div><b>Minimum:</b> 25 participants</div></div>
-        <div class="wh-actions">
-          <a class="wh-action watch" href="video.html?service=service-7">Watch Video</a>
-          <a class="wh-action book" href="booking.html?workshop=service-7">Book Now</a>
-        </div>
-      </article>
-
-      <article id="service-8" class="wh-card wh-anchor">
-        <h3 class="wh-heading">8. Personal Development & Team Building Day <br>(Marae Only)</h3>
-        <hr class="wh-rule">
-        <p class="wh-summary">Reflective marae‑based workshop for senior and executive leaders to explore identity, leadership and service through cultural immersion and lived experience, translating insights into measurable workplace change.</p>
-        <div class="wh-meta"><div><b>Audience:</b> Leadership teams and boards</div><div><b>Format:</b> In person,  9:00am - 3:30pm</div><div><b>Minimum:</b> Tailored</div></div>
-        <div class="wh-actions">
-          <a class="wh-action watch" href="video.html?service=service-8">Watch Video</a>
-          <a class="wh-action book" href="booking.html?workshop=service-8">Book Now</a>
-        </div>
-      </article>
-
-      <article id="service-9" class="wh-card wh-anchor">
-        <h3 class="wh-heading">9. End‑of‑Year Christmas Party <br>(Marae Only)</h3>
-        <hr class="wh-rule">
-        <p class="wh-summary">Festive marae‑based, alcohol‑free end‑of‑year experience with kai, waiata, storytelling and cultural protocols to celebrate achievements, strengthen relationships and give back to the local community.</p>
-        <div class="wh-meta"><div><b>Audience:</b> Companies planning meaningful Christmas functions</div><div><b>Format:</b> In person,  9:00am - 3:30pm</div><div><b>Minimum:</b> Tailored</div></div>
-        <div class="wh-actions">
-          <a class="wh-action watch" href="video.html?service=service-9">Watch Video</a>
-          <a class="wh-action book" href="booking.html?workshop=service-9">Book Now</a>
-        </div>
-      </article>
-
-      <article id="service-10" class="wh-card wh-anchor">
-        <h3 class="wh-heading">10. Understanding Technology & AI <br>(Entry Level)</h3>
-        <hr class="wh-rule">
-        <p class="wh-summary">Build foundational digital literacy and AI awareness for team members at any experience level. Introduces key concepts, practical applications and ethical considerations in plain language.</p>
-        <div class="wh-meta"><div><b>Audience:</b> Small business owners, startups, admin teams</div><div><b>Format:</b> In person, 70 minutes</div><div><b>Minimum:</b> 15 participants</div></div>
-        <div class="wh-actions">
-          <a class="wh-action watch" href="video.html?service=service-10">Watch Video</a>
-          <a class="wh-action book" href="booking.html?workshop=service-10">Book Now</a>
-        </div>
-      </article>
-
-      <article id="service-11" class="wh-card wh-anchor">
-        <h3 class="wh-heading">11. AI & Prompt / Context Engineering - <br>Level 1</h3>
-        <hr class="wh-rule">
-        <p class="wh-summary">Master prompt design strategies, refinement techniques and best practices for communicating effectively with AI systems to achieve reliable, high‑quality outputs.</p>
-        <div class="wh-meta"><div><b>Audience:</b> Small business owners, startups, admin teams</div><div><b>Format:</b> In person, 70 minutes</div><div><b>Minimum:</b> 15 participants</div></div>
-        <div class="wh-actions">
-          <a class="wh-action watch" href="video.html?service=service-11">Watch Video</a>
-          <a class="wh-action book" href="booking.html?workshop=service-11">Book Now</a>
-        </div>
-      </article>
-
-      <article id="service-12" class="wh-card wh-anchor">
-        <h3 class="wh-heading">12. AI & Social Media — Level 1</h3>
-        <hr class="wh-rule">
-        <p class="wh-summary">Harness AI tools to enhance social media strategy, content creation and audience engagement, covering AI‑powered analytics, content generation and platform optimisation techniques.</p>
-        <div class="wh-meta"><div><b>Audience:</b> Small business owners, startups, marketing teams</div><div><b>Format:</b> In person, 70 minutes</div><div><b>Minimum:</b> 15 participants</div></div>
-        <div class="wh-actions">
-          <a class="wh-action watch" href="video.html?service=service-12">Watch Video</a>
-          <a class="wh-action book" href="booking.html?workshop=service-12">Book Now</a>
-        </div>
-      </article>
-
-      <article id="service-13" class="wh-card wh-anchor">
-        <h3 class="wh-heading">13. AI & Cyber Security — Level 1</h3>
-        <hr class="wh-rule">
-        <p class="wh-summary">Introductory cyber security principles to protect data, systems and reputation from digital threats. Focuses on reducing risk, strengthening resilience and maintaining trust.</p>
-        <div class="wh-meta"><div><b>Audience:</b> SME owners, marketing teams, startups</div><div><b>Format:</b> In person, 70 minutes</div><div><b>Minimum:</b> 15 participants</div></div>
-        <div class="wh-actions">
-          <a class="wh-action watch" href="video.html?service=service-13">Watch Video</a>
-          <a class="wh-action book" href="booking.html?workshop=service-13">Book Now</a>
-        </div>
-      </article>
-
-      <article id="service-14" class="wh-card wh-anchor">
-        <h3 class="wh-heading">14. AI & Automation in the Workplace</h3>
-        <hr class="wh-rule">
-        <p class="wh-summary">Practical approaches to streamline repetitive tasks, remove bottlenecks and boost efficiency using AI automation — helping SMEs gain time, accuracy and scalability.</p>
-        <div class="wh-meta"><div><b>Audience:</b> Small business owners, startups, admin teams</div><div><b>Format:</b> In person, 70 minutes</div><div><b>Minimum:</b> 15 participants</div></div>
-        <div class="wh-actions">
-          <a class="wh-action watch" href="video.html?service=service-14">Watch Video</a>
-          <a class="wh-action book" href="booking.html?workshop=service-14">Book Now</a>
-        </div>
-      </article>
-
-      <article id="service-15" class="wh-card wh-anchor">
-        <h3 class="wh-heading">15. AI Train the Trainers</h3>
-        <hr class="wh-rule">
-        <p class="wh-summary">A train‑the‑trainer programme to rapidly upskill staff, scale knowledge, standardise quality and create ongoing capability within organisations.</p>
-        <div class="wh-meta"><div><b>Audience:</b> SMEs & enterprise training leads</div><div><b>Format:</b> In person, 70 minutes</div><div><b>Minimum:</b> 15 participants</div></div>
-        <div class="wh-actions">
-          <a class="wh-action watch" href="video.html?service=service-15">Watch Video</a>
-          <a class="wh-action book" href="booking.html?workshop=service-15">Book Now</a>
-        </div>
-      </article>
-
-      <article id="service-16" class="wh-card wh-anchor">
-        <h3 class="wh-heading">16. AI Audits & Diagnostics</h3>
-        <hr class="wh-rule">
-        <p class="wh-summary">A tailored organisational diagnostic revealing cultural and operational strengths and gaps, giving leaders unfiltered insight into what works and where people and performance can grow.</p>
-        <div class="wh-meta"><div><b>Audience:</b> SME & enterprise organisations</div><div><b>Format:</b> In person, tailored timeframe </div><div><b>Minimum:</b> Tailored</div></div>
-        <div class="wh-actions">
-          <a class="wh-action watch" href="video.html?service=service-16">Watch Video</a>
-          <a class="wh-action book" href="booking.html?workshop=service-16">Book Now</a>
-        </div>
-      </article>
-
-      <article id="service-17" class="wh-card wh-anchor">
-        <h3 class="wh-heading">17. Twelve Week Unity Series</h3>
-        <hr class="wh-rule">
-        <p class="wh-summary">A progressive twelve‑week cohort programme with tailored sessions and feedback touchpoints that applies kotahitanga leadership principles and includes a half‑day marae visit to embed commercial and cultural ROI.</p>
-        <div class="wh-meta"><div><b>Audience:</b> Universities, tertiary providers, enterprise and SME cohorts</div><div><b>Format:</b>In person, Cohort‑based 12‑week engagement</div><div><b>Minimum:</b> 12 participants</div></div>
-        <div class="wh-actions">
-          <a class="wh-action watch" href="video.html?service=service-17">Watch Video</a>
-          <a class="wh-action book" href="booking.html?workshop=service-17">Book Now</a>
-        </div>
-      </article>
-
-      <article id="service-18" class="wh-card wh-anchor">
-        <h3 class="wh-heading">18. Te Tiriti Through a Global Health Lens</h3>
-        <hr class="wh-rule">
-        <p class="wh-summary">Interactive workshop exploring Te Tiriti and its public health relevance, led by international Indigenous health leadership to deepen cultural insight and policy relevance.</p>
-        <div class="wh-meta"><div><b>Audience:</b> Senior leaders, public health professionals, environmental teams, policy advisors</div><div><b>Format:</b> In person,  9:00am - 3:30pm</div><div><b>Minimum:</b> 25 participants</div></div>
-        <div class="wh-actions">
-          <a class="wh-action watch" href="video.html?service=service-18">Watch Video</a>
-          <a class="wh-action book" href="booking.html?workshop=service-18">Book Now</a>
-        </div>
-      </article>
-
-      <article id="service-19" class="wh-card wh-anchor">
-        <h3 class="wh-heading">19. Tailored & Customisable Multi‑Year Programmes</h3>
-        <hr class="wh-rule">
-        <p class="wh-summary">Bespoke multi‑year programmes designed to embed cultural capability and commercial outcomes across organisations. Fully customisable scope, timing and measurement frameworks.</p>
-        <div class="wh-meta"><div><b>Audience:</b> Organisations seeking long‑term transformation</div><div><b>Format:</b> Tailored</div><div><b>Minimum:</b> Tailored</div></div>
-        <div class="wh-actions">
-          <a class="wh-action watch" href="video.html?service=service-19">Watch Video</a>
-          <a class="wh-action book" href="booking.html?workshop=service-19">Book Now</a>
-        </div>
-      </article>
+      <!-- Fallback: Static workshop cards will be kept below and only shown if dynamic loading fails -->
+      <noscript>
+        <p style="text-align: center; color: #d32f2f; padding: 40px 20px;">
+          JavaScript is required to load workshop information. Please enable JavaScript in your browser.
+        </p>
+      </noscript>
 
     </div>
 
@@ -542,18 +354,32 @@
       if (!wrap) return;
 
       if ('MutationObserver' in window) {
+        let debounceTimer = null;
         const mo = new MutationObserver((mutations) => {
           if (!location.hash) return;
           const target = document.querySelector(location.hash);
-          if (target) {
-            setTimeout(() => {
-              try { window.__WH_NAV_INIT__ && window.__WH_NAV_INIT__(); } catch(e){}
-              const ev = new Event('hashchange');
-              window.dispatchEvent(ev);
-            }, 60);
-          }
+          if (!target) return;
+          
+          // Debounce to prevent excessive triggers
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(() => {
+            try { 
+              window.__WH_NAV_INIT__ && window.__WH_NAV_INIT__(); 
+            } catch(e){
+              console.warn('Nav init warning:', e);
+            }
+            // Don't dispatch hashchange - it causes flickering
+            // The hash is already set, just scroll to target
+            const targetY = Math.max(0, target.getBoundingClientRect().top + window.scrollY - 150);
+            window.scrollTo({ top: targetY, behavior: 'smooth' });
+          }, 150); // Debounce 150ms
         });
-        mo.observe(wrap, { childList: true, subtree: true });
+        mo.observe(wrap, { 
+          childList: true, 
+          subtree: true,
+          attributes: false, // Don't watch attributes to reduce triggers
+          characterData: false // Don't watch text changes
+        });
       }
     })();
   })();
@@ -572,17 +398,116 @@
     .cal-table { width: 100%; border-collapse: collapse; margin: 24px 0; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
     .cal-table th, .cal-table td { padding: 14px 16px; border: 1px solid #e6e6e6; text-align: left; vertical-align: middle; }
     .cal-table th { background: #f7f7f7; font-weight: 600; color: #1a1a1a; }
-    .cal-book-btn { display: inline-block; padding: 8px 16px; background: #d8aa6a; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; transition: all 0.3s; }
-    .cal-book-btn:hover { background: #c99858; transform: translateY(-1px); }
+    .cal-book-btn { display: inline-block; padding: 8px 16px; background: #d8aa6a; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; transition: all 0.3s; border: none; cursor: pointer; }
+    .cal-book-btn:hover { background: #c99858; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(216,170,106,.4); }
+    .cal-book-btn:active { transform: translateY(0); }
+    .cal-book-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .cal-seats { font-size: 12px; color: #666; margin-top: 4px; }
+    .cal-seats.low { color: #f44336; font-weight: 600; }
     .cal-section-title { font-size: clamp(20px, 3vw, 24px); margin: 32px 0 16px; font-weight: 600; color: #1a1a1a; }
     .cal-note { font-size: 14px; color: #666; margin: 8px 0 16px; line-height: 1.5; }
     .tut-select { padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; width: 100%; max-width: 400px; }
+    
+    /* Booking Modal Styles */
+    .booking-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(4px); animation: fadeIn 0.3s ease; }
+    .booking-modal.active { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .booking-modal-content { background: #fff; border-radius: 16px; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: slideUp 0.4s ease; position: relative; }
+    .booking-modal-header { padding: 24px; border-bottom: 1px solid #e8e8e8; display: flex; justify-content: space-between; align-items: center; }
+    .booking-modal-title { font-size: 22px; font-weight: 700; margin: 0; color: #1a1a1a; }
+    .booking-modal-close { background: transparent; border: none; font-size: 28px; cursor: pointer; color: #666; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.2s; }
+    .booking-modal-close:hover { background: #f5f5f5; color: #1a1a1a; }
+    .booking-modal-body { padding: 24px; }
+    .booking-form-group { margin-bottom: 20px; }
+    .booking-form-label { display: block; font-weight: 600; margin-bottom: 8px; color: #1a1a1a; font-size: 14px; }
+    .booking-form-input, .booking-form-select, .booking-form-textarea { width: 100%; padding: 12px 16px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; font-family: inherit; transition: all 0.2s; }
+    .booking-form-input:focus, .booking-form-select:focus, .booking-form-textarea:focus { outline: none; border-color: #d8aa6a; box-shadow: 0 0 0 3px rgba(216,170,106,0.1); }
+    .booking-form-textarea { resize: vertical; min-height: 100px; }
+    .booking-form-submit { width: 100%; padding: 14px; background: #d8aa6a; color: #fff; border: none; border-radius: 8px; font-weight: 600; font-size: 16px; cursor: pointer; transition: all 0.3s; }
+    .booking-form-submit:hover { background: #c99858; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(216,170,106,0.4); }
+    .booking-form-submit:active { transform: translateY(0); }
+    .booking-form-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .booking-info { background: #f9f9f9; padding: 16px; border-radius: 8px; margin-bottom: 20px; }
+    .booking-info-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
+    .booking-info-item:last-child { margin-bottom: 0; }
+    .booking-info-label { color: #666; }
+    .booking-info-value { font-weight: 600; color: #1a1a1a; }
+    .booking-success { text-align: center; padding: 40px 24px; }
+    .booking-success-icon { font-size: 64px; color: #4caf50; margin-bottom: 16px; }
+    .booking-success-title { font-size: 24px; font-weight: 700; margin-bottom: 12px; color: #1a1a1a; }
+    .booking-success-message { font-size: 16px; color: #666; line-height: 1.6; margin-bottom: 24px; }
+    .booking-loading { display: none; text-align: center; padding: 20px; }
+    .booking-loading.active { display: block; }
+    .booking-spinner { border: 3px solid #f3f3f3; border-top: 3px solid #d8aa6a; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    
+    /* Toast Notification */
+    .toast-notification { position: fixed; bottom: 24px; right: 24px; background: #1a1a1a; color: #fff; padding: 16px 24px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 10000; display: none; align-items: center; gap: 12px; max-width: 400px; animation: slideInUp 0.4s ease; }
+    .toast-notification.show { display: flex; }
+    .toast-notification.success { background: #4caf50; }
+    .toast-notification.error { background: #f44336; }
+    .toast-notification.info { background: #2196f3; }
+    @keyframes slideInUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .toast-icon { font-size: 24px; }
+    .toast-message { flex: 1; line-height: 1.4; }
+    .toast-close { background: transparent; border: none; color: #fff; font-size: 20px; cursor: pointer; opacity: 0.8; padding: 0; width: 24px; height: 24px; }
+    .toast-close:hover { opacity: 1; }
+    
+    /* Improved Card Interactions */
+    .wh-card { transition: all 0.3s ease; }
+    .wh-card:hover { border-color: rgba(216,170,106,0.3); }
+    
+    /* Better focus states for accessibility */
+    .wh-action:focus, .cal-book-btn:focus, .booking-form-input:focus, .booking-form-select:focus, .booking-form-textarea:focus {
+      outline: 2px solid #d8aa6a;
+      outline-offset: 2px;
+    }
+    
+    /* Loading skeleton for availability */
+    .availability-skeleton { width: 100px; height: 20px; background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: loading 1.5s infinite; border-radius: 4px; }
+    @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    
+    /* Quick action buttons */
+    .quick-actions { position: fixed; bottom: 24px; left: 24px; z-index: 1000; display: flex; flex-direction: column; gap: 12px; }
+    .quick-action-btn { width: 56px; height: 56px; border-radius: 50%; background: #d8aa6a; color: #fff; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.2); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 24px; transition: all 0.3s; }
+    .quick-action-btn:hover { transform: scale(1.1); box-shadow: 0 6px 16px rgba(0,0,0,0.3); }
+    .quick-action-btn.scroll-top { background: #1a1a1a; }
+    @media (max-width: 768px) {
+      .quick-actions { bottom: 16px; left: 16px; }
+      .quick-action-btn { width: 48px; height: 48px; font-size: 20px; }
+    }
+    
     @media (max-width: 768px) {
       .cal-table, .cal-table thead, .cal-table tbody, .cal-table tr, .cal-table th, .cal-table td { display: block; }
       .cal-table thead { display: none; }
       .cal-table tr { margin-bottom: 16px; border: 1px solid #e6e6e6; border-radius: 8px; overflow: hidden; }
       .cal-table td { border: none; padding: 10px 16px; position: relative; padding-left: 45%; }
       .cal-table td:before { content: attr(data-label); position: absolute; left: 16px; font-weight: 600; color: #1a1a1a; }
+      
+      /* Mobile modal improvements */
+      .booking-modal-content { width: 95%; max-height: 95vh; border-radius: 12px; }
+      .booking-modal-header { padding: 20px 16px; }
+      .booking-modal-title { font-size: 18px; }
+      .booking-modal-body { padding: 16px; }
+      .booking-form-group { margin-bottom: 16px; }
+      .booking-info { padding: 12px; }
+      .booking-info-item { flex-direction: column; gap: 4px; margin-bottom: 12px; }
+      
+      /* Mobile toast */
+      .toast-notification { bottom: 16px; right: 16px; left: 16px; max-width: none; }
+      
+      /* Mobile touch targets */
+      .wh-action, .cal-book-btn { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
+      
+      /* Mobile workshop cards */
+      .wh-card { padding: 16px; }
+      .wh-heading { font-size: 18px; }
+      .wh-summary { font-size: 14px; }
+      .wh-meta { font-size: 13px; }
+      
+      /* Mobile navigation chips */
+      .wh-chip { font-size: 13px; padding: 6px 10px; }
     }
   </style>
 
@@ -592,57 +517,127 @@
       <div class="cal-divider"></div>
     </header>
 
-    <h3 class="cal-section-title">Understanding Technology &amp; AI - Level 1</h3>
+    <h3 class="cal-section-title">Understanding Technology & AI</h3>
     <table class="cal-table">
-      <thead><tr><th>Date</th><th>Day</th><th>Event</th><th>Location</th><th>Time</th><th>Book</th></tr></thead>
+      <thead><tr><th>Date</th><th>Day</th><th>Event</th><th>Location</th><th>Duration</th><th>Book</th></tr></thead>
       <tbody>
-        <tr><td data-label="Date">11-Feb-26</td><td data-label="Day">Wed</td><td data-label="Event">Understanding Technology &amp; AI - Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=understanding-tech-ai-11-feb-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">13-Feb-26</td><td data-label="Day">Fri</td><td data-label="Event">Understanding Technology &amp; AI - Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=understanding-tech-ai-13-feb-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">11-Mar-26</td><td data-label="Day">Wed</td><td data-label="Event">Understanding Technology &amp; AI - Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=understanding-tech-ai-11-mar-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">13-Mar-26</td><td data-label="Day">Fri</td><td data-label="Event">Understanding Technology &amp; AI - Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=understanding-tech-ai-13-mar-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">27-Apr-26</td><td data-label="Day">Mon</td><td data-label="Event">Understanding Technology &amp; AI - Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=understanding-tech-ai-27-apr-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">29-Apr-26</td><td data-label="Day">Wed</td><td data-label="Event">Understanding Technology &amp; AI - Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=understanding-tech-ai-29-apr-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">1-May-26</td><td data-label="Day">Fri</td><td data-label="Event">Understanding Technology &amp; AI - Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=understanding-tech-ai-1-may-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">24-Aug-26</td><td data-label="Day">Mon</td><td data-label="Event">Understanding Technology &amp; AI - Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=understanding-tech-ai-24-aug-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">26-Aug-26</td><td data-label="Day">Wed</td><td data-label="Event">Understanding Technology &amp; AI - Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=understanding-tech-ai-26-aug-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">28-Aug-26</td><td data-label="Day">Fri</td><td data-label="Event">Understanding Technology &amp; AI - Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=understanding-tech-ai-28-aug-26">Book Now</a></td></tr>
+        <tr>
+          <td data-label="Date">11-Feb-26</td>
+          <td data-label="Day">Wed</td>
+          <td data-label="Event">Understanding Technology &amp; AI</td>
+          <td data-label="Location">Venue TBC</td>
+          <td data-label="Duration">70 mins</td>
+          <td data-label="Book"><button class="cal-book-btn" onclick="openCalendarBooking('understanding-tech-ai-11-feb-26', 'Understanding Technology & AI', '11-Feb-26 (Wed)', 'Venue TBC', '70 minutes')">Book Now</button></td>
+        </tr>
+        <tr>
+          <td data-label="Date">13-Feb-26</td>
+          <td data-label="Day">Fri</td>
+          <td data-label="Event">Understanding Technology &amp; AI</td>
+          <td data-label="Location">Venue TBC</td>
+          <td data-label="Duration">70 mins</td>
+          <td data-label="Book"><button class="cal-book-btn" onclick="openCalendarBooking('understanding-tech-ai-13-feb-26', 'Understanding Technology & AI', '13-Feb-26 (Fri)', 'Venue TBC', '70 minutes')">Book Now</button></td>
+        </tr>
+        <tr>
+          <td data-label="Date">11-Mar-26</td>
+          <td data-label="Day">Wed</td>
+          <td data-label="Event">Understanding Technology &amp; AI</td>
+          <td data-label="Location">Venue TBC</td>
+          <td data-label="Duration">70 mins</td>
+          <td data-label="Book"><button class="cal-book-btn" onclick="openCalendarBooking('understanding-tech-ai-11-mar-26', 'Understanding Technology & AI', '11-Mar-26 (Wed)', 'Venue TBC', '70 minutes')">Book Now</button></td>
+        </tr>
+        <tr>
+          <td data-label="Date">13-Mar-26</td>
+          <td data-label="Day">Fri</td>
+          <td data-label="Event">Understanding Technology &amp; AI</td>
+          <td data-label="Location">Venue TBC</td>
+          <td data-label="Duration">70 mins</td>
+          <td data-label="Book"><button class="cal-book-btn" onclick="openCalendarBooking('understanding-tech-ai-13-mar-26', 'Understanding Technology & AI', '13-Mar-26 (Fri)', 'Venue TBC', '70 minutes')">Book Now</button></td>
+        </tr>
+        <tr>
+          <td data-label="Date">27-Apr-26</td>
+          <td data-label="Day">Mon</td>
+          <td data-label="Event">Understanding Technology &amp; AI</td>
+          <td data-label="Location">Venue TBC</td>
+          <td data-label="Duration">70 mins</td>
+          <td data-label="Book"><button class="cal-book-btn" onclick="openCalendarBooking('understanding-tech-ai-27-apr-26', 'Understanding Technology & AI', '27-Apr-26 (Mon)', 'Venue TBC', '70 minutes')">Book Now</button></td>
+        </tr>
+        <tr>
+          <td data-label="Date">29-Apr-26</td>
+          <td data-label="Day">Wed</td>
+          <td data-label="Event">Understanding Technology &amp; AI</td>
+          <td data-label="Location">Venue TBC</td>
+          <td data-label="Duration">70 mins</td>
+          <td data-label="Book"><button class="cal-book-btn" onclick="openCalendarBooking('understanding-tech-ai-29-apr-26', 'Understanding Technology & AI', '29-Apr-26 (Wed)', 'Venue TBC', '70 minutes')">Book Now</button></td>
+        </tr>
+        <tr>
+          <td data-label="Date">1-May-26</td>
+          <td data-label="Day">Fri</td>
+          <td data-label="Event">Understanding Technology &amp; AI</td>
+          <td data-label="Location">Venue TBC</td>
+          <td data-label="Duration">70 mins</td>
+          <td data-label="Book"><button class="cal-book-btn" onclick="openCalendarBooking('understanding-tech-ai-1-may-26', 'Understanding Technology & AI', '1-May-26 (Fri)', 'Venue TBC', '70 minutes')">Book Now</button></td>
+        </tr>
+        <tr>
+          <td data-label="Date">24-Aug-26</td>
+          <td data-label="Day">Mon</td>
+          <td data-label="Event">Understanding Technology &amp; AI</td>
+          <td data-label="Location">Venue TBC</td>
+          <td data-label="Duration">70 mins</td>
+          <td data-label="Book"><button class="cal-book-btn" onclick="openCalendarBooking('understanding-tech-ai-24-aug-26', 'Understanding Technology & AI', '24-Aug-26 (Mon)', 'Venue TBC', '70 minutes')">Book Now</button></td>
+        </tr>
+        <tr>
+          <td data-label="Date">26-Aug-26</td>
+          <td data-label="Day">Wed</td>
+          <td data-label="Event">Understanding Technology &amp; AI</td>
+          <td data-label="Location">Venue TBC</td>
+          <td data-label="Duration">70 mins</td>
+          <td data-label="Book"><button class="cal-book-btn" onclick="openCalendarBooking('understanding-tech-ai-26-aug-26', 'Understanding Technology & AI', '26-Aug-26 (Wed)', 'Venue TBC', '70 minutes')">Book Now</button></td>
+        </tr>
+        <tr>
+          <td data-label="Date">28-Aug-26</td>
+          <td data-label="Day">Fri</td>
+          <td data-label="Event">Understanding Technology &amp; AI</td>
+          <td data-label="Location">Venue TBC</td>
+          <td data-label="Duration">70 mins</td>
+          <td data-label="Book"><button class="cal-book-btn" onclick="openCalendarBooking('understanding-tech-ai-28-aug-26', 'Understanding Technology & AI', '28-Aug-26 (Fri)', 'Venue TBC', '70 minutes')">Book Now</button></td>
+        </tr>
       </tbody>
     </table>
 
-    <h3 class="cal-section-title">AI &amp; Cyber Security – Level 1</h3>
+    <h3 class="cal-section-title">AI & Cyber Security</h3>
     <table class="cal-table">
-      <thead><tr><th>Date</th><th>Day</th><th>Event</th><th>Location</th><th>Time</th><th>Book</th></tr></thead>
+      <thead><tr><th>Date</th><th>Day</th><th>Event</th><th>Location</th><th>Duration</th><th>Book</th></tr></thead>
       <tbody>
-        <tr><td data-label="Date">16-Feb-26</td><td data-label="Day">Mon</td><td data-label="Event">AI &amp; Cyber Security – Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-cyber-16-feb-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">18-Feb-26</td><td data-label="Day">Wed</td><td data-label="Event">AI &amp; Cyber Security – Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-cyber-18-feb-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">20-Feb-26</td><td data-label="Day">Fri</td><td data-label="Event">AI &amp; Cyber Security – Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-cyber-20-feb-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">30-Mar-26</td><td data-label="Day">Mon</td><td data-label="Event">AI &amp; Cyber Security – Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-cyber-30-mar-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">1-Apr-26</td><td data-label="Day">Wed</td><td data-label="Event">AI &amp; Cyber Security – Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-cyber-1-apr-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">3-Apr-26</td><td data-label="Day">Fri</td><td data-label="Event">AI &amp; Cyber Security – Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-cyber-3-apr-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">21-Sept-26</td><td data-label="Day">Mon</td><td data-label="Event">AI &amp; Cyber Security – Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-cyber-21-sept-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">23-Sept-26</td><td data-label="Day">Wed</td><td data-label="Event">AI &amp; Cyber Security – Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-cyber-23-sept-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">25-Sept-26</td><td data-label="Day">Fri</td><td data-label="Event">AI &amp; Cyber Security – Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-cyber-25-sept-26">Book Now</a></td></tr>
+        <tr><td data-label="Date">16-Feb-26</td><td data-label="Day">Mon</td><td data-label="Event">AI &amp; Cyber Security</td><td data-label="Location">Venue TBC</td><td data-label="Duration">70 mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-cyber-16-feb-26">Book Now</a></td></tr>
+        <tr><td data-label="Date">18-Feb-26</td><td data-label="Day">Wed</td><td data-label="Event">AI &amp; Cyber Security</td><td data-label="Location">Venue TBC</td><td data-label="Duration">70 mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-cyber-18-feb-26">Book Now</a></td></tr>
+        <tr><td data-label="Date">20-Feb-26</td><td data-label="Day">Fri</td><td data-label="Event">AI &amp; Cyber Security</td><td data-label="Location">Venue TBC</td><td data-label="Duration">70 mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-cyber-20-feb-26">Book Now</a></td></tr>
+        <tr><td data-label="Date">30-Mar-26</td><td data-label="Day">Mon</td><td data-label="Event">AI &amp; Cyber Security</td><td data-label="Location">Venue TBC</td><td data-label="Duration">70 mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-cyber-30-mar-26">Book Now</a></td></tr>
+        <tr><td data-label="Date">1-Apr-26</td><td data-label="Day">Wed</td><td data-label="Event">AI &amp; Cyber Security</td><td data-label="Location">Venue TBC</td><td data-label="Duration">70 mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-cyber-1-apr-26">Book Now</a></td></tr>
+        <tr><td data-label="Date">3-Apr-26</td><td data-label="Day">Fri</td><td data-label="Event">AI &amp; Cyber Security</td><td data-label="Location">Venue TBC</td><td data-label="Duration">70 mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-cyber-3-apr-26">Book Now</a></td></tr>
+        <tr><td data-label="Date">21-Sept-26</td><td data-label="Day">Mon</td><td data-label="Event">AI &amp; Cyber Security</td><td data-label="Location">Venue TBC</td><td data-label="Duration">70 mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-cyber-21-sept-26">Book Now</a></td></tr>
+        <tr><td data-label="Date">23-Sept-26</td><td data-label="Day">Wed</td><td data-label="Event">AI &amp; Cyber Security</td><td data-label="Location">Venue TBC</td><td data-label="Duration">70 mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-cyber-23-sept-26">Book Now</a></td></tr>
+        <tr><td data-label="Date">25-Sept-26</td><td data-label="Day">Fri</td><td data-label="Event">AI &amp; Cyber Security</td><td data-label="Location">Venue TBC</td><td data-label="Duration">70 mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-cyber-25-sept-26">Book Now</a></td></tr>
       </tbody>
     </table>
 
-    <h3 class="cal-section-title">AI &amp; Social Media – Level 1</h3>
+    <h3 class="cal-section-title">AI & Social Media</h3>
     <table class="cal-table">
-      <thead><tr><th>Date</th><th>Day</th><th>Event</th><th>Location</th><th>Time</th><th>Book</th></tr></thead>
+      <thead><tr><th>Date</th><th>Day</th><th>Event</th><th>Location</th><th>Duration</th><th>Book</th></tr></thead>
       <tbody>
-        <tr><td data-label="Date">23-Feb-26</td><td data-label="Day">Mon</td><td data-label="Event">AI &amp; Social Media – Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-social-23-feb-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">25-Feb-26</td><td data-label="Day">Wed</td><td data-label="Event">AI &amp; Social Media – Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-social-25-feb-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">27-Feb-26</td><td data-label="Day">Fri</td><td data-label="Event">AI &amp; Social Media – Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-social-27-feb-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">1-Jun-26</td><td data-label="Day">Mon</td><td data-label="Event">AI &amp; Social Media – Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-social-1-jun-26">Book Now</a></td></tr>
+        <tr><td data-label="Date">23-Feb-26</td><td data-label="Day">Mon</td><td data-label="Event">AI &amp; Social Media</td><td data-label="Location">Venue TBC</td><td data-label="Duration">70 mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-social-23-feb-26">Book Now</a></td></tr>
+        <tr><td data-label="Date">25-Feb-26</td><td data-label="Day">Wed</td><td data-label="Event">AI &amp; Social Media</td><td data-label="Location">Venue TBC</td><td data-label="Duration">70 mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-social-25-feb-26">Book Now</a></td></tr>
+        <tr><td data-label="Date">27-Feb-26</td><td data-label="Day">Fri</td><td data-label="Event">AI &amp; Social Media</td><td data-label="Location">Venue TBC</td><td data-label="Duration">70 mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-social-27-feb-26">Book Now</a></td></tr>
+        <tr><td data-label="Date">1-Jun-26</td><td data-label="Day">Mon</td><td data-label="Event">AI &amp; Social Media</td><td data-label="Location">Venue TBC</td><td data-label="Duration">70 mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-social-1-jun-26">Book Now</a></td></tr>
       </tbody>
     </table>
 
-    <h3 class="cal-section-title">AI &amp; Prompt/ Context Engineering – Level 1</h3>
+    <h3 class="cal-section-title">AI & Prompt / Context Engineering</h3>
     <table class="cal-table">
-      <thead><tr><th>Date</th><th>Day</th><th>Event</th><th>Location</th><th>Time</th><th>Book</th></tr></thead>
+      <thead><tr><th>Date</th><th>Day</th><th>Event</th><th>Location</th><th>Duration</th><th>Book</th></tr></thead>
       <tbody>
-        <tr><td data-label="Date">2-Mar-26</td><td data-label="Day">Mon</td><td data-label="Event">AI &amp; Prompt/ Context Engineering – Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-prompt-2-mar-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">4-Mar-26</td><td data-label="Day">Wed</td><td data-label="Event">AI &amp; Prompt/ Context Engineering – Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-prompt-4-mar-26">Book Now</a></td></tr>
-        <tr><td data-label="Date">2-Jun-26</td><td data-label="Day">Tue</td><td data-label="Event">AI &amp; Prompt/ Context Engineering – Level 1</td><td data-label="Location">Venue TBC</td><td data-label="Time">70mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-prompt-2-jun-26">Book Now</a></td></tr>
+        <tr><td data-label="Date">2-Mar-26</td><td data-label="Day">Mon</td><td data-label="Event">AI &amp; Prompt / Context Engineering</td><td data-label="Location">Venue TBC</td><td data-label="Duration">70 mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-prompt-2-mar-26">Book Now</a></td></tr>
+        <tr><td data-label="Date">4-Mar-26</td><td data-label="Day">Wed</td><td data-label="Event">AI &amp; Prompt / Context Engineering</td><td data-label="Location">Venue TBC</td><td data-label="Duration">70 mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-prompt-4-mar-26">Book Now</a></td></tr>
+        <tr><td data-label="Date">2-Jun-26</td><td data-label="Day">Tue</td><td data-label="Event">AI &amp; Prompt / Context Engineering</td><td data-label="Location">Venue TBC</td><td data-label="Duration">70 mins</td><td data-label="Book"><a class="cal-book-btn" href="booking.html?event=ai-prompt-2-jun-26">Book Now</a></td></tr>
       </tbody>
     </table>
 
@@ -793,6 +788,80 @@
                 </div>
             </div>
         </section>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions" id="quickActions" style="display: none;">
+            <button class="quick-action-btn scroll-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+                ↑
+            </button>
+        </div>
+
+        <!-- Toast Notification -->
+        <div id="toastNotification" class="toast-notification">
+            <span class="toast-icon" id="toastIcon">ℹ️</span>
+            <span class="toast-message" id="toastMessage"></span>
+            <button class="toast-close" onclick="hideToast()">&times;</button>
+        </div>
+
+        <!-- Booking Modal -->
+        <div id="bookingModal" class="booking-modal">
+            <div class="booking-modal-content">
+                <div class="booking-modal-header">
+                    <h3 class="booking-modal-title">Book Your Workshop</h3>
+                    <button class="booking-modal-close" onclick="closeBookingModal()">&times;</button>
+                </div>
+                <div class="booking-modal-body">
+                    <div id="bookingFormContainer">
+                        <div class="booking-info" id="bookingInfo">
+                            <!-- Workshop details will be populated here -->
+                        </div>
+                        <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
+                            <div class="booking-form-group">
+                                <label class="booking-form-label" for="bookingName">Full Name *</label>
+                                <input type="text" id="bookingName" class="booking-form-input" required placeholder="John Smith">
+                            </div>
+                            <div class="booking-form-group">
+                                <label class="booking-form-label" for="bookingEmail">Email Address *</label>
+                                <input type="email" id="bookingEmail" class="booking-form-input" required placeholder="john@example.com">
+                            </div>
+                            <div class="booking-form-group">
+                                <label class="booking-form-label" for="bookingPhone">Phone Number *</label>
+                                <input type="tel" id="bookingPhone" class="booking-form-input" required placeholder="+64 21 123 4567">
+                            </div>
+                            <div class="booking-form-group">
+                                <label class="booking-form-label" for="bookingOrganization">Organization</label>
+                                <input type="text" id="bookingOrganization" class="booking-form-input" placeholder="Your Company Name">
+                            </div>
+                            <div class="booking-form-group">
+                                <label class="booking-form-label" for="bookingParticipants">Number of Participants *</label>
+                                <input type="number" id="bookingParticipants" class="booking-form-input" required min="1" placeholder="10">
+                            </div>
+                            <div class="booking-form-group">
+                                <label class="booking-form-label" for="bookingMessage">Additional Information</label>
+                                <textarea id="bookingMessage" class="booking-form-textarea" placeholder="Any special requirements or questions?"></textarea>
+                            </div>
+                            <button type="submit" class="booking-form-submit" id="bookingSubmitBtn">
+                                Confirm Booking
+                            </button>
+                        </form>
+                        <div class="booking-loading" id="bookingLoading">
+                            <div class="booking-spinner"></div>
+                            <p>Processing your booking...</p>
+                        </div>
+                    </div>
+                    <div id="bookingSuccess" style="display: none;">
+                        <div class="booking-success">
+                            <div class="booking-success-icon">✓</div>
+                            <h4 class="booking-success-title">Booking Request Submitted!</h4>
+                            <p class="booking-success-message">
+                                Thank you for your interest! We've received your booking request and will contact you shortly to confirm the details and availability.
+                            </p>
+                            <button class="cal-book-btn" onclick="closeBookingModal()" style="width: auto; padding: 12px 32px;">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- Footer Section -->
@@ -827,7 +896,527 @@
     <script src="../assets/js/main.js"></script>
     <script src="../assets/js/config.js"></script>
     <script src="../assets/js/google-sheets-api.js"></script>
-    <script src="../assets/js/workshop-availability.js"></script>
+    
+    <!-- JSON Loader & Utilities (fetch and save from Google Sheets) -->
+    <script src="workshop-json-loader.js"></script>
+    <script src="fetch-and-save-workshops.js"></script>
+    
+    <!-- Dynamic Workshop Renderer (renders cards from Google Sheets) -->
+    <script src="workshop-dynamic-renderer.js"></script>
+    
+    <!-- Smart Caching System (replaces workshop-availability.js) -->
+    <script src="workshop-cache-enhancer.js"></script>
+    <script src="workshop-page-integration.js"></script>
+    
+    <!-- Dynamic Calendar Loader (fetches and groups events by workshop) -->
+    <script src="dynamic-calendar-loader.js"></script>
+    
+    <script>
+    // Toast Notification System
+    function showToast(message, type = 'info', duration = 5000) {
+        const toast = document.getElementById('toastNotification');
+        const toastMessage = document.getElementById('toastMessage');
+        const toastIcon = document.getElementById('toastIcon');
+        
+        // Set message
+        toastMessage.textContent = message;
+        
+        // Set icon and type
+        toast.className = 'toast-notification show ' + type;
+        switch(type) {
+            case 'success':
+                toastIcon.textContent = '✓';
+                break;
+            case 'error':
+                toastIcon.textContent = '✕';
+                break;
+            case 'info':
+                toastIcon.textContent = 'ℹ️';
+                break;
+        }
+        
+        // Auto hide after duration
+        setTimeout(() => {
+            hideToast();
+        }, duration);
+    }
+
+    function hideToast() {
+        const toast = document.getElementById('toastNotification');
+        toast.classList.remove('show');
+    }
+
+    // Enhanced Booking Modal Functionality
+    let currentBookingData = {};
+
+    function openBookingModal(workshopId, workshopName, workshopFormat, eventDate = null, eventLocation = null) {
+        currentBookingData = {
+            workshopId: workshopId,
+            workshopName: workshopName,
+            workshopFormat: workshopFormat,
+            eventDate: eventDate,
+            eventLocation: eventLocation
+        };
+
+        // Populate booking info
+        const bookingInfo = document.getElementById('bookingInfo');
+        let infoHTML = `
+            <div class="booking-info-item">
+                <span class="booking-info-label">Workshop:</span>
+                <span class="booking-info-value">${workshopName}</span>
+            </div>
+            <div class="booking-info-item">
+                <span class="booking-info-label">Format:</span>
+                <span class="booking-info-value">${workshopFormat}</span>
+            </div>
+        `;
+        
+        if (eventDate) {
+            infoHTML += `
+                <div class="booking-info-item">
+                    <span class="booking-info-label">Date:</span>
+                    <span class="booking-info-value">${eventDate}</span>
+                </div>
+            `;
+        }
+        
+        if (eventLocation) {
+            infoHTML += `
+                <div class="booking-info-item">
+                    <span class="booking-info-label">Location:</span>
+                    <span class="booking-info-value">${eventLocation}</span>
+                </div>
+            `;
+        }
+        
+        bookingInfo.innerHTML = infoHTML;
+
+        // Reset form
+        document.getElementById('bookingForm').reset();
+        document.getElementById('bookingFormContainer').style.display = 'block';
+        document.getElementById('bookingSuccess').style.display = 'none';
+        document.getElementById('bookingLoading').classList.remove('active');
+
+        // Show modal with animation
+        const modal = document.getElementById('bookingModal');
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        // Focus first input
+        setTimeout(() => {
+            document.getElementById('bookingName').focus();
+        }, 300);
+    }
+
+    function closeBookingModal() {
+        const modal = document.getElementById('bookingModal');
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        currentBookingData = {};
+    }
+
+    // Close modal when clicking outside
+    document.addEventListener('click', function(event) {
+        const modal = document.getElementById('bookingModal');
+        if (event.target === modal) {
+            closeBookingModal();
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            const modal = document.getElementById('bookingModal');
+            if (modal.classList.contains('active')) {
+                closeBookingModal();
+            }
+        }
+    });
+
+    async function handleBookingSubmit(event) {
+        event.preventDefault();
+
+        const form = document.getElementById('bookingForm');
+        const submitBtn = document.getElementById('bookingSubmitBtn');
+        const loadingDiv = document.getElementById('bookingLoading');
+
+        // Get form data
+        const formData = {
+            action: 'submitBooking',
+            name: document.getElementById('bookingName').value,
+            email: document.getElementById('bookingEmail').value,
+            phone: document.getElementById('bookingPhone').value,
+            organization: document.getElementById('bookingOrganization').value,
+            participants: document.getElementById('bookingParticipants').value,
+            message: document.getElementById('bookingMessage').value,
+            ...currentBookingData,
+            timestamp: new Date().toISOString()
+        };
+
+        // Show loading state
+        submitBtn.disabled = true;
+        form.style.display = 'none';
+        loadingDiv.classList.add('active');
+
+        try {
+            // Submit to Google Sheets via Apps Script
+            const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams(formData).toString()
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // Show success message
+                loadingDiv.classList.remove('active');
+                document.getElementById('bookingFormContainer').style.display = 'none';
+                document.getElementById('bookingSuccess').style.display = 'block';
+
+                // Show success toast
+                showToast('Booking request submitted successfully! Check your email for confirmation.', 'success');
+
+                // Refresh workshop data silently to update availability
+                if (window.refreshWorkshopData) {
+                    setTimeout(() => {
+                        window.refreshWorkshopData(true); // silent = true
+                    }, 2000);
+                }
+            } else {
+                throw new Error(result.error || 'Booking submission failed');
+            }
+
+        } catch (error) {
+            console.error('Booking error:', error);
+            showToast('There was an error processing your booking: ' + error.message, 'error');
+            
+            // Reset to form
+            loadingDiv.classList.remove('active');
+            form.style.display = 'block';
+            submitBtn.disabled = false;
+        }
+    }
+
+    // Enhanced calendar booking - redirect to booking page with event pre-selected
+    function openCalendarBooking(eventId, eventName, eventDate, eventLocation, eventTime) {
+        // Redirect to booking page with specific event pre-selected
+        window.location.href = 'booking.html?event=' + encodeURIComponent(eventId);
+    }
+
+    // Update calendar book buttons to use modal
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const offset = 120;
+                        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Add loading animation to all book buttons
+        document.querySelectorAll('.cal-book-btn, .wh-action.book').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (!this.disabled) {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                }
+            });
+        });
+
+        // Add hover effect to workshop cards
+        document.querySelectorAll('.wh-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transition = 'all 0.3s ease';
+                this.style.transform = 'translateY(-4px)';
+                this.style.boxShadow = '0 8px 24px rgba(0,0,0,.08)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+                this.style.boxShadow = '';
+            });
+        });
+    });
+
+    // Form validation enhancements
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputs = document.querySelectorAll('.booking-form-input, .booking-form-textarea');
+        
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.required && !this.value) {
+                    this.style.borderColor = '#f44336';
+                } else if (this.type === 'email' && this.value && !isValidEmail(this.value)) {
+                    this.style.borderColor = '#f44336';
+                } else {
+                    this.style.borderColor = '#4caf50';
+                }
+            });
+
+            input.addEventListener('focus', function() {
+                this.style.borderColor = '#d8aa6a';
+            });
+        });
+    });
+
+    function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    // Phone number formatting
+    document.addEventListener('DOMContentLoaded', function() {
+        const phoneInput = document.getElementById('bookingPhone');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 0) {
+                    if (!value.startsWith('64')) {
+                        value = '64' + value;
+                    }
+                    e.target.value = '+' + value;
+                }
+            });
+        }
+    });
+
+    // Real-time form validation feedback
+    function validateForm() {
+        const name = document.getElementById('bookingName');
+        const email = document.getElementById('bookingEmail');
+        const phone = document.getElementById('bookingPhone');
+        const participants = document.getElementById('bookingParticipants');
+        
+        let isValid = true;
+        
+        // Name validation
+        if (name.value.trim().length < 2) {
+            name.style.borderColor = '#f44336';
+            isValid = false;
+        } else {
+            name.style.borderColor = '#4caf50';
+        }
+        
+        // Email validation
+        if (!isValidEmail(email.value)) {
+            email.style.borderColor = '#f44336';
+            isValid = false;
+        } else {
+            email.style.borderColor = '#4caf50';
+        }
+        
+        // Phone validation
+        if (phone.value.length < 10) {
+            phone.style.borderColor = '#f44336';
+            isValid = false;
+        } else {
+            phone.style.borderColor = '#4caf50';
+        }
+        
+        // Participants validation
+        if (participants.value < 1) {
+            participants.style.borderColor = '#f44336';
+            isValid = false;
+        } else {
+            participants.style.borderColor = '#4caf50';
+        }
+        
+        return isValid;
+    }
+
+    // Add event listeners for real-time validation
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('bookingForm');
+        if (form) {
+            const inputs = form.querySelectorAll('input[required]');
+            inputs.forEach(input => {
+                input.addEventListener('input', validateForm);
+            });
+        }
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        // Ctrl/Cmd + K to open booking modal (when not already typing)
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k' && !e.target.matches('input, textarea')) {
+            e.preventDefault();
+            const firstBookBtn = document.querySelector('.wh-action.book');
+            if (firstBookBtn) {
+                firstBookBtn.click();
+            }
+        }
+    });
+
+    // Smooth scroll to calendar
+    function scrollToCalendar() {
+        const calendar = document.getElementById('calendar-2026');
+        if (calendar) {
+            const offset = 100;
+            const targetPosition = calendar.getBoundingClientRect().top + window.pageYOffset - offset;
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    }
+
+    // Add copy to clipboard for workshop links
+    function copyWorkshopLink(workshopId) {
+        const url = window.location.origin + window.location.pathname + '#' + workshopId;
+        navigator.clipboard.writeText(url).then(() => {
+            showToast('Workshop link copied to clipboard!', 'success', 3000);
+        }).catch(() => {
+            showToast('Failed to copy link', 'error', 3000);
+        });
+    }
+
+    // Analytics tracking (placeholder - integrate with your analytics)
+    function trackBookingIntent(workshopId, workshopName) {
+        console.log('Booking intent tracked:', workshopId, workshopName);
+        // Example: gtag('event', 'booking_intent', { workshop_id: workshopId, workshop_name: workshopName });
+    }
+
+    // Update openBookingModal to track intent
+    const originalOpenBookingModal = openBookingModal;
+    openBookingModal = function(workshopId, workshopName, workshopFormat, eventDate, eventLocation) {
+        trackBookingIntent(workshopId, workshopName);
+        originalOpenBookingModal(workshopId, workshopName, workshopFormat, eventDate, eventLocation);
+    };
+
+    // Modal preload removed - it was causing unwanted flash
+    // The modal loads fast enough without preloading
+
+    // Add loading state to buttons on click
+    document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('.wh-action.book, .cal-book-btn')) {
+                e.target.style.opacity = '0.7';
+                setTimeout(() => {
+                    e.target.style.opacity = '';
+                }, 300);
+            }
+        });
+    });
+
+    // Scroll to top functionality
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+
+    // Show/hide quick actions based on scroll position
+    document.addEventListener('DOMContentLoaded', function() {
+        const quickActions = document.getElementById('quickActions');
+        let lastScroll = 0;
+        
+        window.addEventListener('scroll', function() {
+            const currentScroll = window.pageYOffset;
+            
+            // Show quick actions after scrolling down 300px
+            if (currentScroll > 300) {
+                quickActions.style.display = 'flex';
+                quickActions.style.animation = 'fadeIn 0.3s ease';
+            } else {
+                quickActions.style.display = 'none';
+            }
+            
+            lastScroll = currentScroll;
+        });
+    });
+
+    // Intersection Observer for workshop cards animation
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.wh-card');
+        
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(20px)';
+                    entry.target.style.transition = 'all 0.6s ease';
+                    
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, 100);
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        cards.forEach(card => {
+            observer.observe(card);
+        });
+    });
+
+    // Add pulse animation to availability indicators
+    document.addEventListener('DOMContentLoaded', function() {
+        const lowSeats = document.querySelectorAll('.cal-seats.low, .wh-availability-dot.low');
+        lowSeats.forEach(element => {
+            element.style.animation = 'pulse 2s infinite';
+        });
+    });
+
+    // Add pulse animation keyframes dynamically
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Performance optimization: Debounce scroll events
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // Add print styles for booking confirmation
+    window.addEventListener('beforeprint', function() {
+        const modal = document.getElementById('bookingModal');
+        if (modal.classList.contains('active')) {
+            document.body.classList.add('printing-modal');
+        }
+    });
+
+    window.addEventListener('afterprint', function() {
+        document.body.classList.remove('printing-modal');
+    });
+
+    console.log('%c🎉 Workshop Booking System Enhanced!', 'color: #d8aa6a; font-size: 16px; font-weight: bold;');
+    console.log('%cFeatures: Modal booking, Real-time validation, Toast notifications, Keyboard shortcuts', 'color: #666; font-size: 12px;');
+    </script>
 </body>
 </html>
 
