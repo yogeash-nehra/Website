@@ -517,6 +517,309 @@ select.form-control {
   }
 }
 
+/* Event Cards */
+.event-card {
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: white;
+}
+
+.event-card:hover {
+  border-color: #d8aa6a;
+  background: #fefbf6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.event-card.selected {
+  border-color: #d8aa6a;
+  background: #fdf7ee;
+  box-shadow: 0 0 0 3px rgba(216, 170, 106, 0.2);
+}
+
+.event-card.selected-event {
+  border-color: #4caf50;
+  background: #f1f8f4;
+  cursor: default;
+}
+
+.event-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.event-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  flex: 1;
+}
+
+.event-date-badge {
+  background: #d8aa6a;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  margin-left: 15px;
+}
+
+.event-card.selected-event .event-date-badge {
+  background: #4caf50;
+}
+
+.event-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.event-detail {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.event-detail i {
+  color: #d8aa6a;
+  width: 16px;
+}
+
+.event-description {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.event-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e8e8e8;
+}
+
+.event-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #d8aa6a;
+}
+
+.event-availability {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.availability-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.availability-dot.high {
+  background: #4caf50;
+}
+
+.availability-dot.medium {
+  background: #ff9800;
+}
+
+.availability-dot.low {
+  background: #f44336;
+}
+
+/* Workshop Grouping */
+.workshop-group {
+  margin-bottom: 30px;
+}
+
+.workshop-group-header {
+  background: #f9f9f9;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  border-left: 4px solid #d8aa6a;
+}
+
+.workshop-group-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 5px 0;
+}
+
+.workshop-group-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.workshop-group-events {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Event Divider */
+.event-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 30px 0;
+  color: #999;
+}
+
+.event-divider::before,
+.event-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 2px dashed #ddd;
+}
+
+.event-divider span {
+  padding: 0 20px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Custom Workshop Option */
+.custom-workshop-option {
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 2px solid #e8e8e8;
+}
+
+.custom-workshop-card {
+  background: linear-gradient(135deg, #fefbf6 0%, #f9f5ed 100%);
+  border: 2px dashed #d8aa6a;
+  border-radius: 12px;
+  padding: 30px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  transition: all 0.3s;
+}
+
+.custom-workshop-card:hover {
+  border-style: solid;
+  box-shadow: 0 4px 16px rgba(216,170,106,0.2);
+  transform: translateY(-2px);
+}
+
+.custom-workshop-icon {
+  width: 60px;
+  height: 60px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.custom-workshop-icon i {
+  font-size: 28px;
+  color: #d8aa6a;
+}
+
+.custom-workshop-content {
+  flex: 1;
+}
+
+.custom-workshop-content h3 {
+  font-size: 20px;
+  margin: 0 0 10px 0;
+  color: #1a1a1a;
+}
+
+.custom-workshop-content p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #555;
+  margin: 0 0 15px 0;
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: 2px solid #d8aa6a;
+  background: white;
+  color: #d8aa6a;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.btn-outline:hover {
+  background: #d8aa6a;
+  color: white;
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(216,170,106,0.3);
+}
+
+.btn-outline i {
+  font-size: 16px;
+}
+
+/* Selected Event Indicator */
+#preSelectedEvent {
+  margin-bottom: 30px;
+}
+
+#preSelectedEvent .alert {
+  background: #e8f5e9;
+  border-left: 4px solid #4caf50;
+  color: #2e7d32;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+}
+
+.empty-state i {
+  font-size: 48px;
+  margin-bottom: 20px;
+  color: #ddd;
+}
+
+.empty-state h3 {
+  font-size: 20px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  font-size: 14px;
+  color: #999;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
 /* Print Styles */
 @media print {
   .booking-header,
@@ -526,38 +829,34 @@ select.form-control {
   }
 }
 
-
-/* Event Select Button (Hidden by default, shown on hover/selection) */
-.event-select-btn {
-  width: 100%;
-  margin-top: 15px;
-  padding: 12px 20px;
-  background: #d8aa6a;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.event-select-btn:hover {
-  background: #c99858;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(216,170,106,0.4);
-}
-
-.event-card.selected .event-select-btn {
-  display: flex !important;
-  background: #4caf50;
-  pointer-events: none;
-}
-
-.event-card.selected .event-select-btn i::before {
-  content: '\f00c';
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .event-card-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .event-date-badge {
+    margin-left: 0;
+    align-self: flex-start;
+  }
+  
+  .event-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .custom-workshop-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .custom-workshop-icon {
+    margin: 0 auto;
+  }
+  
+  .workshop-group-header {
+    padding: 12px 15px;
+  }
 }
